@@ -75,6 +75,17 @@ class _SplashViewState extends State<SplashView> {
                     fontWeight: FontWeight.bold,
                     color: AppColors.textColorPrimary,
                   ),
+                  
+                ),
+                const SizedBox(height: 10),
+                  Text(
+                  AppStrings.splashSubtitle,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColorPrimary,
+                  ),
+                  
                 ),
               ],
             ),

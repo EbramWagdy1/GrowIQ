@@ -8,7 +8,9 @@ class Assets {
 
   /// Assets for imagesOnboarding
   /// assets/images/onboarding.png
-  static const String imagesOnboarding = "assets/images/onboarding.png";
+  static const String imagesOnboarding1 = "assets/images/onboarding1.png";
+  static const String imagesOnboarding2 = "assets/images/onboarding2.png";
+  static const String imagesOnboarding3 = "assets/images/onboarding3.png";
 
   /// Assets for lottieLive chatbot
   /// assets/lottie/Live chatbot.json

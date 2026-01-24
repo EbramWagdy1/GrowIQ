@@ -22,8 +22,14 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.textColorPrimary,
   );
+  
+  static TextStyle get bodyText1 => GoogleFonts.inter(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: AppColors.textColorPrimary,
+  );
 
-  static TextStyle get bodyText => GoogleFonts.inter(
+  static TextStyle get bodyText2 => GoogleFonts.inter(
     fontSize: 16,
     fontWeight: FontWeight.normal,
     color: AppColors.textColorAbout,

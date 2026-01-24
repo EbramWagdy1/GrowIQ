@@ -17,12 +17,12 @@ abstract class AppStrings {
 
   /* ================= Splash ================= */
   static const String splashTitle = 'GrowIQ';
-  static const String splashSubtitle = 'Smart Agriculture Made Easy';
+  static const String splashSubtitle = 'The Future of Smart Growth';
 
   /* ================= Onboarding ================= */
-  static const String onboardingTitle1 = 'Smart Farming';
+  static const String onboardingTitle1 = 'Grow Smarter, Not Harder';
   static const String onboardingDesc1 =
-      'Monitor your farm in real-time with smart sensors.';
+      'Farming doesn’t have to rely on guesswork. GrowIQ helps you understand your farm with real data and smart insights.';
 
   static const String onboardingTitle2 = 'Full Control';
   static const String onboardingDesc2 =
