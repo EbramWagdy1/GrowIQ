@@ -20,6 +20,7 @@ class AppTextStyles {
   static TextStyle get titleMedium => GoogleFonts.inter(
     fontSize: 24,
     fontWeight: FontWeight.w600,
+    height: 1.2,
     color: AppColors.textColorPrimary,
   );
   

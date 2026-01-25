@@ -28,7 +28,7 @@ class Onboardingwidgetbody extends StatelessWidget {
               const SizedBox(height: 16),
              Text(
               AppStrings.onboardingTitle1,
-              style: AppTextStyles.bodyText1,
+              style: AppTextStyles.titleMedium,
             ),
               const SizedBox(height: 8),
                  Text(

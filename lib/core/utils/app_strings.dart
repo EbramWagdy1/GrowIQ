@@ -20,17 +20,14 @@ abstract class AppStrings {
   static const String splashSubtitle = 'The Future of Smart Growth';
 
   /* ================= Onboarding ================= */
-  static const String onboardingTitle1 = 'Grow Smarter, Not Harder';
-  static const String onboardingDesc1 =
-      'Farming doesn’t have to rely on guesswork. GrowIQ helps you understand your farm with real data and smart insights.';
+  static const String onboardingTitle1 = 'Manual Farming Is Hard';
+  static const String onboardingDesc1 ='More effort, more time, and less control';
 
-  static const String onboardingTitle2 = 'Full Control';
-  static const String onboardingDesc2 =
-      'Control irrigation, temperature, and humidity remotely.';
+  static const String onboardingTitle2 = 'Needs Constant Attention';
+  static const String onboardingDesc2 ='Manual monitoring leads to mistakes and waste';
 
-  static const String onboardingTitle3 = 'Better Growth';
-  static const String onboardingDesc3 =
-      'Improve crop quality using intelligent insights.';
+  static const String onboardingTitle3 = 'Smart Farming with GrowIQ';
+  static const String onboardingDesc3 ='Monitor, control, and grow better with AI';
 
   /* ================= Auth ================= */
   static const String login = 'Login';
