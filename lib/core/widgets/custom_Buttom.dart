@@ -3,25 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 
 class CustomButtom extends StatelessWidget {
-  const CustomButtom({super.key , this.text});
-  final String? text ;
+  const CustomButtom({super.key, this.text, this.onPressed});
+  final String? text;
+  final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 284,
       height: 52,
-      child: ElevatedButton(onPressed: (){},
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.secondaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.secondaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
         ),
-      ),
-       child: Text(text ?? "Next",
-       style: TextStyle(
-        color:AppColors.textColorPrimary,
-        fontSize: 24,
-       ),),
+        child: Text(
+          text ?? "Next",
+          style: TextStyle(color: AppColors.textColorPrimary, fontSize: 24),
+        ),
       ),
     );
   }

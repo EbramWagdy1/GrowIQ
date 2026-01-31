@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 class CustomNavbar extends StatelessWidget {
@@ -6,7 +7,11 @@ class CustomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return GestureDetector(
+          onTap: () {
+           customReplacementNavigate(context, '/Login');
+          },
+          child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Align(
               alignment: Alignment.centerRight,
@@ -15,6 +20,7 @@ class CustomNavbar extends StatelessWidget {
                 style: AppTextStyles.bodyText1,
               ),
             ),
-          );
+          ),);
+   
   }
 }
