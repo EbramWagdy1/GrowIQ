@@ -15,7 +15,7 @@ class GrowIQ extends StatelessWidget {
       theme:ThemeData(
         useMaterial3: false,
         scaffoldBackgroundColor: AppColors.backgroundColor
-      ),
+      ), 
       title: AppStrings.appName,
       routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,

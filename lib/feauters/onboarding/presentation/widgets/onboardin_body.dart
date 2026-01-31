@@ -10,31 +10,46 @@ class Onboardingwidgetbody extends StatelessWidget {
   final PageController controller = PageController();
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+      height: 500,
       child: PageView.builder(
+        physics: BouncingScrollPhysics(),
         controller: controller,
         itemCount: 3,
         itemBuilder: (context, index) {
           return Column(
             children: [
-              Image.asset(Assets.imagesOnboarding1),
+             Container(
+              height: 290,
+              width: 380 ,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Assets.imagesOnboarding1),
+                 fit: BoxFit.fill
+                ),
+                
+              ),
+             ),
               const SizedBox(height: 24),
              Customesmoothpageindicator(controller: controller),
               const SizedBox(height: 24),
              Text(
               "Welcome",
               style: AppTextStyles.headlineLarge,
+              maxLines: 1,
             ),
               const SizedBox(height: 16),
              Text(
               AppStrings.onboardingTitle1,
               style: AppTextStyles.titleMedium,
+              maxLines: 2,
             ),
               const SizedBox(height: 8),
                  Text(
               AppStrings.onboardingDesc1,
               style: AppTextStyles.bodyText1,
               textAlign: TextAlign.center,
+              maxLines: 2,
             ),
             
             ],

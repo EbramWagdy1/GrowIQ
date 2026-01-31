@@ -11,13 +11,14 @@ class OnBoardingview extends StatelessWidget {
     return Scaffold( // Removed SafeArea
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: ListView(
+          physics: BouncingScrollPhysics(),
           children: [
-            const SizedBox(height: 50),
+            const SizedBox(height: 20),
             CustomNavbar(),
             const SizedBox(height: 80),
             Onboardingwidgetbody(),
-            CustomButtom(text: AppStrings.next),
+             CustomButtom(text: AppStrings.next),
             const SizedBox(height: 60),
           ],
         ),

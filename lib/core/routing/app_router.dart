@@ -13,7 +13,7 @@ class AppRouter {
         GoRoute(
         path: '/onBoarding',
         builder: (context, state) => const OnBoardingview(),
-      
+
       
       ),
           // builder: (context, state) => const SplachScreen(),

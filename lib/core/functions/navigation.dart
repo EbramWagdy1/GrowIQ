@@ -3,3 +3,8 @@
 void customNavigate( dynamic context , String path) {
      GoRouter.of(context).push(path);
   }
+
+
+void customReplacementNavigate( dynamic context , String path) {
+     GoRouter.of(context).pushReplacement(path);
+  }
