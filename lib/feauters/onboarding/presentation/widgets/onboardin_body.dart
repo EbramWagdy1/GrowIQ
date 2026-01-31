@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
+import 'package:growiq/feauters/onboarding/data/models/on_boarding_model.dart';
 import 'package:growiq/feauters/onboarding/presentation/widgets/custom_smooth_page.dart';
 
 
@@ -15,7 +16,7 @@ class Onboardingwidgetbody extends StatelessWidget {
       child: PageView.builder(
         physics: BouncingScrollPhysics(),
         controller: controller,
-        itemCount: 3,
+        itemCount: onBoardingData.length,
         itemBuilder: (context, index) {
           return Column(
             children: [
@@ -24,7 +25,7 @@ class Onboardingwidgetbody extends StatelessWidget {
               width: 380 ,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(Assets.imagesOnboarding1),
+                  image: AssetImage(onBoardingData[index].image),
                  fit: BoxFit.fill
                 ),
                 
@@ -40,13 +41,13 @@ class Onboardingwidgetbody extends StatelessWidget {
             ),
               const SizedBox(height: 16),
              Text(
-              AppStrings.onboardingTitle1,
+             onBoardingData[index].title,
               style: AppTextStyles.titleMedium,
               maxLines: 2,
             ),
               const SizedBox(height: 8),
                  Text(
-              AppStrings.onboardingDesc1,
+              onBoardingData[index].desc,
               style: AppTextStyles.bodyText1,
               textAlign: TextAlign.center,
               maxLines: 2,
