@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'core/routing/app_router.dart';
 void main() {
+    WidgetsFlutterBinding.ensureInitialized();
+    CacheHelper().init();
     runApp(const GrowIQ());
 }
 
