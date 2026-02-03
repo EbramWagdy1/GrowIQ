@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/functions/navigation.dart';
+import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
@@ -18,7 +20,14 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
-    delayedNavgation(context);
+    bool isFirstTime = getIt<CacheHelper>().getData(key: 'isFirstTime')?? false;
+    if (isFirstTime==true) {
+      Future.delayed(const Duration(seconds: 3), () {
+        customReplacementNavigate(context, '/Login');
+      });
+    } else {
+      delayedNavgation(context, '/onBoarding');
+    }
     super.initState();
     Timer(const Duration(seconds: 1), () {
       if (mounted) {
@@ -98,8 +107,8 @@ class _SplashViewState extends State<SplashView> {
 }
 
 
-  void delayedNavgation(dynamic context) {
+  void delayedNavgation(dynamic context , path) {
     Future.delayed(const Duration(seconds: 3), () {
-      customReplacementNavigate(context, '/onBoarding');
+      customReplacementNavigate(context, path);
     });
   }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
+import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'core/routing/app_router.dart';
-void main() {
+Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
-    CacheHelper().init();
+    setupServiceLocator();
+    await getIt<CacheHelper>().init();
     runApp(const GrowIQ());
 }
 
