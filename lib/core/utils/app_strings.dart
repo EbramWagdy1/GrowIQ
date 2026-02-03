@@ -34,11 +34,11 @@ abstract class AppStrings {
   static const String signup = 'Sign Up';
   static const String logout = 'Logout';
 
-  static const String email = 'Email';
-  static const String password = 'Password';
+  static const String email = 'Enter Your Email';
+  static const String password = 'Enter Your Password';
   static const String confirmPassword = 'Confirm Password';
 
-  static const String loginSubtitle = 'Welcome back to GrowIQ';
+  static const String loginSubtitle = 'Welcome back !';
   static const String signupSubtitle = 'Create your GrowIQ account';
 
   static const String forgotPassword = 'Forgot Password?';
