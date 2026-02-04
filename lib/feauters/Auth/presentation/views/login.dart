@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
-import 'package:growiq/core/widgets/custom_Buttom.dart';
 import 'package:growiq/feauters/Auth/presentation/views/auth_form.dart';
-import 'package:growiq/feauters/Auth/widgets/CustomTextField.dart';
+import 'package:growiq/feauters/Auth/widgets/CustomLoginForm.dart';
 import 'package:growiq/feauters/Auth/widgets/logo_widget.dart';
 
 class Loginview extends StatelessWidget {
@@ -30,20 +29,7 @@ class Login extends StatelessWidget {
               child: Logowidget(text: AppStrings.loginSubtitle),
             ),
             SliverToBoxAdapter(child: SizedBox(height: 20)),
-            SliverToBoxAdapter(child: CustomTextFormField(text: AppStrings.email)),
-            SliverToBoxAdapter(child: SizedBox(height: 20)),
-            SliverToBoxAdapter(
-              child: CustomTextFormField(text: AppStrings.password),
-            ),
-            SliverToBoxAdapter(child: SizedBox(height: 20)),
-            SliverToBoxAdapter(
-              child: CustomButtom(
-                text: AppStrings.login,
-                onPressed: () {
-                  customReplacementNavigate(context, '/Home');
-                },
-              ),
-            ),
+            SliverToBoxAdapter(child:CustomLoginForm()), 
             SliverToBoxAdapter(child: SizedBox(height: 20)),
             SliverToBoxAdapter(
               child: GestureDetector(
@@ -72,3 +58,4 @@ class Login extends StatelessWidget {
     );
   }
 }
+
