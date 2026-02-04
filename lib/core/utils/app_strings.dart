@@ -37,7 +37,7 @@ abstract class AppStrings {
 
   static const String email = 'Enter Your Email';
   static const String password = 'Enter Your Password';
-  static const String confirmPassword = 'Confirm Password';
+  static const String confirmPassword = 'Confirm Your Password';
 
   static const String loginSubtitle = 'Welcome back !';
   static const String signupSubtitle = 'Create your account !';

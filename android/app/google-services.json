@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "578925719705",
+    "project_id": "growiq-83513",
+    "storage_bucket": "growiq-83513.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578925719705:android:7d959815a658ba82720808",
+        "android_client_info": {
+          "package_name": "com.growiq.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578925719705-3a21iaqsf0bh3rqs97olttoej9hp3qab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfBHDPBKddz02bJ0yojzJ722bXOmoFFZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578925719705-3a21iaqsf0bh3rqs97olttoej9hp3qab.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "578925719705-i5lrdbab607dmndg2o66vcpumeo8sdiv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.growiq"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

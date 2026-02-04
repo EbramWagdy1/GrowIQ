@@ -14,9 +14,9 @@ class Autform extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 40),
+        SizedBox(height: 20),
         CustomDivider(text: text),
-        SizedBox(height: 40),
+        SizedBox(height: 20),
         CustomAppLogin(),
         SizedBox(height: 20),
         Center(
@@ -25,7 +25,7 @@ class Autform extends StatelessWidget {
             style: AppTextStyles.bodyText1,
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 15),
         Center(
           child: GestureDetector(
             onTap: () {

@@ -1,30 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:growiq/app/growiq_app.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
+import 'package:growiq/core/functions/Check_state_changes.dart';
 import 'package:growiq/core/services/service_locator.dart';
-import 'package:growiq/core/utils/app_colors.dart';
-import 'package:growiq/core/utils/app_strings.dart';
-import 'core/routing/app_router.dart';
+import 'package:growiq/firebase_options.dart';
+
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+     );
     setupServiceLocator();
     await getIt<CacheHelper>().init();
+    CheckStateChanges();
     runApp(const GrowIQ());
 }
 
-class GrowIQ extends StatelessWidget {
-  const GrowIQ({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme:ThemeData(
-        useMaterial3: false,
-        scaffoldBackgroundColor: AppColors.backgroundColor
-      ), 
-      title: AppStrings.appName,
-      routerConfig: AppRouter.router,
-      debugShowCheckedModeBanner: false,
-      
-    );
-  }
-}
+

@@ -30,10 +30,10 @@ class Login extends StatelessWidget {
               child: Logowidget(text: AppStrings.loginSubtitle),
             ),
             SliverToBoxAdapter(child: SizedBox(height: 20)),
-            SliverToBoxAdapter(child: CustomTextField(text: AppStrings.email)),
+            SliverToBoxAdapter(child: CustomTextFormField(text: AppStrings.email)),
             SliverToBoxAdapter(child: SizedBox(height: 20)),
             SliverToBoxAdapter(
-              child: CustomTextField(text: AppStrings.password),
+              child: CustomTextFormField(text: AppStrings.password),
             ),
             SliverToBoxAdapter(child: SizedBox(height: 20)),
             SliverToBoxAdapter(
