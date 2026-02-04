@@ -64,12 +64,5 @@ class Assets {
   /// assets/svgs/topcircle.svg
   static const String svgsTopcircle = "assets/svgs/topcircle.svg";
 
-  /// Assets for svgsGoogleLogo
-  static const String svgsGoogleLogo = "assets/svgs/google.svg";
-
-  /// Assets for svgsFacebookLogo
-  static const String svgsFacebookLogo = "assets/svgs/facebook.svg";
-  /// Assets for svgsAppleLogo
-  static const String svgsAppleLogo = "assets/svgs/apple.svg";
 }
 
