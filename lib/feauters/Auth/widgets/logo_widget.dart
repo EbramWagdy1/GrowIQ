@@ -5,7 +5,8 @@ import 'package:growiq/core/utils/app_strings.dart';
 import 'package:lottie/lottie.dart';
 
 class Logowidget extends StatelessWidget {
-  const Logowidget({super.key});
+  const Logowidget({super.key, required this.text});
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class Logowidget extends StatelessWidget {
             ),),
             SizedBox(height: 10),
              Text(
-            AppStrings.loginSubtitle,
+            text ,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,

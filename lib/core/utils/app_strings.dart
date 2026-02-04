@@ -33,13 +33,14 @@ abstract class AppStrings {
   static const String login = 'Login';
   static const String signup = 'Sign Up';
   static const String logout = 'Logout';
+  static const String name = 'Enter Your Name';
 
   static const String email = 'Enter Your Email';
   static const String password = 'Enter Your Password';
   static const String confirmPassword = 'Confirm Password';
 
   static const String loginSubtitle = 'Welcome back !';
-  static const String signupSubtitle = 'Create your GrowIQ account';
+  static const String signupSubtitle = 'Create your account !';
 
   static const String forgotPassword = 'Forgot Password?';
   static const String resetPassword = 'Reset Password';
@@ -47,9 +48,7 @@ abstract class AppStrings {
   static const String dontHaveAccount = "Don’t have an account?";
   static const String alreadyHaveAccount = 'Already have an account?';
 
-  static const String loginWithGoogle = 'Continue with Google';
-  static const String loginWithFacebook = 'Continue with Facebook';
-  static const String loginWithApple = 'Continue with Apple';
+
 
   /* ================= OTP ================= */
   static const String verifyOtp = 'Verify OTP';
@@ -106,4 +105,6 @@ abstract class AppStrings {
   static const String noInternetConnection = 'No internet connection';
   static const String invalidEmail = 'Invalid email address';
   static const String weakPassword = 'Password is too weak';
+
+  
 }

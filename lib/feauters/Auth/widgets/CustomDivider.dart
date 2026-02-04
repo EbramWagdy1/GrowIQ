@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 
 class CustomDivider extends StatelessWidget {
-  const CustomDivider({super.key});
-
+  const CustomDivider({super.key , required this.text});
+  final String text ;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,7 +17,7 @@ class CustomDivider extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
-            'Or Login ',
+            text,
             style: AppTextStyles.bodyText1,
           ),
         ),
