@@ -20,39 +20,44 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Logowidget(text: AppStrings.loginSubtitle),
-            ),
-            SliverToBoxAdapter(child: SizedBox(height: 20)),
-            SliverToBoxAdapter(child:CustomLoginForm()), 
-            SliverToBoxAdapter(child: SizedBox(height: 20)),
-            SliverToBoxAdapter(
-              child: GestureDetector(
-                onTap: () {
-                  customNavigate(context, "/ForgetPasswordView");
-                },
-                child: Center(
-                  child: Text(
-                    AppStrings.forgotPassword,
-                    style: AppTextStyles.bodyText1,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Logowidget(text: AppStrings.loginSubtitle),
+              ),
+              SliverToBoxAdapter(child: SizedBox(height: 20)),
+              SliverToBoxAdapter(child:CustomLoginForm()), 
+              SliverToBoxAdapter(child: SizedBox(height: 20)),
+              SliverToBoxAdapter(
+                child: GestureDetector(
+                  onTap: () {
+                    customNavigate(context, "/ForgetPasswordView");
+                  },
+                  child: Center(
+                    child: Text(
+                      AppStrings.forgotPassword,
+                      style: AppTextStyles.bodyText1,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Autform(
-                text: "or login",
-                questionText: AppStrings.dontHaveAccount,
-                createAccountText: "Create Account",
-                path: "/Signup",
+              SliverToBoxAdapter(
+                child: Autform(
+                  text: "or login",
+                  questionText: AppStrings.dontHaveAccount,
+                  createAccountText: "Create Account",
+                  path: "/Signup",
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

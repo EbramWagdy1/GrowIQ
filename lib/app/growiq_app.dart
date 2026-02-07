@@ -16,7 +16,6 @@ class GrowIQ extends StatelessWidget {
       title: AppStrings.appName,
       routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
-      
     );
   }
 }

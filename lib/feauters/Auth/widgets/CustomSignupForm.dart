@@ -16,41 +16,47 @@ class CustomSignupForm extends StatelessWidget {
         // TODO: implement listener
       },
       builder: (context, state) {
+        AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
         return Form(
+          key: authCubit.formKey,
           child: Column(
             children: [
-              CustomTextFormField(text: AppStrings.name,
-              onChanged: (name) {
-                BlocProvider.of<AuthCubit>(context).name = name;
-              },
+              CustomTextFormField(
+                text: AppStrings.name,
+                onChanged: (name) {
+                  authCubit.name = name;
+                },
               ),
-              
+
               SizedBox(height: 15),
-              CustomTextFormField(text: AppStrings.email
-              ,onChanged: (email) {
-                BlocProvider.of<AuthCubit>(context).email = email;
-              },
+              CustomTextFormField(
+                text: AppStrings.email,
+                onChanged: (email) {
+                  authCubit.email = email;
+                },
               ),
               SizedBox(height: 15),
-              CustomTextFormField(text: AppStrings.password,
-              onChanged: (password) {
-                BlocProvider.of<AuthCubit>(context).password = password;
-              },
-                ),
+              CustomTextFormField(
+                text: AppStrings.password,
+                onChanged: (password) {
+                  authCubit.password = password;
+                },
+              ),
               SizedBox(height: 15),
-              CustomTextFormField(text: AppStrings.confirmPassword
-              ,onChanged: (confirmPassword) {
-                BlocProvider.of<AuthCubit>(context).confirmPassword = confirmPassword;
-              },
+              CustomTextFormField(
+                text: AppStrings.confirmPassword,
+                onChanged: (confirmPassword) {
+                  authCubit.confirmPassword = confirmPassword;
+                },
               ),
               SizedBox(height: 30),
               CustomButtom(
                 text: AppStrings.signup,
                 onPressed: () {
-                  BlocProvider.of<AuthCubit>(context).signUpWithEmailAndPassword(
+                  if (authCubit.formKey.currentState!.validate()) {
+                    authCubit.signUpWithEmailAndPassword();
+                  }
                   
-                  );
-                    
                 },
               ),
             ],

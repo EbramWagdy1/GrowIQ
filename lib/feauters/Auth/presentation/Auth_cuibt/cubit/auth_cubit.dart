@@ -1,15 +1,17 @@
 //all logic related to Auth Cubit
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:growiq/feauters/Auth/presentation/Auth_cuibt/cubit/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
-  late String name;
-  late String email;
-  late String password;
-  late String confirmPassword;
+   String? name = '';
+   String? email;
+   String? password;
+   String? confirmPassword;
+   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   // ignore: strict_top_level_inference
   signUpWithEmailAndPassword() async {
     try {
@@ -17,8 +19,8 @@ class AuthCubit extends Cubit<AuthState> {
       // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-            email: email ,
-            password: password ,
+            email: email! ,
+            password: password !,
           );
       emit(SignupSuccessState());
     } on FirebaseAuthException catch (e) {
@@ -28,6 +30,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(SignupFailureState('The account already exists for that email.'));
       }
     } catch (e) {
+
       emit(SignupFailureState(e.toString()));
     }
   }

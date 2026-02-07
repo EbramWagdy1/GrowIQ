@@ -14,6 +14,12 @@ class CustomTextFormField extends StatelessWidget {
 
  
     return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'this field is required';
+        }
+        return null;
+      },
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
 

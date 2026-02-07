@@ -9,24 +9,29 @@ class SignupView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Logowidget(text: AppStrings.signupSubtitle),
-            ),
-            SliverToBoxAdapter(child: CustomSignupForm()),
-            SliverToBoxAdapter(
-              child: Autform(
-                text: "or signup",
-                questionText: AppStrings.alreadyHaveAccount,
-                createAccountText: "Login",
-                path: "/Login",
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Logowidget(text: AppStrings.signupSubtitle),
               ),
-            ),
-          ],
+              SliverToBoxAdapter(child: CustomSignupForm()),
+              SliverToBoxAdapter(
+                child: Autform(
+                  text: "or signup",
+                  questionText: AppStrings.alreadyHaveAccount,
+                  createAccountText: "Login",
+                  path: "/Login",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
