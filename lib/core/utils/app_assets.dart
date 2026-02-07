@@ -64,5 +64,8 @@ class Assets {
   /// assets/svgs/topcircle.svg
   static const String svgsTopcircle = "assets/svgs/topcircle.svg";
 
+  // ignore: constant_identifier_names
+  static const String PartlyCloudy = "assets/images/weather.png";
+
 }
 

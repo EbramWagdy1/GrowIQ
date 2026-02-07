@@ -57,6 +57,8 @@ abstract class AppStrings {
 
   /* ================= Home ================= */
   static const String home = 'Home';
+  static const String welcome = 'Welcome';
+  
   static const String dashboard = 'Dashboard';
 
   static const String temperature = 'Temperature';
