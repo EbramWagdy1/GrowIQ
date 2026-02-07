@@ -29,7 +29,7 @@ class Autform extends StatelessWidget {
         Center(
           child: GestureDetector(
             onTap: () {
-              customNavigate(context, path);
+              customReplacementNavigate(context, path);
             },
             child: Text(
               createAccountText,

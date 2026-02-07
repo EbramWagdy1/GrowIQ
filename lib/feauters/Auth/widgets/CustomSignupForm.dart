@@ -17,7 +17,7 @@ class CustomSignupForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is SignupSuccessState) {
+        if (state is SignupSuccessState || state is SignInSuccessState ) {
           showToast("Account created successfully!");
           customReplacementNavigate(context, "/Home");
         } else if (state is SignupFailureState) {
@@ -67,7 +67,7 @@ class CustomSignupForm extends StatelessWidget {
                     return 'Please enter your password';
                   }
                   if (!AppRegex.isPasswordValid(value)) {
-                    return 'Use 8+ chars with upper, lower, number & symbol';
+                    return 'Use 6+ chars with upper, lower, number & symbol';
                   }
                   return null;
                 },

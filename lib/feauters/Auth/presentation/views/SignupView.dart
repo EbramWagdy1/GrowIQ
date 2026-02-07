@@ -17,6 +17,7 @@ class SignupView extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverToBoxAdapter(
                 child: Logowidget(text: AppStrings.signupSubtitle),

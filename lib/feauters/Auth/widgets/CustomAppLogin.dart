@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:growiq/feauters/Auth/presentation/Auth_cuibt/cubit/auth_cubit.dart';
+// Update with your actual import
 
 class CustomAppLogin extends StatelessWidget {
   const CustomAppLogin({super.key});
@@ -43,7 +46,12 @@ class CustomAppLogin extends StatelessWidget {
             color: Color(0xFFDB4437),
             size: 32,
           ),
-          onTap: () {},
+          onTap: () {
+            final authCubit = BlocProvider.of<AuthCubit>(context);
+
+            authCubit.signInWithGoogle();
+          },
+
         ),
         const SizedBox(width: 24),
         _socialIcon(

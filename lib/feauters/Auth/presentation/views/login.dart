@@ -28,6 +28,7 @@ class Login extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverToBoxAdapter(
                 child: Logowidget(text: AppStrings.loginSubtitle),
@@ -38,12 +39,14 @@ class Login extends StatelessWidget {
               SliverToBoxAdapter(
                 child: GestureDetector(
                   onTap: () {
+                    
                     customNavigate(context, "/ForgetPasswordView");
                   },
                   child: Center(
                     child: Text(
                       AppStrings.forgotPassword,
-                      style: AppTextStyles.bodyText1,
+                      style: AppTextStyles.bodyText1.copyWith(
+                        color: Colors.grey ,fontSize: 14),
                     ),
                   ),
                 ),
