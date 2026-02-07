@@ -47,6 +47,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   firebase_core: ^4.4.0
   firebase_auth: ^6.1.4
+  fluttertoast: ^9.0.0      #display state messages
+
 
 
 

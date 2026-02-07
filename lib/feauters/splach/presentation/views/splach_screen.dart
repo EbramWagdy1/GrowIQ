@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/functions/navigation.dart';
@@ -20,10 +21,13 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
-    bool isFirstTime = getIt<CacheHelper>().getData(key: 'isFirstTime')?? false;
-    if (isFirstTime==true) {
+    bool isFirstTime =
+        getIt<CacheHelper>().getData(key: 'isFirstTime') ?? false;
+    if (isFirstTime == true) {
       Future.delayed(const Duration(seconds: 3), () {
-        customReplacementNavigate(context, '/Login');
+        FirebaseAuth.instance.currentUser != null
+            ? delayedNavgation(context, '/Home')
+            : delayedNavgation(context, '/Login');
       });
     } else {
       delayedNavgation(context, '/onBoarding');
@@ -37,6 +41,7 @@ class _SplashViewState extends State<SplashView> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,17 +89,15 @@ class _SplashViewState extends State<SplashView> {
                     fontWeight: FontWeight.bold,
                     color: AppColors.textColorPrimary,
                   ),
-                  
                 ),
                 const SizedBox(height: 10),
-                  Text(
+                Text(
                   AppStrings.splashSubtitle,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textColorPrimary,
                   ),
-                  
                 ),
               ],
             ),
@@ -103,12 +106,10 @@ class _SplashViewState extends State<SplashView> {
       ),
     );
   }
-
 }
 
-
-  void delayedNavgation(dynamic context , path) {
-    Future.delayed(const Duration(seconds: 3), () {
-      customReplacementNavigate(context, path);
-    });
-  }
+void delayedNavgation(dynamic context, path) {
+  Future.delayed(const Duration(seconds: 3), () {
+    customReplacementNavigate(context, path);
+  });
+}

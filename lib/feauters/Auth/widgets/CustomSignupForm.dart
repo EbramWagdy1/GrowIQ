@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:growiq/core/functions/custom_toast.dart';
+import 'package:growiq/core/functions/navigation.dart';
+import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
+import 'package:growiq/core/utils/regexes.dart';
 import 'package:growiq/core/widgets/custom_Buttom.dart';
 import 'package:growiq/feauters/Auth/presentation/Auth_cuibt/cubit/auth_cubit.dart';
 import 'package:growiq/feauters/Auth/presentation/Auth_cuibt/cubit/auth_state.dart';
@@ -13,7 +17,12 @@ class CustomSignupForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is SignupSuccessState) {
+          showToast("Account created successfully!");
+          customReplacementNavigate(context, "/Home");
+        } else if (state is SignupFailureState) {
+          showToast(state.errMessage);
+        }
       },
       builder: (context, state) {
         AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
@@ -27,38 +36,73 @@ class CustomSignupForm extends StatelessWidget {
                   authCubit.name = name;
                 },
               ),
-
               SizedBox(height: 15),
               CustomTextFormField(
                 text: AppStrings.email,
                 onChanged: (email) {
                   authCubit.email = email;
                 },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  if (!AppRegex.isEmailValid(value)) {
+                    return 'Please enter a valid email address (e.g., user@example.com)';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 15),
               CustomTextFormField(
                 text: AppStrings.password,
+                obscureText: !authCubit.isPasswordVisible,
+                onEyePressed: () {
+                  authCubit.togglePasswordVisibility(authCubit);
+                },
                 onChanged: (password) {
                   authCubit.password = password;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (!AppRegex.isPasswordValid(value)) {
+                    return 'Use 8+ chars with upper, lower, number & symbol';
+                  }
+                  return null;
                 },
               ),
               SizedBox(height: 15),
               CustomTextFormField(
                 text: AppStrings.confirmPassword,
+                obscureText: !authCubit.isConfirmPasswordVisible,
+                onEyePressed: () {
+                  authCubit.toggleConfirmPasswordVisibility(authCubit);
+                },
                 onChanged: (confirmPassword) {
                   authCubit.confirmPassword = confirmPassword;
                 },
-              ),
-              SizedBox(height: 30),
-              CustomButtom(
-                text: AppStrings.signup,
-                onPressed: () {
-                  if (authCubit.formKey.currentState!.validate()) {
-                    authCubit.signUpWithEmailAndPassword();
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please confirm your password';
                   }
-                  
+                  if (value != authCubit.password) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
                 },
               ),
+              SizedBox(height: 30),
+              state is SignupLoadingState
+                  ? CircularProgressIndicator(color: AppColors.primaryColor)
+                  : CustomButtom(
+                      text: AppStrings.signup,
+                      onPressed: () {
+                        if (authCubit.formKey.currentState!.validate()) {
+                          authCubit.signUpWithEmailAndPassword();
+                        }
+                      },
+                    ),
             ],
           ),
         );

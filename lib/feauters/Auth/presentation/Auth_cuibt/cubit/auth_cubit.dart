@@ -7,11 +7,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
+  bool isPasswordVisible = false;
+  bool isConfirmPasswordVisible = false;
    String? name = '';
    String? email;
    String? password;
    String? confirmPassword;
    GlobalKey<FormState> formKey = GlobalKey<FormState>();
+   void togglePasswordVisibility(AuthCubit authCubit) {
+  authCubit.isPasswordVisible = !authCubit.isPasswordVisible;
+  authCubit.emit(PasswordVisibilityChangedState());
+}
+
+void toggleConfirmPasswordVisibility(AuthCubit authCubit) {
+  authCubit.isConfirmPasswordVisible = !authCubit.isConfirmPasswordVisible;
+  authCubit.emit(ConfirmPasswordVisibilityChangedState());
+}
   // ignore: strict_top_level_inference
   signUpWithEmailAndPassword() async {
     try {
@@ -35,3 +46,4 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 }
+

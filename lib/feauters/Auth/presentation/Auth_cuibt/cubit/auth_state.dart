@@ -9,3 +9,5 @@ final class SignupFailureState extends AuthState {
   final String errMessage;
   SignupFailureState(this.errMessage);
 }
+final class PasswordVisibilityChangedState extends AuthState {}
+final class ConfirmPasswordVisibilityChangedState extends AuthState {}

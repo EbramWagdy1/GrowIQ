@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/feauters/Auth/presentation/Auth_cuibt/cubit/auth_cubit.dart';
 import 'package:growiq/feauters/Auth/presentation/views/ForgetPasswordView.dart';
 import 'package:growiq/feauters/Auth/presentation/views/SignupView.dart';
@@ -20,7 +19,7 @@ class AppRouter {
       GoRoute(
         path: '/Login',
         builder: (context, state) => BlocProvider(
-          create: (context) => getIt<AuthCubit>(),
+          create: (context) => AuthCubit(),
           child: const Loginview(),
         ),
       ),
@@ -28,7 +27,7 @@ class AppRouter {
       GoRoute(
         path: '/Signup',
         builder: (context, state) => BlocProvider(
-          create: (context) => getIt<AuthCubit>(),
+          create: (context) =>AuthCubit(),
           child: const SignupView(),
         ),
       ),
