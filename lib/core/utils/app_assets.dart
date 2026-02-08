@@ -16,6 +16,8 @@ class Assets {
   /// assets/lottie/Live chatbot.json
   static const String lottieLivechatbot = "assets/lottie/Live chatbot.json";
 
+static const String lottieWeather ="assets/lottie/Weather-snow sunny.json";
+
   /// Assets for lottieLogo
   /// assets/lottie/logo.json
   static const String lottieLogo = "assets/lottie/logo.json";
@@ -66,6 +68,10 @@ class Assets {
 
   // ignore: constant_identifier_names
   static const String PartlyCloudy = "assets/images/weather.png";
+
+static const String controlicon = "assets/svgs/control.svg";
+
+
 
 }
 

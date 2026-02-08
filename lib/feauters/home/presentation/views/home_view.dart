@@ -9,10 +9,8 @@ class HomeView extends StatefulWidget {
   @override
   State<HomeView> createState() => _HomeViewState();
 }
-
 class _HomeViewState extends State<HomeView> {
   int _currentIndex = 0;
-
   final List<Widget> _pages = [
     CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -26,21 +24,19 @@ class _HomeViewState extends State<HomeView> {
     const Center(child: Text('Chat Page')),
     const Center(child: Text('Profile Page')),
   ];
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           _pages[_currentIndex],
-
           // Floating Chatbot
-          const Positioned(
-            bottom: 10,
-            right: 10,
-            child: Chatboticon(),
-          ),
+          if (_currentIndex == 0)
+            const Positioned(
+              bottom: 10,
+              right: 10,
+              child: Chatboticon(),
+            ),
         ],
       ),
       bottomNavigationBar: CustomNavBar(

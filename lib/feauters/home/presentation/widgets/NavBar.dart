@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:glaze_nav_bar/glaze_nav_bar.dart';
+import 'package:growiq/core/utils/app_assets.dart';
 
 class CustomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -22,13 +24,19 @@ class CustomNavBar extends StatelessWidget {
             color: currentIndex == 0 ? Colors.greenAccent : Colors.white,
           ),
           label: 'Home',
+          labelStyle: TextStyle(color: Colors.white),
         ),
         GlazeNavBarItem(
-          child: Icon(
-            Icons.wifi,
-            color: currentIndex == 1 ? Colors.greenAccent : Colors.white,
+          child: SvgPicture.asset(
+            Assets.controlicon,
+              width: 24,
+        height: 24,
+            color: currentIndex == 1
+                ? Colors.greenAccent
+                : Colors.white, 
           ),
           label: 'Control',
+          labelStyle: TextStyle(color: Colors.white),
         ),
         GlazeNavBarItem(
           child: Icon(
@@ -36,6 +44,7 @@ class CustomNavBar extends StatelessWidget {
             color: currentIndex == 2 ? Colors.greenAccent : Colors.white,
           ),
           label: 'Notification',
+          labelStyle: TextStyle(color: Colors.white),
         ),
         GlazeNavBarItem(
           child: Icon(
@@ -43,6 +52,7 @@ class CustomNavBar extends StatelessWidget {
             color: currentIndex == 3 ? Colors.greenAccent : Colors.white,
           ),
           label: 'ME',
+          labelStyle: TextStyle(color: Colors.white),
         ),
       ],
       gradient: const LinearGradient(

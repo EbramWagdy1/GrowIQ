@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/feauters/home/presentation/widgets/weather_info_widget.dart';
-
+import 'package:lottie/lottie.dart';
 class WeatherSection extends StatelessWidget {
   const WeatherSection({super.key});
 
@@ -18,23 +18,30 @@ class WeatherSection extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
             width: 80,
             height: 80,
-            child: Image.asset(Assets.PartlyCloudy, fit: BoxFit.contain),
+            child: Lottie.asset(Assets.lottieWeather),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          const Flexible(
+            fit: FlexFit.tight,
             child: WeatherInfoWidget(
               condition: "Partly Cloudy",
               temperature: "23°",
             ),
           ),
-          const Expanded(
-            child: WeatherInfoWidget(condition: "Humidity", temperature: "67%"),
+          const Flexible(
+            fit: FlexFit.tight,
+            child: WeatherInfoWidget(
+              condition: "Humidity",
+              temperature: "67%",
+            ),
           ),
-          const Expanded(
+          const Flexible(
+            fit: FlexFit.tight,
             child: WeatherInfoWidget(
               condition: "Wind Speed",
               temperature: "3.1m/s",
