@@ -1,60 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_colors.dart';
-import 'package:growiq/core/utils/app_strings.dart';
-import 'package:growiq/core/utils/app_text_style.dart' hide AppColors;
-import 'package:growiq/feauters/home/presentation/widgets/Weather_Section.dart';
+import 'package:growiq/feauters/home/presentation/widgets/HomeBar.dart';
+import 'package:growiq/feauters/home/presentation/widgets/NavBar.dart';
+import 'package:growiq/feauters/home/presentation/widgets/chatbot_icon.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        SliverToBoxAdapter(child: HomeBar()),
+        const SliverToBoxAdapter(child: SizedBox(height: 10)),
+        const SliverToBoxAdapter(child: Placeholder(fallbackHeight: 400)),
+      ],
+    ),
+    const Center(child: Text('Search Page' )),
+    const Center(child: Text('Chat Page')),
+    const Center(child: Text('Profile Page')),
+  ];
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          Container(
-            width: double.infinity,
-            color: AppColors.primaryColor,
-            padding: const EdgeInsets.all(16),
-            
-          
-            child: SafeArea(
-              child: Column(
-                mainAxisSize: MainAxisSize.min, 
-                children: [
-                  
-              
-                  ListTile(
-                    contentPadding: EdgeInsets.zero, 
-                    leading: CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage(Assets.imagesOnboarding1),
-                    ),
-                    title: Text(
-                      AppStrings.welcome,
-                      style: AppTextStyles.hintText.copyWith(color: Colors.white70),
-                    ),
-                    subtitle: Text(
-                      "Ebram Wagdy",
-                      style: AppTextStyles.buttonText.copyWith(color: Colors.white),
-                    ),
-                    trailing: SvgPicture.asset(Assets.svgsQr, color: Colors.white),
-                  ),
-                  
-                  const SizedBox(height: 20),
-                  
-                  // 2. The Weather Widget
-                  const WeatherSection(), 
-                ],
-              ),
-            ),
+          _pages[_currentIndex],
+
+          // Floating Chatbot
+          const Positioned(
+            bottom: 10,
+            right: 10,
+            child: Chatboticon(),
           ),
         ],
+      ),
+      bottomNavigationBar: CustomNavBar(
+        currentIndex: _currentIndex, 
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
       ),
     );
   }
 }
-
-// Renamed to PascalCase 'WeatherSection' to follow Dart conventions

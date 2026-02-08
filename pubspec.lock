@@ -280,6 +280,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.2.0"
+  glaze_nav_bar:
+    dependency: "direct main"
+    description:
+      name: glaze_nav_bar
+      sha256: "8d819dd57ed2d93d7de1c93658c5ed311eafbefaac0b5205d92906ddf3a61918"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   glob:
     dependency: transitive
     description:
