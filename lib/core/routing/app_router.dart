@@ -39,7 +39,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/chatbot',
-        builder: (context, state) => const ChatView(),
+        builder: (context, state) => const ChatIntroView(),
       ),
       GoRoute(
         path: '/scanner',

@@ -80,6 +80,13 @@ abstract class AppStrings {
   static const String removeDevice = 'Remove Device';
 
   /* ================= Chat ================= */
+
+   static const String  personalassistant = ' Personal assistant';
+   static const String  hello = ' Hello!';
+   static const String  slogn = ' I’m Your Personal assistant,How can I help you?';
+   static const String  chatbt = ' Let’s chat!';
+
+
   static const String chat = 'Chat';
   static const String chatbot = 'AI Assistant';
   static const String chatHint = 'Ask GrowIQ assistant...';
