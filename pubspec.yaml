@@ -50,6 +50,7 @@ dependencies:
   fluttertoast: ^9.0.0      #display state messages
   google_sign_in: ^6.2.1
   glaze_nav_bar: ^1.2.1
+  mobile_scanner: ^3.0.0
 
 
 

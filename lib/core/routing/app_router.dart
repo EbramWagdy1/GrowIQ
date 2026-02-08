@@ -6,6 +6,7 @@ import 'package:growiq/feauters/Auth/presentation/views/SignupView.dart';
 import 'package:growiq/feauters/Auth/presentation/views/login.dart';
 import 'package:growiq/feauters/chat/presentation/chat_view.dart';
 import 'package:growiq/feauters/home/presentation/views/home_view.dart';
+import 'package:growiq/feauters/home/presentation/widgets/QR_Scanner.dart';
 import 'package:growiq/feauters/onboarding/presentation/views/on_boarding_view.dart';
 import 'package:growiq/feauters/splach/presentation/views/splach_screen.dart';
 
@@ -39,6 +40,10 @@ class AppRouter {
       GoRoute(
         path: '/chatbot',
         builder: (context, state) => const ChatView(),
+      ),
+      GoRoute(
+        path: '/scanner',
+        builder: (context, state) => const QRScannerPage(),
       ),
       // builder: (context, state) => const SplachScreen(),
       // ),
