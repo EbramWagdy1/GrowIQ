@@ -1,7 +1,4 @@
-
-  // Widget لبناء البطاقات المربعة السفلية
-  import 'package:flutter/material.dart';
-
+import 'package:flutter/material.dart';
 Widget buildSquareCard() {
     return AspectRatio(
       aspectRatio: 1, 
@@ -19,7 +16,6 @@ Widget buildSquareCard() {
             ),
           ],
         ),
-        // يمكنك وضع محتوى داخل البطاقة هنا لاحقاً
       ),
     );
   }
