@@ -85,6 +85,8 @@ flutter:
     - assets/images/
     - assets/svgs/
     - assets/lottie/
+    - lib/feauters/control/data/Devices.json
+    
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

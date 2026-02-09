@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
@@ -10,20 +9,18 @@ class Chatboticon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-            onTap: () {
-              customNavigate(context, '/chatbot');
-            },
-            child: Container(
-              alignment: Alignment.bottomRight,
-              child: Expanded(
-                child: Lottie.asset(
-                  Assets.lottieLivechatbot,
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          );
+      onTap: () {
+        customNavigate(context, '/chatbot');
+      },
+      child: Container(
+        alignment: Alignment.bottomRight,
+        child: Lottie.asset(
+          Assets.lottieLivechatbot,
+          width: 150,
+          height: 150,
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
   }
 }

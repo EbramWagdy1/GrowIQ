@@ -71,6 +71,9 @@ static const String lottieWeather ="assets/lottie/Weather-snow sunny.json";
 
 static const String controlicon = "assets/svgs/control.svg";
 
+  static const String lottieDevice = "assets/lottie/IOT house.json";
+
+
 
 
 }

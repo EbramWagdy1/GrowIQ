@@ -16,7 +16,7 @@ class ChatIntroView extends StatelessWidget {
       body: Column(
         children: [
           // AppBar
-          CustomAppBar(title: AppStrings.personalassistant),
+          CustomAppBar(),
           // White container
           Expanded(
             child: Container(
@@ -24,9 +24,9 @@ class ChatIntroView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 16),
+                  
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       AppStrings.hello,
                       style: AppTextStyles.headlineLarge,

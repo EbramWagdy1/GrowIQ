@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget {
-  final String title;
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
-
-  const CustomAppBar({
-    super.key,
-    required this.title,
-    this.onBack,
-  });
+  const CustomAppBar({super.key, this.onBack});
+  @override
+  Size get preferredSize => const Size.fromHeight(160);
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 160,
+        height: 150,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xFF004D40), 
-        ),
+        color: Colors.white,
         child: SafeArea(
           child: Stack(
             alignment: Alignment.center,
@@ -31,7 +25,7 @@ class CustomAppBar extends StatelessWidget {
                     width: 52,
                     height: 52,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF0BA37F), 
+                      color: Color(0xFF0BA37F),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -43,14 +37,6 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
               // Title
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
             ],
           ),
         ),
