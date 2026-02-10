@@ -11,6 +11,9 @@ import 'package:growiq/feauters/home/presentation/views/home_view.dart';
 import 'package:growiq/feauters/home/presentation/widgets/QR_Scanner.dart';
 import 'package:growiq/core/widgets/custom_navbar_shell.dart';
 import 'package:growiq/feauters/me/presentation/Me_View.dart';
+import 'package:growiq/feauters/me/presentation/about_view.dart';
+import 'package:growiq/feauters/me/presentation/profile_view.dart';
+import 'package:growiq/feauters/me/presentation/settings_view.dart';
 import 'package:growiq/feauters/onboarding/presentation/views/on_boarding_view.dart';
 import 'package:growiq/feauters/splach/presentation/views/splach_screen.dart';
 
@@ -60,6 +63,20 @@ class AppRouter {
             builder: (context, state) => const MeView(),
           ),
         ],
+      ),
+
+      /// -------- ME View --------
+      GoRoute(
+        path: '/profile-data',
+        builder: (context, state) => const ProfileView(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsView(),
+      ),
+      GoRoute(
+        path: '/about',
+        builder: (context, state) => const AboutView(),
       ),
 
       /// -------- Standalone --------

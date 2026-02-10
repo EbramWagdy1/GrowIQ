@@ -33,6 +33,12 @@ class AuthCubit extends Cubit<AuthState> {
       // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email!, password: password!);
+
+      if (credential.user != null) {
+        await credential.user!.updateDisplayName(name);
+        await credential.user!.reload();
+      }
+
       emit(SignupSuccessState());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -76,7 +82,8 @@ class AuthCubit extends Cubit<AuthState> {
         emit(SignInFailureState('Google sign-in aborted'));
         return;
       }
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -88,5 +95,3 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 }
-
-
