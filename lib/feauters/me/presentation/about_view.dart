@@ -49,8 +49,10 @@ class AboutView extends StatelessWidget {
 
                   const TeamMemberCard(
                     name: "Yousef Botros",
-                    role: "Penetration Tester",
-                    imagePath: "assets/images/ebram.jpg",
+                    role: "Penetration Tester", 
+                    imagePath: Assets.imagesYousef,
+                    linkedInLink: "https://www.linkedin.com/in/yousef-botros-09592a335/",
+                    githubLink: "https://github.com/YousefBotros10",
                   ),
                   const SizedBox(height: 20),
 

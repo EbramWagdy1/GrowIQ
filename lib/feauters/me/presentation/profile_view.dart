@@ -91,7 +91,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ? FileImage(_selectedImage!) as ImageProvider
                         : (user?.photoURL != null
                             ? NetworkImage(user!.photoURL!)
-                            : AssetImage(Assets.imagesEbram) as ImageProvider),
+                            : AssetImage(Assets.imagesLogoApp) as ImageProvider),
                   ),
                   InkWell(
                     onTap: _pickImage,

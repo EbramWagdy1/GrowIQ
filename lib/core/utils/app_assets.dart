@@ -74,6 +74,8 @@ static const String controlicon = "assets/svgs/control.svg";
   static const String lottieDevice = "assets/lottie/IOT house.json";
 
  static const String imagesEbram = "assets/images/Ebram.jpg";
+  static const String imagesYousef = "assets/images/yousef.jpg";
+
 
 
 
