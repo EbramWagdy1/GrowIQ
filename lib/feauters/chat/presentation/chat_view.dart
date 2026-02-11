@@ -12,15 +12,16 @@ class ChatIntroView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      
       body: Column(
         children: [
           // AppBar
           CustomAppBar(),
           // White container
           Expanded(
+            // ignore: avoid_unnecessary_containers
             child: Container(
-              color: Colors.white,
+             
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

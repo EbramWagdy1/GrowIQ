@@ -104,10 +104,16 @@ abstract class AppStrings {
   static const String privacyPolicy = 'Privacy Policy';
   static const String aboutApp = 'About App';
 
-  /* ================= About ================= */
-  static const String aboutGrowIQTitle = 'About GrowIQ';
-  static const String aboutGrowIQDesc =
-      'GrowIQ is a smart IoT-based agriculture system that helps farmers monitor and control their farms efficiently.';
+/* ================= About ================= */
+static const String aboutGrowIQTitle = 'About GrowIQ';
+
+static const String aboutGrowIQDesc = '''
+GrowIQ is a smart farming system that combines IoT sensors, Firebase, and machine learning to help users monitor and control their environment easily.
+
+The ESP device sends real-time sensor data to Firebase, while the mobile app allows users to view readings and control the system manually or automatically.
+
+In auto mode, a machine learning model adjusts the system based on live conditions to maintain the best environment for plant growth.
+''';
 
   /* ================= Errors ================= */
   static const String somethingWentWrong = 'Something went wrong';

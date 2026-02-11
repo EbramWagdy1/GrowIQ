@@ -1,29 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:growiq/core/utils/app_text_style.dart';
+
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
-  const CustomAppBar({super.key, this.onBack});
+  final String? title;
+  final bool showBack;
+
+  const CustomAppBar({
+    super.key,
+    this.onBack,
+    this.title,
+    this.showBack = true,
+  });
+
   @override
-  Size get preferredSize => const Size.fromHeight(160);
+  Size get preferredSize => const Size.fromHeight(100);
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 150,
-        width: double.infinity,
-        color: Colors.white,
-        child: SafeArea(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Back Button
+    return SizedBox(
+      height: 150,
+      width: double.infinity,
+      child: SafeArea(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            /// Back Button
+            if (showBack)
               Positioned(
                 left: 20,
                 child: InkWell(
+                  borderRadius: BorderRadius.circular(30),
                   onTap: onBack ?? () => Navigator.pop(context),
                   child: Container(
-                    width: 52,
-                    height: 52,
+                    width: 48,
+                    height: 48,
                     decoration: const BoxDecoration(
                       color: Color(0xFF0BA37F),
                       shape: BoxShape.circle,
@@ -31,14 +43,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: const Icon(
                       Icons.arrow_back_ios_new,
                       color: Colors.white,
-                      size: 25,
+                      size: 20,
                     ),
                   ),
                 ),
               ),
-              // Title
-            ],
-          ),
+
+            if (title != null)
+              Text(
+                title!,
+                style: AppTextStyles.titleMedium
+              ),
+          ],
         ),
       ),
     );

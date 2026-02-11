@@ -68,7 +68,7 @@ class AppRouter {
       /// -------- ME View --------
       GoRoute(
         path: '/profile-data',
-        builder: (context, state) => const ProfileView(),
+        builder: (context, state) =>  ProfileView(),
       ),
       GoRoute(
         path: '/settings',

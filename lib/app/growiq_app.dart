@@ -9,13 +9,27 @@ class GrowIQ extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      theme:ThemeData(
-        useMaterial3: false,
-        scaffoldBackgroundColor: AppColors.backgroundColor
-      ), 
+      debugShowCheckedModeBanner: false,
       title: AppStrings.appName,
       routerConfig: AppRouter.router,
-      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: false,
+        scaffoldBackgroundColor: AppColors.backgroundColor,
+
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.backgroundColor,
+          elevation: 0,
+          centerTitle: true,
+          iconTheme: const IconThemeData(
+            color: Colors.black,
+          ),
+          titleTextStyle: const TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
     );
   }
 }
