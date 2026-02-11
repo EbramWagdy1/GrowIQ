@@ -5,6 +5,7 @@ import 'package:growiq/feauters/Auth/presentation/views/ForgetPasswordView.dart'
 import 'package:growiq/feauters/Auth/presentation/views/SignupView.dart';
 import 'package:growiq/feauters/Auth/presentation/views/login.dart';
 import 'package:growiq/feauters/Notification/presentation/Notification_View.dart';
+import 'package:growiq/feauters/chat/presentation/chat_body_view.dart';
 import 'package:growiq/feauters/chat/presentation/chat_view.dart';
 import 'package:growiq/feauters/control/presentation/Control_view.dart';
 import 'package:growiq/feauters/home/presentation/views/home_view.dart';
@@ -88,6 +89,12 @@ class AppRouter {
         path: '/chatbot',
         builder: (context, state) => const ChatIntroView(),
       ),
+       GoRoute(
+        path: '/start-chat',
+        builder: (context, state) => const  ChatBodyView(),
+      ),
+
+     
     ],
   );
 }

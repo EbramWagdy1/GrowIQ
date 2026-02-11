@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
@@ -46,7 +47,9 @@ class ChatIntroView extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: CustomButtom(
                       text: AppStrings.chatbt,
-                      onPressed: () => {},
+                      onPressed: () => {
+                        customNavigate(context, '/start-chat'),
+                      },
                     ),
                   ),
                   const SizedBox(height: 12),
