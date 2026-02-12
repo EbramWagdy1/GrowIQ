@@ -26,33 +26,52 @@ class CustomTextFormField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
+      style: AppTextStyles.bodyText1.copyWith(fontSize: 16),
       decoration: InputDecoration(
-        hintText: text,
-        hintStyle: AppTextStyles.hintText.copyWith(fontSize: 20),
-
+        // Label that floats when focused
+        labelText: text,
+        labelStyle: AppTextStyles.bodyText1.copyWith(
+          fontSize: 16,
+          color: Colors.grey[600],
+        ),
+        hintText: '',
+        hintStyle: AppTextStyles.hintText.copyWith(
+          fontSize: 16,
+          color: Colors.grey[400],
+        ),
+        filled: true,
+        fillColor: Colors.white,
         suffixIcon: onEyePressed != null
             ? IconButton(
                 icon: Icon(
-                  obscureText
-                      ? Icons.visibility_off
-                      : Icons.visibility,
-                  color: AppColors.textColorSecondary,
+                  obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey[600],
                 ),
                 onPressed: onEyePressed,
               )
             : null,
-
-        enabledBorder: UnderlineInputBorder(
+        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
           borderSide: BorderSide(
-            color: AppColors.textColorSecondary,
-            width: 1.0,
+            color: Colors.grey[400]!,
+            width: 1.5,
           ),
         ),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
           borderSide: BorderSide(
-            color: AppColors.textColorSecondary,
-            width: 2.0,
+            color: Colors.green,
+            width: 2,
           ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: const BorderSide(color: Colors.red, width: 2),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: const BorderSide(color: Colors.red, width: 2),
         ),
       ),
     );
