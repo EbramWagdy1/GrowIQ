@@ -1,22 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:growiq/feauters/Auth/presentation/Auth_cuibt/cubit/auth_cubit.dart';
-import 'package:growiq/feauters/Auth/presentation/views/ForgetPasswordView.dart';
-import 'package:growiq/feauters/Auth/presentation/views/SignupView.dart';
-import 'package:growiq/feauters/Auth/presentation/views/login.dart';
-import 'package:growiq/feauters/Notification/presentation/Notification_View.dart';
-import 'package:growiq/feauters/chat/presentation/chat_body_view.dart';
-import 'package:growiq/feauters/chat/presentation/chat_view.dart';
-import 'package:growiq/feauters/control/presentation/Control_view.dart';
-import 'package:growiq/feauters/home/presentation/views/home_view.dart';
-import 'package:growiq/feauters/home/presentation/widgets/QR_Scanner.dart';
+import 'package:growiq/features/auth/view_model/auth_cubit.dart';
+import 'package:growiq/features/auth/view/views/forget_password_view.dart';
+import 'package:growiq/features/auth/view/views/signup_view.dart';
+import 'package:growiq/features/auth/view/views/login_view.dart';
+import 'package:growiq/features/notification/view/views/notification_view.dart';
+import 'package:growiq/features/chat/view/views/chat_body_view.dart';
+import 'package:growiq/features/chat/view/views/chat_view.dart';
+import 'package:growiq/features/control/view/views/control_view.dart';
+import 'package:growiq/features/home/view/views/home_view.dart';
+import 'package:growiq/features/home/view/widgets/qr_scanner.dart';
 import 'package:growiq/core/widgets/custom_navbar_shell.dart';
-import 'package:growiq/feauters/me/presentation/Me_View.dart';
-import 'package:growiq/feauters/me/presentation/about_view.dart';
-import 'package:growiq/feauters/me/presentation/profile_view.dart';
-import 'package:growiq/feauters/me/presentation/settings_view.dart';
-import 'package:growiq/feauters/onboarding/presentation/views/on_boarding_view.dart';
-import 'package:growiq/feauters/splach/presentation/views/splach_screen.dart';
+import 'package:growiq/features/me/view/views/me_view.dart';
+import 'package:growiq/features/me/view/views/about_view.dart';
+import 'package:growiq/features/me/view/views/profile_view.dart';
+import 'package:growiq/features/me/view/views/settings_view.dart';
+import 'package:growiq/features/onboarding/view/views/on_boarding_view.dart';
+import 'package:growiq/features/splash/view/views/splash_screen.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -69,16 +69,13 @@ class AppRouter {
       /// -------- ME View --------
       GoRoute(
         path: '/profile-data',
-        builder: (context, state) =>  ProfileView(),
+        builder: (context, state) => ProfileView(),
       ),
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsView(),
       ),
-      GoRoute(
-        path: '/about',
-        builder: (context, state) => const AboutView(),
-      ),
+      GoRoute(path: '/about', builder: (context, state) => const AboutView()),
 
       /// -------- Standalone --------
       GoRoute(
@@ -89,12 +86,10 @@ class AppRouter {
         path: '/chatbot',
         builder: (context, state) => const ChatIntroView(),
       ),
-       GoRoute(
+      GoRoute(
         path: '/start-chat',
-        builder: (context, state) => const  ChatBodyView(),
+        builder: (context, state) => const ChatBodyView(),
       ),
-
-     
     ],
   );
 }

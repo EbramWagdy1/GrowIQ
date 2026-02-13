@@ -2,9 +2,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/services/connectivity_service.dart';
-import 'package:growiq/feauters/Auth/presentation/Auth_cuibt/cubit/auth_cubit.dart';
+import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-
 
 final getIt = GetIt.instance;
 void setupServiceLocator() {
