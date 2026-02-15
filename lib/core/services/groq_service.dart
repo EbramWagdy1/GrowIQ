@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class GroqService {
   static const String _url =
       "https://my-backend-three-orcin.vercel.app/chat";
-
+      
   Future<String> sendMessage({
     required List<Map<String, String>> messages,
     required String apiKey,
@@ -31,3 +31,4 @@ class GroqService {
     return data['choices'][0]['message']['content'] ?? "";
   }
 }
+

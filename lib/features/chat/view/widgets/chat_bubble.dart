@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:growiq/core/utils/app_assets.dart';
 import 'chat_welcome_content.dart';
 
 class ChatBubble extends StatelessWidget {
@@ -16,10 +20,21 @@ class ChatBubble extends StatelessWidget {
   static const Color primaryTeal = Color(0xFF004D40);
   static const Color lightMint = Color(0xFFE8F5E9);
 
+  String _formatMarkdown(String text) {
+    return text.replaceAllMapped(RegExp(r'(\d+)\.(?!\s)'), (match) {
+      return '${match.group(1)}. ';
+    });
+  }
+
+  TextDirection _getDirection(String text) {
+    final bool isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(text);
+    return isArabic ? TextDirection.rtl : TextDirection.ltr;
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isWelcome = !isUser && index == 0;
-    bool isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(content);
+    final currentUser = FirebaseAuth.instance.currentUser;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -37,7 +52,7 @@ class ChatBubble extends StatelessWidget {
           ],
           Flexible(
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: isUser ? lightMint : lightMint.withAlpha(150),
                 borderRadius: BorderRadius.only(
@@ -46,21 +61,45 @@ class ChatBubble extends StatelessWidget {
                   bottomLeft: Radius.circular(isUser ? 25 : 0),
                   bottomRight: Radius.circular(isUser ? 0 : 25),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: isWelcome
                   ? const ChatWelcomeContent()
-                  : Text(
-                      content,
-                      textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
-                      style: const TextStyle(color: primaryTeal, fontSize: 15, height: 1.5),
+                  : Directionality(
+                      textDirection: _getDirection(content),
+                      child: MarkdownBody(
+                        data: _formatMarkdown(content),
+                        styleSheet: MarkdownStyleSheet(
+                          p: GoogleFonts.cairo(
+                            color: primaryTeal,
+                            fontSize: 15,
+                            height: 1.7,
+                          ),
+                          strong: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF00796B),
+                          ),
+                          listBullet: const TextStyle(color: primaryTeal),
+                          listIndent: 24, 
+                          listBulletPadding: const EdgeInsets.only(top: 4),
+                        ),
+                      ),
                     ),
             ),
           ),
           if (isUser) ...[
             const SizedBox(width: 8),
-            const CircleAvatar(
-              radius: 18, 
-              backgroundImage: AssetImage('assets/user_avatar.png')
+            CircleAvatar(
+              radius: 18,
+              backgroundImage: (currentUser?.photoURL != null)
+                  ? NetworkImage(currentUser!.photoURL!)
+                  : const AssetImage(Assets.imagesLogoApp) as ImageProvider,
             ),
           ],
         ],
