@@ -1,9 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:growiq/core/services/groq_service.dart';
+import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view/views/forget_password_view.dart';
 import 'package:growiq/features/auth/view/views/signup_view.dart';
 import 'package:growiq/features/auth/view/views/login_view.dart';
+import 'package:growiq/features/chat/view_model/chat_cubit.dart';
 import 'package:growiq/features/notification/view/views/notification_view.dart';
 import 'package:growiq/features/chat/view/views/chat_body_view.dart';
 import 'package:growiq/features/chat/view/views/chat_view.dart';
@@ -88,7 +91,10 @@ class AppRouter {
       ),
       GoRoute(
         path: '/start-chat',
-        builder: (context, state) => const ChatBodyView(),
+        builder: (context, state) => BlocProvider(
+          create: (_) => ChatCubit(getIt<GroqService>()),
+          child: const ChatPage(),
+        ),
       ),
     ],
   );

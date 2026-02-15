@@ -2,6 +2,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/services/connectivity_service.dart';
+import 'package:growiq/core/services/groq_service.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -14,4 +15,5 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<ConnectivityService>(
     () => ConnectivityService(getIt<Connectivity>()),
   );
+  getIt.registerLazySingleton<GroqService>(() => GroqService());
 }
