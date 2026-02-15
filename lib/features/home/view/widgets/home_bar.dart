@@ -4,7 +4,7 @@ import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
-import 'package:growiq/core/utils/app_text_style.dart' hide AppColors;
+import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/features/home/view/widgets/weather_section.dart';
 
 class HomeBar extends StatelessWidget {

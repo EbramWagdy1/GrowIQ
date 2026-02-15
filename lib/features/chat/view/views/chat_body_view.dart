@@ -5,6 +5,9 @@ import 'package:growiq/features/chat/view/widgets/chat_bubble.dart';
 import 'package:growiq/features/chat/view/widgets/chat_input_area.dart';
 import 'package:growiq/features/chat/view_model/chat_cubit.dart';
 import 'package:growiq/features/chat/view_model/chat_state.dart';
+import 'package:growiq/core/utils/app_colors.dart';
+
+import 'package:growiq/core/utils/app_strings.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -19,7 +22,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _scrollToBottom() {
     if (!scrollController.hasClients) return;
-    
+
     Future.delayed(const Duration(milliseconds: 50), () {
       if (scrollController.hasClients) {
         scrollController.animateTo(
@@ -41,8 +44,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: const CustomAppBar(title: 'Chat'),
+      appBar: const CustomAppBar(title: AppStrings.chat),
       body: BlocConsumer<ChatCubit, ChatState>(
         listener: (context, state) {
           _scrollToBottom();
@@ -56,13 +58,17 @@ class _ChatPageState extends State<ChatPage> {
                     parent: BouncingScrollPhysics(),
                   ),
                   controller: scrollController,
-                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 20,
+                  ),
                   itemCount: state.messages.length,
                   itemBuilder: (context, index) {
                     final msg = state.messages[index];
                     if (msg.role == "system") return const SizedBox();
-                    
+
                     return ChatBubble(
                       content: msg.content,
                       isUser: msg.role == "user",
@@ -71,14 +77,17 @@ class _ChatPageState extends State<ChatPage> {
                   },
                 ),
               ),
-              
-              if (state.isSending) 
+
+              if (state.isSending)
                 const LinearProgressIndicator(
-                  backgroundColor: Color(0xFFE8F5E9),
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00A67E)),
+                  backgroundColor: AppColors.lightMint,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColors.secondaryColor,
+                  ),
                 ),
-                
+
               ChatInputArea(controller: controller),
+              SizedBox(height: 20),
             ],
           );
         },

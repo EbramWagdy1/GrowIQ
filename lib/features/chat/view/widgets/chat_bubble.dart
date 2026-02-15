@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:growiq/core/utils/app_assets.dart';
+import 'package:growiq/core/utils/app_colors.dart';
 import 'chat_welcome_content.dart';
 
 class ChatBubble extends StatelessWidget {
@@ -17,8 +18,8 @@ class ChatBubble extends StatelessWidget {
     required this.index,
   });
 
-  static const Color primaryTeal = Color(0xFF004D40);
-  static const Color lightMint = Color(0xFFE8F5E9);
+  static const Color primaryTeal = AppColors.primaryColor;
+  static const Color lightMint = AppColors.lightMint;
 
   String _formatMarkdown(String text) {
     return text.replaceAllMapped(RegExp(r'(\d+)\.(?!\s)'), (match) {
@@ -39,14 +40,20 @@ class ChatBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
-        mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isUser
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isUser) ...[
             const CircleAvatar(
               radius: 18,
-              backgroundColor: Color(0xFF00A67E),
-              child: Icon(Icons.smart_toy_outlined, color: Colors.white, size: 20),
+              backgroundColor: AppColors.secondaryColor,
+              child: Icon(
+                Icons.smart_toy_outlined,
+                color: Colors.white,
+                size: 20,
+              ),
             ),
             const SizedBox(width: 8),
           ],
@@ -80,13 +87,15 @@ class ChatBubble extends StatelessWidget {
                             color: primaryTeal,
                             fontSize: 15,
                             height: 1.7,
+                            fontWeight: FontWeight
+                                .w500, 
                           ),
                           strong: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF00796B),
+                            color: AppColors.secondaryColor,
                           ),
                           listBullet: const TextStyle(color: primaryTeal),
-                          listIndent: 24, 
+                          listIndent: 24,
                           listBulletPadding: const EdgeInsets.only(top: 4),
                         ),
                       ),

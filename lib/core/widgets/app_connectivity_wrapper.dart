@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/services/connectivity_service.dart';
-import 'package:growiq/core/utils/app_text_style.dart';
+import 'package:growiq/core/utils/app_colors.dart';
 import 'dart:async';
-import 'package:growiq/core/widgets/custom_Buttom.dart'; 
+import 'package:growiq/core/widgets/custom_Buttom.dart';
 
 class AppConnectivityWrapper extends StatefulWidget {
   final Widget child;
@@ -73,11 +73,7 @@ class _AppConnectivityWrapperState extends State<AppConnectivityWrapper> {
             const Text(
               "Make sure wifi or cellular data is turned on and then try again.",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-                height: 1.5,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
             ),
             const SizedBox(height: 48),
             SizedBox(
