@@ -58,7 +58,7 @@ class ChatCubit extends Cubit<ChatState> {
 
     int index = 0;
 
-    Timer.periodic(const Duration(milliseconds: 15), (timer) {
+    Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (index >= fullText.length) {
         timer.cancel();
         return;

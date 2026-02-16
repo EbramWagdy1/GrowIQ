@@ -45,52 +45,55 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: AppStrings.chat),
-      body: BlocConsumer<ChatCubit, ChatState>(
-        listener: (context, state) {
-          _scrollToBottom();
-        },
-        builder: (context, state) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics(),
-                  ),
-                  controller: scrollController,
-                  keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 20,
-                  ),
-                  itemCount: state.messages.length,
-                  itemBuilder: (context, index) {
-                    final msg = state.messages[index];
-                    if (msg.role == "system") return const SizedBox();
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: BlocConsumer<ChatCubit, ChatState>(
+          listener: (context, state) {
+            _scrollToBottom();
+          },
+          builder: (context, state) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics(),
+                    ),
+                    controller: scrollController,
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 20,
+                    ),
+                    itemCount: state.messages.length,
+                    itemBuilder: (context, index) {
+                      final msg = state.messages[index];
+                      if (msg.role == "system") return const SizedBox();
 
-                    return ChatBubble(
-                      content: msg.content,
-                      isUser: msg.role == "user",
-                      index: index,
-                    );
-                  },
-                ),
-              ),
-
-              if (state.isSending)
-                const LinearProgressIndicator(
-                  backgroundColor: AppColors.lightMint,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    AppColors.secondaryColor,
+                      return ChatBubble(
+                        content: msg.content,
+                        isUser: msg.role == "user",
+                        index: index,
+                      );
+                    },
                   ),
                 ),
 
-              ChatInputArea(controller: controller),
-              SizedBox(height: 20),
-            ],
-          );
-        },
+                if (state.isSending)
+                  const LinearProgressIndicator(
+                    backgroundColor: AppColors.lightMint,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppColors.secondaryColor,
+                    ),
+                  ),
+
+                ChatInputArea(controller: controller),
+                SizedBox(height: 20),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
