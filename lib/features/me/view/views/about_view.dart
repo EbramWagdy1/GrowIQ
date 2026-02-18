@@ -59,21 +59,22 @@ class AboutView extends StatelessWidget {
                   const TeamMemberCard(
                     name: "Ahmed Mohamed",
                     role: "Backend Developer",
-                    imagePath: "assets/images/ebram.jpg",
+                    imagePath: Assets.imagessaber,
                   ),
                   const SizedBox(height: 20),
 
                   const TeamMemberCard(
                     name: "Ebrahim Mostafa",
                     role: "Backend Developer",
-                    imagePath: "assets/images/ebram.jpg",
+                    imagePath: Assets.imagesibrahim,
+
                   ),
                   const SizedBox(height: 20),
 
                   const TeamMemberCard(
                     name: "Ismail Ayman",
                     role: "Backend Developer",
-                    imagePath: "assets/images/ebram.jpg",
+                    imagePath: Assets.imagesismail,
                   ),
                 ],
               ),
