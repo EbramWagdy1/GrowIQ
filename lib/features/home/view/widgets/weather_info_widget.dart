@@ -10,7 +10,6 @@ class WeatherInfoWidget extends StatelessWidget {
     required this.temperature,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return FittedBox(
@@ -27,7 +26,7 @@ class WeatherInfoWidget extends StatelessWidget {
               color: Colors.white70,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 10),
           Text(
             temperature,
             style: AppTextStyles.buttonText.copyWith(

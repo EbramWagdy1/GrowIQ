@@ -82,21 +82,7 @@ class MeView extends StatelessWidget {
                       },
                     ),
                     // Notifications
-                    ProfileMenuItem(
-                      text: "Notifications",
-                      icon: Icons.notifications_outlined,
-                      trailing: Transform.scale(
-                        scale: 1,
-                        child: Switch(
-                          value: false,
-                          onChanged: (val) {},
-                          // ignore: deprecated_member_use
-                          activeColor: Colors.black,
-                          inactiveThumbColor: Colors.black,
-                          inactiveTrackColor: Colors.grey[300],
-                        ),
-                      ),
-                    ),
+                    
                     // Settings
                     ProfileMenuItem(
                       text: "Settings",

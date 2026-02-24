@@ -1,0 +1,9 @@
+﻿Analyzing growiq...                                             
+
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\home\view\widgets\weather_section.dart:29:29 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\home\view\widgets\weather_section.dart:31:48 - deprecated_member_use
+  error - The method 'getWeather' isn't defined for the type 'WeatherService' - lib\features\home\view_model\weather_cubit.dart:17:44 - undefined_method
+  error - Classes can only extend other classes - lib\features\home\view_model\weather_state.dart:5:37 - extends_non_class
+warning - The getter doesn't override an inherited getter - lib\features\home\view_model\weather_state.dart:9:21 - override_on_non_overriding_member
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\features\me\view\views\settings_view.dart:27:25 - deprecated_member_use
+
