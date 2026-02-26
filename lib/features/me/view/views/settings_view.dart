@@ -24,7 +24,7 @@ class SettingsView extends StatelessWidget {
                       child: Switch(
                         value: false,
                         onChanged: (val) {},
-                        activeColor: Colors.black,
+                        activeThumbColor: Colors.black,
                         inactiveThumbColor: Colors.black,
                         inactiveTrackColor: Colors.grey[300],
                       ),

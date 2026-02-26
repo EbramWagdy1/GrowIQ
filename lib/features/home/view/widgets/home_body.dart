@@ -15,9 +15,21 @@ class HomeBody extends StatelessWidget {
           const SizedBox(height: 20),
           Row(
             children: [
-              Expanded(child: buildSquareCard()),
+              Expanded(child: AnimatedSensorCard(
+                sensorName: 'Temperature',
+                sensorValue: 10,
+                unit: '°C',
+                icon: Icons.thermostat,
+              
+              )),
               const SizedBox(width: 20),
-              Expanded(child: buildSquareCard()),
+              Expanded(child: AnimatedSensorCard(
+                sensorName: 'Humidity',
+                sensorValue: 80,
+                unit: '%',
+                icon: Icons.water_drop,
+                
+              )),
             ],
           ),
         ],
