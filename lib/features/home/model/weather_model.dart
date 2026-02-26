@@ -11,12 +11,13 @@ class Weather {
     required this.windSpeed,
   });
 
-  factory Weather.fromJson(Map<String, dynamic> json) {
-    return Weather(
-      description: json['conditions'] ?? "N/A",
-      temperature: (json['temp'] as num?)?.toDouble() ?? 0.0,
-      humidity: (json['humidity'] as num?)?.toInt() ?? 0,
-      windSpeed: (json['windspeed'] as num?)?.toDouble() ?? 0.0,
-    );
-  }
-}
+
+factory Weather.fromJson(Map<String, dynamic> json) {
+  final current = json['currentConditions']; 
+  return Weather(
+    description: current['conditions'] ?? "N/A",
+    temperature: (current['temp'] as num?)?.toDouble() ?? 0.0,
+    humidity: (current['humidity'] as num?)?.toInt() ?? 0,
+    windSpeed: (current['windspeed'] as num?)?.toDouble() ?? 0.0,
+  );
+}}
