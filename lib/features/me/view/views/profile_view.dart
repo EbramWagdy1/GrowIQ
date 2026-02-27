@@ -1,12 +1,14 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart'; 
+import 'package:image_picker/image_picker.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/custom_Buttom.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
+import 'package:growiq/core/services/cloudinary_service.dart'; // <- New import
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -17,11 +19,12 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   final User? user = FirebaseAuth.instance.currentUser;
-  
+
   late TextEditingController _nameController;
   
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
+  final CloudinaryService _cloudinary = CloudinaryService();
   bool _isLoading = false;
 
   @override
@@ -48,14 +51,21 @@ class _ProfileViewState extends State<ProfileView> {
   Future<void> _saveProfile() async {
     setState(() => _isLoading = true);
     try {
-      // 1. تحديث الاسم
+  
       if (_nameController.text.isNotEmpty && _nameController.text != user?.displayName) {
         await user?.updateDisplayName(_nameController.text);
       }
 
+  
+      if (_selectedImage != null) {
+        final imageUrl = await _cloudinary.uploadImage(_selectedImage!);
+        if (imageUrl != null) {
+          await user?.updatePhotoURL(imageUrl);
+        }
+      }
 
       await user?.reload();
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile Updated Successfully')),
@@ -90,7 +100,7 @@ class _ProfileViewState extends State<ProfileView> {
                     backgroundImage: _selectedImage != null
                         ? FileImage(_selectedImage!) as ImageProvider
                         : (user?.photoURL != null
-                            ? NetworkImage(user!.photoURL!)
+                            ? CachedNetworkImageProvider(user!.photoURL!)
                             : AssetImage(Assets.imagesLogoApp) as ImageProvider),
                   ),
                   InkWell(
@@ -116,7 +126,7 @@ class _ProfileViewState extends State<ProfileView> {
               Padding(
                 padding: const EdgeInsets.all(30),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4), // تعديل بسيط للمسافات
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.green.shade50,
                     borderRadius: BorderRadius.circular(30),

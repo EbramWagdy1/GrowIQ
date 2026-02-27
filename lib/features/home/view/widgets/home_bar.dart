@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:growiq/core/functions/navigation.dart';
@@ -7,7 +8,6 @@ import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/features/home/view/widgets/weather_section.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 class HomeBar extends StatelessWidget {
   const HomeBar({super.key});
@@ -34,19 +34,17 @@ class HomeBar extends StatelessWidget {
                   leading: CircleAvatar(
                     radius: 25,
                     backgroundImage: photoUrl != null
-                        ? NetworkImage(photoUrl)
-                        : AssetImage(Assets.imagesOnboarding1)
-                            as ImageProvider,
+                        ?CachedNetworkImageProvider(user!.photoURL!)
+                        : AssetImage(Assets.imagesOnboarding1) as ImageProvider,
+                    backgroundColor: Colors.white12,
                   ),
                   title: Text(
                     AppStrings.welcome,
-                    style: AppTextStyles.hintText
-                        .copyWith(color: Colors.white70),
+                    style: AppTextStyles.hintText.copyWith(color: Colors.white70),
                   ),
                   subtitle: Text(
                     name,
-                    style: AppTextStyles.buttonText
-                        .copyWith(color: Colors.white),
+                    style: AppTextStyles.buttonText.copyWith(color: Colors.white),
                   ),
                   trailing: IconButton(
                     icon: SvgPicture.asset(

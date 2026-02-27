@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/features/me/view/widgets/profile_menu_item.dart'; 
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class MeView extends StatelessWidget {
   const MeView({super.key});
@@ -45,7 +47,7 @@ class MeView extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 50,
                         backgroundImage: photoUrl != null
-                            ? NetworkImage(photoUrl)
+                            ? CachedNetworkImageProvider(user!.photoURL!)
                             : const AssetImage(Assets.imagesLogoApp) as ImageProvider, 
                       ),
                     ),
