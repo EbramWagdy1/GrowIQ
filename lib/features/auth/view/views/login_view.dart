@@ -39,7 +39,7 @@ class Login extends StatelessWidget {
               SliverToBoxAdapter(
                 child: GestureDetector(
                   onTap: () {
-                    customNavigate(context, "/ForgetPasswordView");
+                    customNavigate(context, "/forget-password");
                   },
                   child: Center(
                     child: Text(

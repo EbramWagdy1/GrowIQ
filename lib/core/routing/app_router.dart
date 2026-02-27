@@ -43,7 +43,10 @@ class AppRouter {
       ),
       GoRoute(
         path: '/forget-password',
-        builder: (context, state) => const ForgetPasswordView(),
+        builder: (context, state) => BlocProvider(
+          create: (_) => AuthCubit(),
+          child: ForgetPasswordView(),
+        ),
       ),
 
       /// -------- Main App (With Bottom Nav) --------

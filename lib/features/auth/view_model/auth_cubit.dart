@@ -93,4 +93,33 @@ class AuthCubit extends Cubit<AuthState> {
       emit(SignInFailureState(e.toString()));
     }
   }
+
+  Future<void> resetPasswordWithEmail() async {
+    if (email == null || email!.isEmpty) {
+      emit(ResetPasswordFailureState('Email cannot be empty.'));
+      return;
+    }
+
+    emit(ResetPasswordLoadingState());
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email!);
+      emit(ResetPasswordSuccessState());
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = 'No user found with this email.';
+          break;
+        case 'invalid-email':
+          errorMessage = 'The email address is invalid.';
+          break;
+        default:
+          errorMessage = e.message ?? 'An unexpected error occurred.';
+      }
+      emit(ResetPasswordFailureState(errorMessage));
+    } catch (_) {
+      emit(ResetPasswordFailureState('Something went wrong.'));
+    }
+  }
 }

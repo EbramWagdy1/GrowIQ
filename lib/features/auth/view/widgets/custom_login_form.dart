@@ -8,7 +8,7 @@ import 'package:growiq/core/utils/regexes.dart';
 import 'package:growiq/core/widgets/custom_Buttom.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart';
-import 'package:growiq/features/auth/view/widgets/custom_text_field.dart';
+import 'package:growiq/features/auth/view/widgets/custom_form_field.dart';
 
 class CustomLoginForm extends StatelessWidget {
   const CustomLoginForm({super.key});
@@ -58,9 +58,6 @@ class CustomLoginForm extends StatelessWidget {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
-                  }
-                  if (!AppRegex.isPasswordValid(value)) {
-                    return 'Use 6+ chars with upper, lower, number & symbol';
                   }
                   return null;
                 },

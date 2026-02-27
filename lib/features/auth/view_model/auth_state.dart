@@ -20,3 +20,11 @@ final class SignInFailureState extends AuthState {
   SignInFailureState(this.errMessage);
 }
 
+class ResetPasswordLoadingState extends AuthState {}
+
+class ResetPasswordSuccessState extends AuthState {}
+
+class ResetPasswordFailureState extends AuthState {
+  final String error;
+  ResetPasswordFailureState(this.error);
+}

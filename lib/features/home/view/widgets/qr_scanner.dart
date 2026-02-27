@@ -10,7 +10,10 @@ class QRScannerPage extends StatefulWidget {
 }
 
 class _QRScannerPageState extends State<QRScannerPage> {
-  MobileScannerController cameraController = MobileScannerController();
+  final MobileScannerController cameraController =
+      MobileScannerController();
+
+  bool isScanned = false;
 
   @override
   void initState() {
@@ -24,62 +27,88 @@ class _QRScannerPageState extends State<QRScannerPage> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
+          /// 📷 Camera Preview
           MobileScanner(
             controller: cameraController,
-            onDetect: (barcodeCapture) {
-              if (barcodeCapture.barcodes.isNotEmpty) {
-                final code = barcodeCapture.barcodes.first.rawValue ?? '---';
+            onDetect: (capture) async {
+              if (isScanned) return;
+
+              if (capture.barcodes.isNotEmpty) {
+                isScanned = true;
+
+                final code =
+                    capture.barcodes.first.rawValue ?? '---';
+
                 debugPrint('Scanned QR: $code');
 
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text('Scanned: $code')));
+                await cameraController.stop();
+
+                if (!mounted) return;
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Scanned: $code')),
+                );
+
                 customNavigate(context, '/Home');
               }
             },
           ),
 
+          /// 🌑 Dark overlay
           Container(
-            // ignore: deprecated_member_use
-            decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
+            decoration: BoxDecoration(
+              // ignore: deprecated_member_use
+              color: Colors.black.withOpacity(0.5),
+            ),
           ),
 
+          /// 🟩 Scanner frame
           Center(
             child: Container(
               width: 250,
               height: 250,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.greenAccent, width: 3),
+                border: Border.all(
+                  color: Colors.greenAccent,
+                  width: 3,
+                ),
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
           ),
 
+          /// 🔦 Flash + Switch Camera Buttons
           Positioned(
             bottom: 80,
             left: 0,
             right: 0,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(
-                  onPressed: () => cameraController.toggleTorch(),
-                  icon: ValueListenableBuilder(
-                    valueListenable: cameraController.torchState,
-                    builder: (context, state, child) {
-                      return Icon(
-                        state == TorchState.on
+                /// Flash Button (v7 compatible)
+                ValueListenableBuilder<MobileScannerState>(
+                  valueListenable: cameraController,
+                  builder: (context, state, child) {
+                    return IconButton(
+                      onPressed: () =>
+                          cameraController.toggleTorch(),
+                      icon: Icon(
+                        state.torchState ==
+                                TorchState.on
                             ? Icons.flash_on
                             : Icons.flash_off,
                         color: Colors.white,
                         size: 36,
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
 
+                /// Switch Camera
                 IconButton(
-                  onPressed: () => cameraController.switchCamera(),
+                  onPressed: () =>
+                      cameraController.switchCamera(),
                   icon: const Icon(
                     Icons.cameraswitch,
                     color: Colors.white,
@@ -90,16 +119,16 @@ class _QRScannerPageState extends State<QRScannerPage> {
             ),
           ),
 
+          /// 🔙 Back Button
           Positioned(
-            top: 80,
+            top: 60,
             left: 20,
             child: FloatingActionButton(
-              mini: false,
               backgroundColor: Colors.greenAccent,
               child: const Icon(
                 Icons.arrow_back,
                 color: Colors.black,
-                size: 32,
+                size: 28,
               ),
               onPressed: () {
                 Navigator.pop(context);
