@@ -1,17 +1,19 @@
+
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
-
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
   final String? title;
   final bool showBack;
+  final List<Widget>? actions;
 
   const CustomAppBar({
     super.key,
     this.onBack,
     this.title,
     this.showBack = true,
+    this.actions,
   });
 
   @override
@@ -49,10 +51,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
 
-            if (title != null)
-              Text(
-                title!,
-                style: AppTextStyles.titleMedium
+            if (title != null) Text(title!, style: AppTextStyles.titleMedium),
+
+            /// Actions
+            if (actions != null)
+              Positioned(
+                right: 20,
+                child: Row(mainAxisSize: MainAxisSize.min, children: actions!),
               ),
           ],
         ),

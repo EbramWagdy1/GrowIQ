@@ -11,15 +11,19 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final GlobalKey<HomeBodyState> _homeBodyKey = GlobalKey<HomeBodyState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverToBoxAdapter(child: HomeBar()),
-          const SliverToBoxAdapter(child: SizedBox(height: 10)),
-          const SliverToBoxAdapter(child: HomeBody()),
+      body: Column(
+        children: [
+          HomeBar(
+            onAddDevice: () {
+              _homeBodyKey.currentState?.showAddDeviceDialog();
+            },
+          ),
+          const SizedBox(height: 10),
+          Expanded(child: HomeBody(key: _homeBodyKey)),
         ],
       ),
       floatingActionButton: const Chatboticon(),

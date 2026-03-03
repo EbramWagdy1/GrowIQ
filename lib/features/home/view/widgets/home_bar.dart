@@ -10,7 +10,8 @@ import 'package:growiq/features/home/view/widgets/weather_section.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeBar extends StatelessWidget {
-  const HomeBar({super.key});
+  final VoidCallback? onAddDevice;
+  const HomeBar({super.key, this.onAddDevice});
 
   @override
   Widget build(BuildContext context) {
@@ -34,26 +35,39 @@ class HomeBar extends StatelessWidget {
                   leading: CircleAvatar(
                     radius: 25,
                     backgroundImage: photoUrl != null
-                        ?CachedNetworkImageProvider(user!.photoURL!)
+                        ? CachedNetworkImageProvider(user!.photoURL!)
                         : AssetImage(Assets.imagesOnboarding1) as ImageProvider,
                     backgroundColor: Colors.white12,
                   ),
                   title: Text(
                     AppStrings.welcome,
-                    style: AppTextStyles.hintText.copyWith(color: Colors.white70),
+                    style: AppTextStyles.hintText.copyWith(
+                      color: Colors.white70,
+                    ),
                   ),
                   subtitle: Text(
                     name,
-                    style: AppTextStyles.buttonText.copyWith(color: Colors.white),
-                  ),
-                  trailing: IconButton(
-                    icon: SvgPicture.asset(
-                      Assets.svgsQr,
+                    style: AppTextStyles.buttonText.copyWith(
                       color: Colors.white,
                     ),
-                    onPressed: () {
-                      customNavigate(context, '/scanner');
-                    },
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.add, color: Colors.white),
+                        onPressed: onAddDevice,
+                      ),
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          Assets.svgsQr,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          customNavigate(context, '/scanner');
+                        },
+                      ),
+                    ],
                   ),
                 ),
 
