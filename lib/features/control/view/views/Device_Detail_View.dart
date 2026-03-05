@@ -22,36 +22,34 @@ class DeviceDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DeviceCubit, DeviceState>(
-      builder: (context, state) {
-        DeviceModel? device;
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: deviceName,
+        actions: [
+          BlocBuilder<DeviceCubit, DeviceState>(
+            builder: (context, state) {
+              DeviceModel? device;
+              if (state is DeviceUpdated) {
+                device = state.devices.firstWhere(
+                  (d) => d.id == deviceId,
+                  orElse: () => DeviceModel(
+                    id: deviceId,
+                    name: deviceName,
+                    isOnline: isOnline,
+                    ownerId: '',
+                  ),
+                );
+              }
+              final currentDevice =
+                  device ??
+                  DeviceModel(
+                    id: deviceId,
+                    name: deviceName,
+                    isOnline: isOnline,
+                    ownerId: '',
+                  );
 
-        if (state is DeviceUpdated) {
-          device = state.devices.firstWhere(
-            (d) => d.id == deviceId,
-            orElse: () => DeviceModel(
-              id: deviceId,
-              name: deviceName,
-              isOnline: isOnline,
-              ownerId: '',
-            ),
-          );
-        }
-
-        final currentDevice =
-            device ??
-            DeviceModel(
-              id: deviceId,
-              name: deviceName,
-              isOnline: isOnline,
-              ownerId: '',
-            );
-
-        return Scaffold(
-          appBar: CustomAppBar(
-            title: currentDevice.name,
-            actions: [
-              PopupMenuButton<String>(
+              return PopupMenuButton<String>(
                 icon: const Icon(Icons.more_vert, color: Colors.white),
                 onSelected: (value) {
                   if (value == 'rename') {
@@ -72,11 +70,38 @@ class DeviceDetailView extends StatelessWidget {
                   PopupMenuItem(value: 'rename', child: Text('Edit Name')),
                   PopupMenuItem(value: 'delete', child: Text('Delete Device')),
                 ],
-              ),
-            ],
+              );
+            },
           ),
-          body: Center(
-            child: currentDevice.isOnline
+        ],
+      ),
+      body: Center(
+        child: BlocBuilder<DeviceCubit, DeviceState>(
+          builder: (context, state) {
+            DeviceModel? device;
+
+            if (state is DeviceUpdated) {
+              device = state.devices.firstWhere(
+                (d) => d.id == deviceId,
+                orElse: () => DeviceModel(
+                  id: deviceId,
+                  name: deviceName,
+                  isOnline: isOnline,
+                  ownerId: '',
+                ),
+              );
+            }
+
+            final currentDevice =
+                device ??
+                DeviceModel(
+                  id: deviceId,
+                  name: deviceName,
+                  isOnline: isOnline,
+                  ownerId: '',
+                );
+
+            return currentDevice.isOnline
                 ? Padding(
                     padding: const EdgeInsets.all(16),
                     child: SingleChildScrollView(
@@ -103,10 +128,10 @@ class DeviceDetailView extends StatelessWidget {
                       SizedBox(height: 20),
                       Text('Device is Offline', style: TextStyle(fontSize: 24)),
                     ],
-                  ),
-          ),
-        );
-      },
+                  );
+          },
+        ),
+      ),
     );
   }
 }

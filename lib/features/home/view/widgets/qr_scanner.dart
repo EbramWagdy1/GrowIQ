@@ -19,7 +19,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
   @override
   void initState() {
     super.initState();
-    cameraController.start();
+    // ❌ Removed cameraController.start() here to let MobileScanner manage it natively.
   }
 
   @override
@@ -40,9 +40,9 @@ class _QRScannerPageState extends State<QRScannerPage> {
               context,
             ).showSnackBar(SnackBar(content: Text(state.message)));
             setState(() {
-              isScanned = false;
+              isScanned = false; // Allow scanning again
             });
-            cameraController.start();
+            // ❌ Removed cameraController.start(); as we never stop the stream
           }
         },
         builder: (context, state) {
@@ -61,7 +61,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
                     debugPrint('Scanned QR: $code');
 
-                    await cameraController.stop();
+                    // ❌ Removed cameraController.stop() to prevent native thread locks
 
                     if (!mounted) return;
 

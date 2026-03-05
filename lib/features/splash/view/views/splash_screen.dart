@@ -21,10 +21,12 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
+    super.initState();
     bool isFirstTime =
         getIt<CacheHelper>().getData(key: 'isFirstTime') ?? false;
     if (isFirstTime == true) {
       Future.delayed(const Duration(seconds: 3), () {
+        if (!mounted) return;
         FirebaseAuth.instance.currentUser != null
             ? delayedNavgation(context, '/Home')
             : delayedNavgation(context, '/Login');
@@ -32,7 +34,7 @@ class _SplashViewState extends State<SplashView> {
     } else {
       delayedNavgation(context, '/onBoarding');
     }
-    super.initState();
+
     Timer(const Duration(seconds: 1), () {
       if (mounted) {
         setState(() {
@@ -80,7 +82,16 @@ class _SplashViewState extends State<SplashView> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Lottie.asset(Assets.lottieLogo, width: 200, height: 200),
+                RepaintBoundary(
+                  child: Lottie.asset(
+                    Assets.lottieLogo,
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.contain,
+                    addRepaintBoundary:
+                        false, // Using manual wrapper above to ensure it doesn't leak bounds
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Text(
                   AppStrings.appNamed,
