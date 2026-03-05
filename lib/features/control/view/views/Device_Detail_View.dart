@@ -4,9 +4,9 @@ import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:growiq/features/control/view/widgets/actuator_section.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
 import 'package:growiq/features/control/view/widgets/sensor_grid_view.dart';
-import 'package:growiq/features/home/view_model/device_cubit.dart';
-import 'package:growiq/features/home/view_model/device_state.dart';
-import 'package:growiq/features/home/model/device_model.dart';
+import 'package:growiq/features/control/view_model/device_cubit.dart';
+import 'package:growiq/features/control/view_model/device_state.dart';
+import 'package:growiq/features/control/model/device_model.dart';
 
 class DeviceDetailView extends StatelessWidget {
   final String deviceId;

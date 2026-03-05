@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:growiq/features/home/view_model/device_cubit.dart';
-import 'package:growiq/features/home/view_model/device_state.dart';
+import 'package:growiq/features/control/view_model/device_cubit.dart';
+import 'package:growiq/features/control/view_model/device_state.dart';
 
 class QRScannerPage extends StatefulWidget {
   const QRScannerPage({super.key});
@@ -17,32 +17,19 @@ class _QRScannerPageState extends State<QRScannerPage> {
   bool isScanned = false;
 
   @override
-  void initState() {
-    super.initState();
-    // ❌ Removed cameraController.start() here to let MobileScanner manage it natively.
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocConsumer<DeviceCubit, DeviceState>(
         listener: (context, state) {
           if (state is DeviceAddSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Farm Added Successfully!')),
-            );
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
             }
           } else if (state is DeviceError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
             setState(() {
-              isScanned = false; // Allow scanning again
+              isScanned = false;
             });
-            // ❌ Removed cameraController.start(); as we never stop the stream
           }
         },
         builder: (context, state) {
@@ -58,10 +45,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                     isScanned = true;
 
                     final code = capture.barcodes.first.rawValue ?? '---';
-
                     debugPrint('Scanned QR: $code');
-
-                    // ❌ Removed cameraController.stop() to prevent native thread locks
 
                     if (!mounted) return;
 
@@ -72,10 +56,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
               /// 🌑 Dark overlay
               Container(
-                decoration: BoxDecoration(
-                  // ignore: deprecated_member_use
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                // ignore: deprecated_member_use
+                decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
               ),
 
               /// 🟩 Scanner frame
@@ -98,7 +80,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    /// Flash Button (v7 compatible)
+                    /// Flash Button
                     ValueListenableBuilder<MobileScannerState>(
                       valueListenable: cameraController,
                       builder: (context, state, child) {
@@ -145,6 +127,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 ),
               ),
 
+              /// Loading overlay
               if (state is DeviceLoading)
                 Container(
                   color: Colors.black54,

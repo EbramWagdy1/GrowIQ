@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:growiq/features/home/view_model/device_cubit.dart';
-import 'package:growiq/features/home/model/device_model.dart';
+import 'package:growiq/features/control/view_model/device_cubit.dart';
+import 'package:growiq/features/control/model/device_model.dart';
 
 class DeviceDialogs {
   static void showRenameDialog({

@@ -5,7 +5,7 @@ import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:growiq/features/home/view_model/device_cubit.dart';
+import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/core/services/service_locator.dart';
 
 class GrowIQ extends StatelessWidget {

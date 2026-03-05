@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/widgets/device_card.dart';
 import 'package:growiq/features/control/view/views/device_detail_view.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
-import 'package:growiq/features/home/view_model/device_cubit.dart';
-import 'package:growiq/features/home/view_model/device_state.dart';
+import 'package:growiq/features/control/view_model/device_cubit.dart';
+import 'package:growiq/features/control/view_model/device_state.dart';
 
 class ControlView extends StatelessWidget {
   const ControlView({super.key});

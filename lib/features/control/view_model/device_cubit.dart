@@ -1,31 +1,30 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/device_model.dart';
+import '../../../core/services/device_service.dart';
 import 'device_state.dart';
 
 class DeviceCubit extends Cubit<DeviceState> {
-  final FirebaseDatabase _database = FirebaseDatabase.instance;
+  final DeviceService _service;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Real-time subscriptions management
-  StreamSubscription<DatabaseEvent>? _userDevicesSubscription;
+  StreamSubscription<List<String>>? _deviceIdsSubscription;
   StreamSubscription<User?>? _authSubscription;
-  final Map<String, StreamSubscription<DatabaseEvent>> _deviceSubscriptions =
-      {};
+  final Map<String, StreamSubscription<DeviceModel?>> _deviceSubscriptions = {};
 
   // Current state data
   final Map<String, DeviceModel> _devicesMap = {};
 
-  DeviceCubit() : super(DeviceInitial()) {
+  DeviceCubit(this._service) : super(DeviceInitial()) {
     _listenToAuthChanges();
   }
 
   void _listenToAuthChanges() {
     _authSubscription = _auth.authStateChanges().listen((user) {
       if (user != null) {
-        _initUserDevicesListener();
+        _initUserDevicesListener(user.uid);
       } else {
         _clearAllSubscriptions();
         emit(DeviceInitial());
@@ -33,47 +32,21 @@ class DeviceCubit extends Cubit<DeviceState> {
     });
   }
 
-  void _initUserDevicesListener() {
-    final user = _auth.currentUser;
-    if (user == null) {
-      emit(const DeviceError("User not authenticated"));
-      return;
-    }
-
+  void _initUserDevicesListener(String userId) {
     emit(DeviceLoading());
 
-    // 🕒 Safety Timeout: If Firebase doesn't respond in 5 seconds, fallback to empty state
+    // 🕒 Safety Timeout
     Future.delayed(const Duration(seconds: 5), () {
       if (state is DeviceLoading) {
         emit(const DeviceUpdated([]));
       }
     });
 
-    _userDevicesSubscription?.cancel();
-
-    // Try a direct get() first to catch permission/connection issues quickly
-    _database
-        .ref('users/${user.uid}/devices')
-        .get()
-        .then((snapshot) {
-          if (!snapshot.exists && state is DeviceLoading) {
-            emit(const DeviceUpdated([]));
-          }
-        })
-        .catchError((error) {
-          if (state is DeviceLoading) {
-            emit(DeviceError("Connection error: ${error.toString()}"));
-          }
-        });
-
-    _userDevicesSubscription = _database
-        .ref('users/${user.uid}/devices')
-        .onValue
+    _deviceIdsSubscription?.cancel();
+    _deviceIdsSubscription = _service
+        .getDeviceIdsStream(userId)
         .listen(
-          (event) {
-            final data = event.snapshot.value as Map<dynamic, dynamic>? ?? {};
-            final deviceIds = data.keys.cast<String>().toList();
-
+          (deviceIds) {
             if (deviceIds.isEmpty) {
               _clearDeviceSubscriptions();
               emit(const DeviceUpdated([]));
@@ -110,20 +83,16 @@ class DeviceCubit extends Cubit<DeviceState> {
   }
 
   void _listenToDevice(String deviceId) {
-    _deviceSubscriptions[deviceId] = _database
-        .ref('farms/$deviceId')
-        .onValue
-        .listen((event) {
-          final data = event.snapshot.value as Map<dynamic, dynamic>?;
-          if (data != null) {
-            _devicesMap[deviceId] = DeviceModel.fromMap(deviceId, data);
-            _emitUpdatedState();
-          } else {
-            // If device data is missing, we still need to reflect current state
-            _devicesMap.remove(deviceId);
-            _emitUpdatedState();
-          }
-        });
+    _deviceSubscriptions[deviceId] = _service.getDeviceStream(deviceId).listen((
+      device,
+    ) {
+      if (device != null) {
+        _devicesMap[deviceId] = device;
+      } else {
+        _devicesMap.remove(deviceId);
+      }
+      _emitUpdatedState();
+    });
   }
 
   void _emitUpdatedState() {
@@ -139,13 +108,8 @@ class DeviceCubit extends Cubit<DeviceState> {
       return;
     }
 
-    // Prevent Firebase Invalid Path crashes
-    if (deviceId.contains('.') ||
-        deviceId.contains('#') ||
-        deviceId.contains('\$') ||
-        deviceId.contains('[') ||
-        deviceId.contains(']') ||
-        deviceId.contains('/')) {
+    // Basic validation
+    if (_isInvalidDeviceId(deviceId)) {
       emit(
         const DeviceError(
           "Invalid QR Code FORMAT: Must be a valid MAC Address / Farm ID",
@@ -156,18 +120,14 @@ class DeviceCubit extends Cubit<DeviceState> {
 
     try {
       emit(DeviceLoading());
-      // 1. Check if device exists
-      final deviceSnap = await _database.ref('farms/$deviceId').get();
-      if (!deviceSnap.exists) {
+
+      final deviceData = await _service.getDeviceData(deviceId);
+      if (deviceData == null) {
         emit(const DeviceError("Device not found"));
-        // Restore previous state after error
         _emitUpdatedState();
         return;
       }
 
-      final deviceData = deviceSnap.value as Map<dynamic, dynamic>;
-
-      // 2. Check ownership
       final ownerId = deviceData['ownerId'] ?? '';
       if (ownerId != '' && ownerId != user.uid) {
         emit(const DeviceError("Device already owned by another user"));
@@ -175,24 +135,26 @@ class DeviceCubit extends Cubit<DeviceState> {
         return;
       }
 
-      // 3. Claim Device
-      await _database.ref().update({
-        'farms/$deviceId/ownerId': user.uid,
-        'users/${user.uid}/devices/$deviceId': true,
-      });
-
+      await _service.claimDevice(deviceId, user.uid);
       emit(DeviceAddSuccess());
-      // Cubit will automatically update via userDevicesSubscription
     } catch (e) {
       emit(DeviceError(e.toString()));
       _emitUpdatedState();
     }
   }
 
+  bool _isInvalidDeviceId(String deviceId) {
+    return deviceId.contains('.') ||
+        deviceId.contains('#') ||
+        deviceId.contains('\$') ||
+        deviceId.contains('[') ||
+        deviceId.contains(']') ||
+        deviceId.contains('/');
+  }
+
   Future<void> renameDevice(String deviceId, String newName) async {
     try {
-      await _database.ref('farms/$deviceId').update({'name': newName});
-      // Updating the farm's name will trigger the listener and refresh the UI automatically
+      await _service.renameDevice(deviceId, newName);
     } catch (e) {
       emit(DeviceError("Failed to rename: ${e.toString()}"));
       _emitUpdatedState();
@@ -205,10 +167,7 @@ class DeviceCubit extends Cubit<DeviceState> {
     bool value,
   ) async {
     try {
-      await _database.ref('farms/$deviceId/actuators').update({
-        actuator: value,
-      });
-      // Real-time listener will catch the change and update UI
+      await _service.updateActuator(deviceId, actuator, value);
     } catch (e) {
       emit(DeviceError("Failed to toggle $actuator: ${e.toString()}"));
       _emitUpdatedState();
@@ -221,13 +180,7 @@ class DeviceCubit extends Cubit<DeviceState> {
 
     try {
       emit(DeviceLoading());
-      // 1. Remove from user's device list
-      await _database.ref('users/${user.uid}/devices/$deviceId').remove();
-
-      // 2. Clear ownerId from the farm record
-      await _database.ref('farms/$deviceId/ownerId').set('');
-
-      // Cubit will automatically update via userDevicesSubscription when the ID is removed from user's list
+      await _service.unclaimDevice(deviceId, user.uid);
     } catch (e) {
       emit(DeviceError("Failed to remove device: ${e.toString()}"));
       _emitUpdatedState();
@@ -235,7 +188,10 @@ class DeviceCubit extends Cubit<DeviceState> {
   }
 
   void refresh() {
-    _initUserDevicesListener();
+    final user = _auth.currentUser;
+    if (user != null) {
+      _initUserDevicesListener(user.uid);
+    }
   }
 
   void _clearDeviceSubscriptions() {
@@ -247,7 +203,7 @@ class DeviceCubit extends Cubit<DeviceState> {
   }
 
   void _clearAllSubscriptions() {
-    _userDevicesSubscription?.cancel();
+    _deviceIdsSubscription?.cancel();
     _clearDeviceSubscriptions();
   }
 
