@@ -139,6 +139,21 @@ class DeviceCubit extends Cubit<DeviceState> {
       return;
     }
 
+    // Prevent Firebase Invalid Path crashes
+    if (deviceId.contains('.') ||
+        deviceId.contains('#') ||
+        deviceId.contains('\$') ||
+        deviceId.contains('[') ||
+        deviceId.contains(']') ||
+        deviceId.contains('/')) {
+      emit(
+        const DeviceError(
+          "Invalid QR Code FORMAT: Must be a valid MAC Address / Farm ID",
+        ),
+      );
+      return;
+    }
+
     try {
       emit(DeviceLoading());
       // 1. Check if device exists
