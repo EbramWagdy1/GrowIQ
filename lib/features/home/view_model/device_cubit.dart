@@ -190,7 +190,9 @@ class DeviceCubit extends Cubit<DeviceState> {
     bool value,
   ) async {
     try {
-      await _database.ref('farms/$deviceId').update({actuator: value});
+      await _database.ref('farms/$deviceId/actuators').update({
+        actuator: value,
+      });
       // Real-time listener will catch the change and update UI
     } catch (e) {
       emit(DeviceError("Failed to toggle $actuator: ${e.toString()}"));

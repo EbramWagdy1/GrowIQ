@@ -6,9 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
-import 'package:growiq/core/widgets/custom_Buttom.dart';
+import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
-import 'package:growiq/core/services/cloudinary_service.dart'; // <- New import
+import 'package:growiq/core/services/cloudinary_service.dart'; 
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});

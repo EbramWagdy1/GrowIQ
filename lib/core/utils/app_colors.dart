@@ -10,6 +10,9 @@ abstract class AppColors {
   static const Color textColorWhite = Color(0xFFFFFFFF);
   static const Color textColorAbout = Color(0xFF000000);
 
+  // Status Colors
+  static const Color onlineColor = Color(0xFF00A86B);
+
   // Chat Colors
   static const Color lightMint = Color(0xFFE8F5E9);
   static const Color iconColor = Color(0xFF385123);

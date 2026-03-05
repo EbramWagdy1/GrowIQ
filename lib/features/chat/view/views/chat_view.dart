@@ -4,7 +4,7 @@ import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
-import 'package:growiq/core/widgets/custom_Buttom.dart';
+import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 
 class ChatIntroView extends StatelessWidget {

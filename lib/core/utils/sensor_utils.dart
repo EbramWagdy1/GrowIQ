@@ -46,7 +46,7 @@ class SensorUtils {
         return Icons.air;
 
       default:
-        return Icons.sensors; 
+        return Icons.sensors;
     }
   }
 
@@ -56,11 +56,28 @@ class SensorUtils {
   static String getSensorUnit(String sensorName) {
     final name = sensorName.toLowerCase();
 
-    if (name.contains('temperature')) return '°C'; 
-    if (name.contains('humidity')) return '%RH';
-    if (name.contains('soil moisture') || name.contains('capacitive soil moisture')) return '%';
-    if (name.contains('light')) return 'Lux';
-    if (name.contains('quality') || name.contains('co2') || name.contains('mq-135')) return 'ppm';
+    if (name.contains('temperature')) {
+      return '°C';
+    }
+
+    if (name.contains('humidity')) {
+      return '%RH';
+    }
+
+    if (name.contains('soil moisture') ||
+        name.contains('capacitive soil moisture')) {
+      return '%';
+    }
+
+    if (name.contains('light')) {
+      return 'Lux';
+    }
+
+    if (name.contains('quality') ||
+        name.contains('co2') ||
+        name.contains('mq-135')) {
+      return 'ppm';
+    }
 
     return '';
   }
@@ -79,5 +96,35 @@ class SensorUtils {
       default:
         return Icons.settings_input_component;
     }
+  }
+
+  // =========================
+  // Sort Sensors
+  // =========================
+  static const _actuatorKeys = ['pump', 'light', 'fan'];
+
+  /// Returns sensor keys, excluding actuators, sorted by priority:
+  /// 1. Soil Temperature first
+  /// 2. Humidity second
+  /// 3. Everything else alphabetically
+  static List<String> getSortedSensorKeys(Map<String, dynamic> sensors) {
+    final keys = sensors.keys
+        .where((k) => !_actuatorKeys.contains(k.toLowerCase()))
+        .toList();
+
+    keys.sort((a, b) {
+      final aL = a.toLowerCase();
+      final bL = b.toLowerCase();
+
+      if (aL.contains('soil temp') && !bL.contains('soil temp')) return -1;
+      if (!aL.contains('soil temp') && bL.contains('soil temp')) return 1;
+
+      if (aL.contains('humidity') && !bL.contains('humidity')) return -1;
+      if (!aL.contains('humidity') && bL.contains('humidity')) return 1;
+
+      return a.compareTo(b);
+    });
+
+    return keys;
   }
 }

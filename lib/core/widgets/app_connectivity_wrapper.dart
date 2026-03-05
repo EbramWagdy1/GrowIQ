@@ -4,7 +4,7 @@ import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/services/connectivity_service.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'dart:async';
-import 'package:growiq/core/widgets/custom_Buttom.dart';
+import 'package:growiq/core/widgets/custom_button.dart';
 
 class AppConnectivityWrapper extends StatefulWidget {
   final Widget child;

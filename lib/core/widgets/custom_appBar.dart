@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 
@@ -17,7 +16,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(100);
+  Size get preferredSize => const Size.fromHeight(56);
 
   @override
   Widget build(BuildContext context) {

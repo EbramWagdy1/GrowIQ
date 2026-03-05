@@ -8,7 +8,7 @@ import 'package:growiq/core/functions/custom_toast.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/regexes.dart';
-import 'package:growiq/core/widgets/custom_Buttom.dart';
+import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart';

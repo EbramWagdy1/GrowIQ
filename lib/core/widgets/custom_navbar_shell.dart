@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:growiq/core/widgets/NavBar.dart';
+import 'package:growiq/core/widgets/nav_bar.dart';
 
 class CustomNavBarShell extends StatelessWidget {
   final Widget child;

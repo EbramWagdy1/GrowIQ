@@ -29,12 +29,15 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, duration: const Duration(seconds: 1));
-    _animation = Tween<double>(begin: 0, end: widget.sensorValue)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    _animation =
+        Tween<double>(begin: 0, end: widget.sensorValue).animate(
+          CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+        )..addListener(() {
+          setState(() {});
+        });
     _controller.forward();
     oldValue = widget.sensorValue;
   }
@@ -42,30 +45,47 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
   @override
   void didUpdateWidget(covariant AnimatedSensorCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _animation = Tween<double>(begin: oldValue, end: widget.sensorValue)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _animation = Tween<double>(
+      begin: oldValue,
+      end: widget.sensorValue,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
     _controller.reset();
     _controller.forward();
     oldValue = widget.sensorValue;
   }
 
   Color getColor() {
-    switch (widget.sensorName.toLowerCase()) {
-      case 'temperature':
-        if (_animation.value > 30) return Colors.red;
-        if (_animation.value >= 20) return Colors.orange;
-        return Colors.green;
-      case 'humidity':
-        if (_animation.value < 30) return Colors.orange;
-        if (_animation.value <= 70) return Colors.green;
-        return Colors.blue;
-      case 'gas':
-        if (_animation.value > 200) return Colors.red;
-        if (_animation.value > 100) return Colors.orange;
-        return Colors.grey;
-      default:
-        return Colors.blue;
+    final name = widget.sensorName.toLowerCase();
+
+    // 🌡️ Temperature sensors (air or soil)
+    if (name.contains('temperature')) {
+      if (_animation.value > 35) return Colors.red;
+      if (_animation.value >= 20) return Colors.orange;
+      return Colors.green;
     }
+
+    // 💧 Humidity sensors (air or soil moisture)
+    if (name.contains('humidity') || name.contains('soil moisture')) {
+      if (_animation.value < 30) return Colors.orange;
+      if (_animation.value <= 70) return Colors.green;
+      return Colors.blue;
+    }
+
+    // 🌫️ Air Quality / MQ-135
+    if (name.contains('quality') ||
+        name.contains('mq-135') ||
+        name.contains('co2')) {
+      if (_animation.value > 300) return Colors.red;
+      if (_animation.value > 150) return Colors.orange;
+      return Colors.green;
+    }
+
+    // 💡 Light level / LDR
+    if (name.contains('light') || name.contains('ldr')) {
+      return Colors.amber;
+    }
+
+    return Colors.teal;
   }
 
   @override
@@ -115,13 +135,18 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
           Text(
             widget.sensorName,
             style: GoogleFonts.roboto(
-                fontSize: 18, fontWeight: FontWeight.bold),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             '${_animation.value.toStringAsFixed(1)} ${widget.unit}',
             style: GoogleFonts.robotoMono(
-                fontSize: 28, fontWeight: FontWeight.bold, color: color),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
         ],
       ),

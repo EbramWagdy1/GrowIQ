@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_strings.dart';
-import 'package:growiq/core/widgets/custom_Buttom.dart';
+import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/features/onboarding/model/on_boarding_model.dart';
 import 'package:growiq/features/onboarding/view/widgets/custom_navbar.dart';
 import 'package:growiq/features/onboarding/view/widgets/onboarding_body.dart';
