@@ -11,6 +11,7 @@ import 'package:growiq/features/notification/view/views/notification_view.dart';
 import 'package:growiq/features/chat/view/views/chat_body_view.dart';
 import 'package:growiq/features/chat/view/views/chat_view.dart';
 import 'package:growiq/features/control/view/views/control_view.dart';
+import 'package:growiq/features/control/view/views/device_detail_view.dart';
 import 'package:growiq/features/home/view/views/home_view.dart';
 import 'package:growiq/features/home/view/widgets/qr_scanner.dart';
 import 'package:growiq/core/widgets/custom_navbar_shell.dart';
@@ -87,6 +88,17 @@ class AppRouter {
       GoRoute(
         path: '/scanner',
         builder: (context, state) => const QRScannerPage(),
+      ),
+      GoRoute(
+        path: '/device-detail',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return DeviceDetailView(
+            deviceId: extra['deviceId'] as String,
+            deviceName: extra['deviceName'] as String,
+            isOnline: extra['isOnline'] as bool,
+          );
+        },
       ),
       GoRoute(
         path: '/chatbot',

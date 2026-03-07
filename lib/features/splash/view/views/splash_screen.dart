@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
-import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
@@ -22,24 +22,19 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    bool isFirstTime =
-        getIt<CacheHelper>().getData(key: 'isFirstTime') ?? false;
-    if (isFirstTime == true) {
-      Future.delayed(const Duration(seconds: 3), () {
-        if (!mounted) return;
-        FirebaseAuth.instance.currentUser != null
-            ? delayedNavgation(context, '/Home')
-            : delayedNavgation(context, '/Login');
-      });
-    } else {
-      delayedNavgation(context, '/onBoarding');
-    }
-
     Timer(const Duration(seconds: 1), () {
-      if (mounted) {
-        setState(() {
-          _startAnimation = true;
-        });
+      if (mounted) setState(() => _startAnimation = true);
+    });
+    Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      final bool isFirstTime =
+          getIt<CacheHelper>().getData(key: 'isFirstTime') ?? false;
+      if (!isFirstTime) {
+        context.go('/onBoarding');
+      } else if (FirebaseAuth.instance.currentUser != null) {
+        context.go('/Home');
+      } else {
+        context.go('/Login');
       }
     });
   }
@@ -117,10 +112,4 @@ class _SplashViewState extends State<SplashView> {
       ),
     );
   }
-}
-
-void delayedNavgation(dynamic context, path) {
-  Future.delayed(const Duration(seconds: 3), () {
-    customReplacementNavigate(context, path);
-  });
 }

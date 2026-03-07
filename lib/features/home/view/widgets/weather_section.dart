@@ -17,6 +17,9 @@ class WeatherSection extends StatelessWidget {
       value: getIt<WeatherCubit>(),
       child: BlocBuilder<WeatherCubit, WeatherState>(
         builder: (context, state) {
+          if (state is WeatherLoading || state is WeatherInitial) {
+            return _buildLoadingCard();
+          }
           Weather? currentWeather;
           if (state is WeatherSuccess) {
             currentWeather = state.weather;
@@ -31,44 +34,104 @@ class WeatherSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        // ignore: deprecated_member_use
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(24),
-        // ignore: deprecated_member_use
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
-      child:Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    SizedBox(
-      width: 60,
-      height: 80,
-      child: Lottie.asset(Assets.lottieWeather),
-    ),
-    const SizedBox(width: 5),
-    Expanded(
-      child: WeatherInfoWidget(
-        condition: weather?.description ?? "--",
-        temperature: weather != null ? "${weather.temperature.toInt()}°" : "--",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 60,
+            height: 80,
+            child: Lottie.asset(Assets.lottieWeather),
+          ),
+          const SizedBox(width: 5),
+          Expanded(
+            child: WeatherInfoWidget(
+              condition: weather?.description ?? "--",
+              temperature: weather != null
+                  ? "${weather.temperature.toInt()}°"
+                  : "--",
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: WeatherInfoWidget(
+              condition: "Humidity",
+              temperature: weather != null ? "${weather.humidity}%" : "--",
+            ),
+          ),
+          const SizedBox(width: 5),
+          Expanded(
+            child: WeatherInfoWidget(
+              condition: "Wind Speed",
+              temperature: weather != null ? "${weather.windSpeed} km/h" : "--",
+            ),
+          ),
+        ],
       ),
-    ),
-    const SizedBox(width: 10),
-    Expanded(
-      
-      child: WeatherInfoWidget(
-        condition: "Humidity",
-        temperature: weather != null ? "${weather.humidity}%" : "--",
+    );
+  }
+
+  Widget _buildLoadingCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
-    ),
-    const SizedBox(width: 5),
-    Expanded(
-      child: WeatherInfoWidget(
-        condition: "Wind Speed",
-        temperature: weather != null ? "${weather.windSpeed} km/h" : "--",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const SizedBox(
+            width: 60,
+            height: 80,
+            child: Center(
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: Colors.white54,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 5),
+          ...List.generate(
+            3,
+            (_) => Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 12,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white24,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      height: 10,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white12,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-    ),
-  ],
-),
     );
   }
 }

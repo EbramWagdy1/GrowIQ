@@ -57,7 +57,7 @@ class CustomSignupForm extends StatelessWidget {
                 text: AppStrings.password,
                 obscureText: !authCubit.isPasswordVisible,
                 onEyePressed: () {
-                  authCubit.togglePasswordVisibility(authCubit);
+                  authCubit.togglePasswordVisibility();
                 },
                 onChanged: (password) {
                   authCubit.password = password;
@@ -77,7 +77,7 @@ class CustomSignupForm extends StatelessWidget {
                 text: AppStrings.confirmPassword,
                 obscureText: !authCubit.isConfirmPasswordVisible,
                 onEyePressed: () {
-                  authCubit.toggleConfirmPasswordVisibility(authCubit);
+                  authCubit.toggleConfirmPasswordVisibility();
                 },
                 onChanged: (confirmPassword) {
                   authCubit.confirmPassword = confirmPassword;

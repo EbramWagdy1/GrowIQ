@@ -50,7 +50,7 @@ class CustomLoginForm extends StatelessWidget {
                 text: AppStrings.password,
                 obscureText: !authCubit.isPasswordVisible,
                 onEyePressed: () {
-                  authCubit.togglePasswordVisibility(authCubit);
+                  authCubit.togglePasswordVisibility();
                 },
                 onChanged: (password) {
                   authCubit.password = password;

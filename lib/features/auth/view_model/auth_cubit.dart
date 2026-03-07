@@ -16,14 +16,14 @@ class AuthCubit extends Cubit<AuthState> {
   String? confirmPassword;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  void togglePasswordVisibility(AuthCubit authCubit) {
-    authCubit.isPasswordVisible = !authCubit.isPasswordVisible;
-    authCubit.emit(PasswordVisibilityChangedState());
+  void togglePasswordVisibility() {
+    isPasswordVisible = !isPasswordVisible;
+    emit(PasswordVisibilityChangedState());
   }
 
-  void toggleConfirmPasswordVisibility(AuthCubit authCubit) {
-    authCubit.isConfirmPasswordVisible = !authCubit.isConfirmPasswordVisible;
-    authCubit.emit(ConfirmPasswordVisibilityChangedState());
+  void toggleConfirmPasswordVisibility() {
+    isConfirmPasswordVisible = !isConfirmPasswordVisible;
+    emit(ConfirmPasswordVisibilityChangedState());
   }
 
   // ignore: strict_top_level_inference
