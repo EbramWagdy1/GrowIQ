@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class DeviceModel extends Equatable {
   final String id;
   final String name;
@@ -6,6 +7,8 @@ class DeviceModel extends Equatable {
   final String ownerId;
   final Map<String, dynamic> sensors;
   final Map<String, dynamic> actuators;
+  final Map<String, dynamic> modes;
+  final Map<String, dynamic> ai;
 
   const DeviceModel({
     required this.id,
@@ -14,6 +17,8 @@ class DeviceModel extends Equatable {
     required this.ownerId,
     this.sensors = const {},
     this.actuators = const {},
+    this.modes = const {},
+    this.ai = const {},
   });
   factory DeviceModel.fromMap(String id, Map<dynamic, dynamic> map) {
     final String name = map['name'] ?? map['deviceId'] ?? 'Farm $id';
@@ -27,7 +32,9 @@ class DeviceModel extends Equatable {
           key != 'ownerId' &&
           key != 'deviceId' &&
           key != 'sensors' &&
-          key != 'actuators') {
+          key != 'actuators' &&
+          key != 'modes' &&
+          key != 'ai') {
         sensors[key.toString()] = value;
       }
     });
@@ -43,6 +50,8 @@ class DeviceModel extends Equatable {
       ownerId: ownerId,
       sensors: sensors,
       actuators: Map<String, dynamic>.from(map['actuators'] ?? {}),
+      modes: Map<String, dynamic>.from(map['modes'] ?? {}),
+      ai: Map<String, dynamic>.from(map['ai'] ?? {}),
     );
   }
 
@@ -52,6 +61,8 @@ class DeviceModel extends Equatable {
     String? ownerId,
     Map<String, dynamic>? sensors,
     Map<String, dynamic>? actuators,
+    Map<String, dynamic>? modes,
+    Map<String, dynamic>? ai,
   }) {
     return DeviceModel(
       id: id,
@@ -60,9 +71,20 @@ class DeviceModel extends Equatable {
       ownerId: ownerId ?? this.ownerId,
       sensors: sensors ?? this.sensors,
       actuators: actuators ?? this.actuators,
+      modes: modes ?? this.modes,
+      ai: ai ?? this.ai,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, isOnline, ownerId, sensors, actuators];
+  List<Object?> get props => [
+    id,
+    name,
+    isOnline,
+    ownerId,
+    sensors,
+    actuators,
+    modes,
+    ai,
+  ];
 }

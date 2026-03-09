@@ -174,6 +174,15 @@ class DeviceCubit extends Cubit<DeviceState> {
     }
   }
 
+  Future<void> toggleMode(String deviceId, String modeName, bool value) async {
+    try {
+      await _service.updateMode(deviceId, modeName, value);
+    } catch (e) {
+      emit(DeviceError("Failed to toggle $modeName: ${e.toString()}"));
+      _emitUpdatedState();
+    }
+  }
+
   Future<void> removeDevice(String deviceId) async {
     final user = _auth.currentUser;
     if (user == null) return;

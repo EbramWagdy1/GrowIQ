@@ -168,3 +168,5 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
     super.dispose();
   }
 }
+
+

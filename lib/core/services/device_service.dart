@@ -55,4 +55,8 @@ class DeviceService {
   ) async {
     await _database.ref('farms/$deviceId/actuators').update({actuator: value});
   }
+
+  Future<void> updateMode(String deviceId, String modeName, bool value) async {
+    await _database.ref('farms/$deviceId/modes').update({modeName: value});
+  }
 }

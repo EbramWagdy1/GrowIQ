@@ -108,10 +108,180 @@ class DeviceDetailView extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       child: Column(
                         children: [
+                          if (currentDevice.ai.isNotEmpty) ...[
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(16),
+                              margin: const EdgeInsets.only(bottom: 20),
+                              decoration: BoxDecoration(
+                                color:
+                                    (currentDevice.ai['disease']
+                                            ?.toString()
+                                            .toLowerCase() ==
+                                        'healthy')
+                                    ? Colors.green.withOpacity(0.1)
+                                    : Colors.orange.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                  color:
+                                      (currentDevice.ai['disease']
+                                              ?.toString()
+                                              .toLowerCase() ==
+                                          'healthy')
+                                      ? Colors.green
+                                      : Colors.orange,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    (currentDevice.ai['disease']
+                                                ?.toString()
+                                                .toLowerCase() ==
+                                            'healthy')
+                                        ? Icons.check_circle
+                                        : Icons.warning,
+                                    color:
+                                        (currentDevice.ai['disease']
+                                                ?.toString()
+                                                .toLowerCase() ==
+                                            'healthy')
+                                        ? Colors.green
+                                        : Colors.orange,
+                                    size: 30,
+                                  ),
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          (currentDevice.ai['disease']
+                                                      ?.toString()
+                                                      .toLowerCase() ==
+                                                  'healthy')
+                                              ? 'Farm is Healthy'
+                                              : 'Issue Detected: ${currentDevice.ai['disease'] ?? 'Unknown'}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                (currentDevice.ai['disease']
+                                                        ?.toString()
+                                                        .toLowerCase() ==
+                                                    'healthy')
+                                                ? Colors.green[800]
+                                                : Colors.orange[800],
+                                          ),
+                                        ),
+                                        if (currentDevice.ai['confidence'] !=
+                                                null &&
+                                            currentDevice.ai['disease']
+                                                    ?.toString()
+                                                    .toLowerCase() !=
+                                                'healthy')
+                                          Text(
+                                            'Confidence: ${(double.tryParse(currentDevice.ai['confidence'].toString()) ?? 0.0).toStringAsFixed(1)}%',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color:
+                                                  (currentDevice.ai['disease']
+                                                          ?.toString()
+                                                          .toLowerCase() ==
+                                                      'healthy')
+                                                  ? Colors.green[800]
+                                                  : Colors.orange[800],
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                           SensorGridView(sensors: currentDevice.sensors),
                           const SizedBox(height: 20),
                           const Divider(),
                           const SizedBox(height: 10),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color:
+                                  (currentDevice.modes['ai_mode'] == true ||
+                                      currentDevice.modes['ai_mode'] == 1 ||
+                                      currentDevice.modes['ai_mode'] == '1')
+                                  ? Colors.purple.withOpacity(0.1)
+                                  : Colors.grey[100],
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color:
+                                    (currentDevice.modes['ai_mode'] == true ||
+                                        currentDevice.modes['ai_mode'] == 1 ||
+                                        currentDevice.modes['ai_mode'] == '1')
+                                    ? Colors.purple
+                                    : Colors.grey[300]!,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.auto_awesome,
+                                      color:
+                                          (currentDevice.modes['ai_mode'] ==
+                                                  true ||
+                                              currentDevice.modes['ai_mode'] ==
+                                                  1 ||
+                                              currentDevice.modes['ai_mode'] ==
+                                                  '1')
+                                          ? Colors.purple
+                                          : Colors.grey,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      "AI MODE",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            (currentDevice.modes['ai_mode'] ==
+                                                    true ||
+                                                currentDevice
+                                                        .modes['ai_mode'] ==
+                                                    1 ||
+                                                currentDevice
+                                                        .modes['ai_mode'] ==
+                                                    '1')
+                                            ? Colors.purple
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Switch(
+                                  value:
+                                      (currentDevice.modes['ai_mode'] == true ||
+                                      currentDevice.modes['ai_mode'] == 1 ||
+                                      currentDevice.modes['ai_mode'] == '1'),
+                                  activeColor: Colors.purple,
+                                  onChanged: (value) {
+                                    context.read<DeviceCubit>().toggleMode(
+                                      currentDevice.id,
+                                      'ai_mode',
+                                      value,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
                           ActuatorSection(
                             deviceId: currentDevice.id,
                             actuators: currentDevice.actuators,
