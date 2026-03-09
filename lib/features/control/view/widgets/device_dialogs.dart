@@ -236,6 +236,11 @@ class DeviceDialogs {
                             thresholds,
                           );
                           Navigator.pop(dialogContext);
+
+                          // After dismissing dialog, dismiss the scanner page if necessary
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
                         },
                         child: const Text(
                           "Save Configuration",
