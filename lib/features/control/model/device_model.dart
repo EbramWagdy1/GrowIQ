@@ -9,6 +9,7 @@ class DeviceModel extends Equatable {
   final Map<String, dynamic> actuators;
   final Map<String, dynamic> modes;
   final Map<String, dynamic> ai;
+  final Map<String, dynamic> thresholds;
 
   const DeviceModel({
     required this.id,
@@ -19,6 +20,7 @@ class DeviceModel extends Equatable {
     this.actuators = const {},
     this.modes = const {},
     this.ai = const {},
+    this.thresholds = const {},
   });
   factory DeviceModel.fromMap(String id, Map<dynamic, dynamic> map) {
     final String name = map['name'] ?? map['deviceId'] ?? 'Farm $id';
@@ -34,7 +36,8 @@ class DeviceModel extends Equatable {
           key != 'sensors' &&
           key != 'actuators' &&
           key != 'modes' &&
-          key != 'ai') {
+          key != 'ai' &&
+          key != 'thresholds') {
         sensors[key.toString()] = value;
       }
     });
@@ -52,6 +55,7 @@ class DeviceModel extends Equatable {
       actuators: Map<String, dynamic>.from(map['actuators'] ?? {}),
       modes: Map<String, dynamic>.from(map['modes'] ?? {}),
       ai: Map<String, dynamic>.from(map['ai'] ?? {}),
+      thresholds: Map<String, dynamic>.from(map['thresholds'] ?? {}),
     );
   }
 
@@ -63,6 +67,7 @@ class DeviceModel extends Equatable {
     Map<String, dynamic>? actuators,
     Map<String, dynamic>? modes,
     Map<String, dynamic>? ai,
+    Map<String, dynamic>? thresholds,
   }) {
     return DeviceModel(
       id: id,
@@ -73,6 +78,7 @@ class DeviceModel extends Equatable {
       actuators: actuators ?? this.actuators,
       modes: modes ?? this.modes,
       ai: ai ?? this.ai,
+      thresholds: thresholds ?? this.thresholds,
     );
   }
 
@@ -86,5 +92,6 @@ class DeviceModel extends Equatable {
     actuators,
     modes,
     ai,
+    thresholds,
   ];
 }

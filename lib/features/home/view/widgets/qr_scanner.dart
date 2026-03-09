@@ -3,6 +3,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/view_model/device_state.dart';
+import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
 
 class QRScannerPage extends StatefulWidget {
   const QRScannerPage({super.key});
@@ -24,8 +25,12 @@ class _QRScannerPageState extends State<QRScannerPage> {
         listener: (context, state) {
           if (state is DeviceAddSuccess) {
             if (Navigator.canPop(context)) {
-              Navigator.pop(context);
+              Navigator.pop(context); // Close scanner page
             }
+            DeviceDialogs.showPlantSelectionDialog(
+              context: context,
+              deviceId: state.deviceId,
+            );
           } else if (state is DeviceError) {
             setState(() {
               isScanned = false;

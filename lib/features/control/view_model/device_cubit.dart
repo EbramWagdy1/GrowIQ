@@ -136,9 +136,22 @@ class DeviceCubit extends Cubit<DeviceState> {
       }
 
       await _service.claimDevice(deviceId, user.uid);
-      emit(DeviceAddSuccess());
+      emit(DeviceAddSuccess(deviceId));
     } catch (e) {
       emit(DeviceError(e.toString()));
+      _emitUpdatedState();
+    }
+  }
+
+  Future<void> setCropType(
+    String deviceId,
+    Map<String, Map<String, double>> thresholds,
+  ) async {
+    try {
+      await _service.updateCropType(deviceId, thresholds);
+      _emitUpdatedState(); // Refresh UI after saving crop thresholds
+    } catch (e) {
+      emit(DeviceError("Failed to set crop type: ${e.toString()}"));
       _emitUpdatedState();
     }
   }

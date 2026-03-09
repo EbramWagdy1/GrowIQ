@@ -4,10 +4,12 @@ import 'package:growiq/core/utils/sensor_utils.dart';
 
 class SensorGridView extends StatelessWidget {
   final Map<String, dynamic> sensors;
+  final Map<String, dynamic> thresholds;
 
   const SensorGridView({
     super.key,
     required this.sensors,
+    this.thresholds = const {},
   });
 
   @override
@@ -26,6 +28,12 @@ class SensorGridView extends StatelessWidget {
                       double.tryParse(sensors[keys[i]].toString()) ?? 0,
                   unit: SensorUtils.getSensorUnit(keys[i]),
                   icon: SensorUtils.getSensorIcon(keys[i]),
+                  minLimit: double.tryParse(
+                    thresholds[keys[i]]?['min']?.toString() ?? '',
+                  ),
+                  maxLimit: double.tryParse(
+                    thresholds[keys[i]]?['max']?.toString() ?? '',
+                  ),
                 ),
               ),
               const SizedBox(width: 20),
@@ -37,6 +45,12 @@ class SensorGridView extends StatelessWidget {
                         double.tryParse(sensors[keys[i + 1]].toString()) ?? 0,
                     unit: SensorUtils.getSensorUnit(keys[i + 1]),
                     icon: SensorUtils.getSensorIcon(keys[i + 1]),
+                    minLimit: double.tryParse(
+                      thresholds[keys[i + 1]]?['min']?.toString() ?? '',
+                    ),
+                    maxLimit: double.tryParse(
+                      thresholds[keys[i + 1]]?['max']?.toString() ?? '',
+                    ),
                   ),
                 )
               else

@@ -59,4 +59,11 @@ class DeviceService {
   Future<void> updateMode(String deviceId, String modeName, bool value) async {
     await _database.ref('farms/$deviceId/modes').update({modeName: value});
   }
+
+  Future<void> updateCropType(
+    String deviceId,
+    Map<String, Map<String, double>> thresholds,
+  ) async {
+    await _database.ref('farms/$deviceId/thresholds').set(thresholds);
+  }
 }

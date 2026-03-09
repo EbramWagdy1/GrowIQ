@@ -30,4 +30,11 @@ class DeviceError extends DeviceState {
   List<Object?> get props => [message];
 }
 
-class DeviceAddSuccess extends DeviceState {}
+class DeviceAddSuccess extends DeviceState {
+  final String deviceId;
+
+  const DeviceAddSuccess(this.deviceId);
+
+  @override
+  List<Object> get props => [deviceId];
+}

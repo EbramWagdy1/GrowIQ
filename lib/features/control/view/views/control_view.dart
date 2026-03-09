@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/widgets/device_card.dart';
-import 'package:growiq/features/control/view/views/device_detail_view.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/view_model/device_state.dart';
+import 'package:go_router/go_router.dart';
 
 class ControlView extends StatelessWidget {
   const ControlView({super.key});
@@ -29,15 +29,13 @@ class ControlView extends StatelessWidget {
                   final device = state.devices[index];
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DeviceDetailView(
-                            deviceId: device.id,
-                            deviceName: device.name,
-                            isOnline: device.isOnline,
-                          ),
-                        ),
+                      context.push(
+                        '/device-detail',
+                        extra: {
+                          'deviceId': device.id,
+                          'deviceName': device.name,
+                          'isOnline': device.isOnline,
+                        },
                       );
                     },
                     child: Card(

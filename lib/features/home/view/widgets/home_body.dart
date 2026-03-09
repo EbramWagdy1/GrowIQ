@@ -49,6 +49,10 @@ class HomeBodyState extends State<HomeBody> {
               backgroundColor: Colors.green,
             ),
           );
+          DeviceDialogs.showPlantSelectionDialog(
+            context: context,
+            deviceId: state.deviceId,
+          );
         }
       },
       builder: (context, state) {
@@ -180,6 +184,14 @@ class HomeBodyState extends State<HomeBody> {
                           0,
                       unit: SensorUtils.getSensorUnit(sensorKeys[0]),
                       icon: SensorUtils.getSensorIcon(sensorKeys[0]),
+                      minLimit: double.tryParse(
+                        device.thresholds[sensorKeys[0]]?['min']?.toString() ??
+                            '',
+                      ),
+                      maxLimit: double.tryParse(
+                        device.thresholds[sensorKeys[0]]?['max']?.toString() ??
+                            '',
+                      ),
                     ),
                   ),
                   if (sensorKeys.length > 1) ...[
@@ -194,6 +206,16 @@ class HomeBodyState extends State<HomeBody> {
                             0,
                         unit: SensorUtils.getSensorUnit(sensorKeys[1]),
                         icon: SensorUtils.getSensorIcon(sensorKeys[1]),
+                        minLimit: double.tryParse(
+                          device.thresholds[sensorKeys[1]]?['min']
+                                  ?.toString() ??
+                              '',
+                        ),
+                        maxLimit: double.tryParse(
+                          device.thresholds[sensorKeys[1]]?['max']
+                                  ?.toString() ??
+                              '',
+                        ),
                       ),
                     ),
                   ],

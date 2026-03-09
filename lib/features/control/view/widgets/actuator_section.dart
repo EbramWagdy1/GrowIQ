@@ -17,68 +17,106 @@ class ActuatorSection extends StatelessWidget {
   Widget build(BuildContext context) {
     const actuatorKeys = ['pump', 'light', 'fan'];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          "Controls",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 15),
-        Wrap(
-          spacing: 15,
-          runSpacing: 15,
-          children: actuatorKeys.map((actuator) {
-            final isOn =
-                actuators[actuator] == true ||
-                actuators[actuator] == 1 ||
-                actuators[actuator] == "1";
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 1.25, // Wider than a square, like HomeKit tiles
+      ),
+      itemCount: actuatorKeys.length,
+      itemBuilder: (context, index) {
+        final actuator = actuatorKeys[index];
+        final isOn =
+            actuators[actuator] == true ||
+            actuators[actuator] == 1 ||
+            actuators[actuator] == "1";
 
-            return Container(
-              width: (MediaQuery.of(context).size.width - 60) / 2,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color:
-                    // ignore: deprecated_member_use
-                    isOn ? Colors.teal.withOpacity(0.1) : Colors.grey[100],
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(
-                  color: isOn ? Colors.teal : Colors.grey[300]!,
-                  width: 1.5,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    SensorUtils.getActuatorIcon(actuator),
-                    color: isOn ? Colors.teal : Colors.grey,
-                  ),
-                  Text(
-                    actuator.toUpperCase(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: isOn ? Colors.teal : Colors.black87,
-                    ),
-                  ),
-                  Switch(
-                    value: isOn,
-                    // ignore: deprecated_member_use
-                    activeColor: Colors.teal,
-                    onChanged: (value) {
-                      context.read<DeviceCubit>().toggleActuator(
-                        deviceId,
-                        actuator,
-                        value,
-                      );
-                    },
-                  ),
-                ],
-              ),
+        return GestureDetector(
+          onTap: () {
+            context.read<DeviceCubit>().toggleActuator(
+              deviceId,
+              actuator,
+              !isOn,
             );
-          }).toList(),
-        ),
-      ],
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: isOn ? Colors.teal.shade500 : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: isOn
+                      ? Colors.teal.withValues(alpha: 0.3)
+                      : Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: isOn
+                            ? Colors.white.withValues(alpha: 0.2)
+                            : Colors.grey.shade100,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        SensorUtils.getActuatorIcon(actuator),
+                        color: isOn ? Colors.white : Colors.teal.shade600,
+                        size: 26,
+                      ),
+                    ),
+                    Icon(
+                      isOn
+                          ? Icons.power_settings_new
+                          : Icons.power_settings_new_outlined,
+                      color: isOn ? Colors.white : Colors.grey.shade300,
+                      size: 20,
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      actuator.toUpperCase(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                        color: isOn ? Colors.white : Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      isOn ? "Running" : "Off",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: isOn ? Colors.white70 : Colors.grey.shade500,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

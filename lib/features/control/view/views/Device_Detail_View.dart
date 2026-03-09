@@ -23,6 +23,7 @@ class DeviceDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: CustomAppBar(
         title: deviceName,
         actions: [
@@ -111,47 +112,66 @@ class DeviceDetailView extends StatelessWidget {
                           if (currentDevice.ai.isNotEmpty) ...[
                             Container(
                               width: double.infinity,
-                              padding: const EdgeInsets.all(16),
-                              margin: const EdgeInsets.only(bottom: 20),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 24,
+                              ),
+                              margin: const EdgeInsets.only(bottom: 25),
                               decoration: BoxDecoration(
-                                color:
-                                    (currentDevice.ai['disease']
-                                            ?.toString()
-                                            .toLowerCase() ==
-                                        'healthy')
-                                    ? Colors.green.withOpacity(0.1)
-                                    : Colors.orange.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                  color:
+                                gradient: LinearGradient(
+                                  colors:
                                       (currentDevice.ai['disease']
                                               ?.toString()
                                               .toLowerCase() ==
                                           'healthy')
-                                      ? Colors.green
-                                      : Colors.orange,
-                                  width: 1.5,
+                                      ? [
+                                          Colors.green.shade400,
+                                          Colors.teal.shade500,
+                                        ]
+                                      : [
+                                          Colors.orange.shade400,
+                                          Colors.red.shade400,
+                                        ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                                 ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    (currentDevice.ai['disease']
-                                                ?.toString()
-                                                .toLowerCase() ==
-                                            'healthy')
-                                        ? Icons.check_circle
-                                        : Icons.warning,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
                                     color:
                                         (currentDevice.ai['disease']
                                                 ?.toString()
                                                 .toLowerCase() ==
                                             'healthy')
-                                        ? Colors.green
-                                        : Colors.orange,
-                                    size: 30,
+                                        ? Colors.green.withValues(alpha: 0.3)
+                                        : Colors.red.withValues(alpha: 0.3),
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 8),
                                   ),
-                                  const SizedBox(width: 15),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      (currentDevice.ai['disease']
+                                                  ?.toString()
+                                                  .toLowerCase() ==
+                                              'healthy')
+                                          ? Icons.health_and_safety
+                                          : Icons.warning_amber_rounded,
+                                      color: Colors.white,
+                                      size: 32,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -164,18 +184,14 @@ class DeviceDetailView extends StatelessWidget {
                                                   'healthy')
                                               ? 'Farm is Healthy'
                                               : 'Issue Detected: ${currentDevice.ai['disease'] ?? 'Unknown'}',
-                                          style: TextStyle(
-                                            fontSize: 18,
+                                          style: const TextStyle(
+                                            fontSize: 20,
                                             fontWeight: FontWeight.bold,
-                                            color:
-                                                (currentDevice.ai['disease']
-                                                        ?.toString()
-                                                        .toLowerCase() ==
-                                                    'healthy')
-                                                ? Colors.green[800]
-                                                : Colors.orange[800],
+                                            color: Colors.white,
+                                            letterSpacing: 0.5,
                                           ),
                                         ),
+                                        const SizedBox(height: 4),
                                         if (currentDevice.ai['confidence'] !=
                                                 null &&
                                             currentDevice.ai['disease']
@@ -183,16 +199,23 @@ class DeviceDetailView extends StatelessWidget {
                                                     .toLowerCase() !=
                                                 'healthy')
                                           Text(
-                                            'Confidence: ${(double.tryParse(currentDevice.ai['confidence'].toString()) ?? 0.0).toStringAsFixed(1)}%',
+                                            'AI Confidence: ${(double.tryParse(currentDevice.ai['confidence'].toString()) ?? 0.0).toStringAsFixed(1)}%',
                                             style: TextStyle(
                                               fontSize: 14,
-                                              color:
-                                                  (currentDevice.ai['disease']
-                                                          ?.toString()
-                                                          .toLowerCase() ==
-                                                      'healthy')
-                                                  ? Colors.green[800]
-                                                  : Colors.orange[800],
+                                              color: Colors.white.withValues(
+                                                alpha: 0.9,
+                                              ),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        else
+                                          Text(
+                                            'All systems are running optimally.',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white.withValues(
+                                                alpha: 0.9,
+                                              ),
                                             ),
                                           ),
                                       ],
@@ -202,28 +225,109 @@ class DeviceDetailView extends StatelessWidget {
                               ),
                             ),
                           ],
-                          SensorGridView(sensors: currentDevice.sensors),
+
+                          // Section Title
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.sensors,
+                                color: Colors.teal.shade700,
+                                size: 24,
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                "Environmental Overview",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+
+                          // --- Legend / Hint Start ---
+                          if (currentDevice.thresholds.isNotEmpty)
+                            // --- Legend / Hint End ---
+                            SensorGridView(
+                              sensors: currentDevice.sensors,
+                              thresholds: currentDevice.thresholds,
+                            ),
                           const SizedBox(height: 20),
-                          const Divider(),
-                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _buildLegendItem(Colors.blue, " Low"),
+                                const SizedBox(width: 15),
+                                _buildLegendItem(Colors.green, " Perfect"),
+                                const SizedBox(width: 15),
+                                _buildLegendItem(Colors.red, " High"),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+
+                          // Smart Controls Section
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.dashboard_customize_rounded,
+                                color: Colors.teal.shade700,
+                                size: 24,
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                "Smart Controls",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
                           Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
                             decoration: BoxDecoration(
-                              color:
-                                  (currentDevice.modes['ai_mode'] == true ||
-                                      currentDevice.modes['ai_mode'] == 1 ||
-                                      currentDevice.modes['ai_mode'] == '1')
-                                  ? Colors.purple.withOpacity(0.1)
-                                  : Colors.grey[100],
-                              borderRadius: BorderRadius.circular(15),
+                              gradient: LinearGradient(
+                                colors:
+                                    (currentDevice.modes['ai_mode'] == true ||
+                                        currentDevice.modes['ai_mode'] == 1 ||
+                                        currentDevice.modes['ai_mode'] == '1')
+                                    ? [
+                                        Colors.deepPurple.shade400,
+                                        Colors.purple.shade600,
+                                      ]
+                                    : [Colors.white, Colors.white],
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      (currentDevice.modes['ai_mode'] == true ||
+                                          currentDevice.modes['ai_mode'] == 1 ||
+                                          currentDevice.modes['ai_mode'] == '1')
+                                      ? Colors.purple.withValues(alpha: 0.3)
+                                      : Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
                               border: Border.all(
                                 color:
                                     (currentDevice.modes['ai_mode'] == true ||
                                         currentDevice.modes['ai_mode'] == 1 ||
                                         currentDevice.modes['ai_mode'] == '1')
-                                    ? Colors.purple
-                                    : Colors.grey[300]!,
+                                    ? Colors.transparent
+                                    : Colors.grey.shade200,
                                 width: 1.5,
                               ),
                             ),
@@ -232,23 +336,9 @@ class DeviceDetailView extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(
-                                      Icons.auto_awesome,
-                                      color:
-                                          (currentDevice.modes['ai_mode'] ==
-                                                  true ||
-                                              currentDevice.modes['ai_mode'] ==
-                                                  1 ||
-                                              currentDevice.modes['ai_mode'] ==
-                                                  '1')
-                                          ? Colors.purple
-                                          : Colors.grey,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "AI MODE",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
                                         color:
                                             (currentDevice.modes['ai_mode'] ==
                                                     true ||
@@ -258,9 +348,74 @@ class DeviceDetailView extends StatelessWidget {
                                                 currentDevice
                                                         .modes['ai_mode'] ==
                                                     '1')
-                                            ? Colors.purple
-                                            : Colors.black87,
+                                            ? Colors.white.withValues(
+                                                alpha: 0.2,
+                                              )
+                                            : Colors.purple.withValues(
+                                                alpha: 0.1,
+                                              ),
+                                        shape: BoxShape.circle,
                                       ),
+                                      child: Icon(
+                                        Icons.auto_awesome,
+                                        color:
+                                            (currentDevice.modes['ai_mode'] ==
+                                                    true ||
+                                                currentDevice
+                                                        .modes['ai_mode'] ==
+                                                    1 ||
+                                                currentDevice
+                                                        .modes['ai_mode'] ==
+                                                    '1')
+                                            ? Colors.white
+                                            : Colors.purple.shade500,
+                                        size: 24,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 15),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "AI Auto Mode",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            letterSpacing: 0.5,
+                                            color:
+                                                (currentDevice
+                                                            .modes['ai_mode'] ==
+                                                        true ||
+                                                    currentDevice
+                                                            .modes['ai_mode'] ==
+                                                        1 ||
+                                                    currentDevice
+                                                            .modes['ai_mode'] ==
+                                                        '1')
+                                                ? Colors.white
+                                                : Colors.black87,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Let AI manage the farm",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color:
+                                                (currentDevice
+                                                            .modes['ai_mode'] ==
+                                                        true ||
+                                                    currentDevice
+                                                            .modes['ai_mode'] ==
+                                                        1 ||
+                                                    currentDevice
+                                                            .modes['ai_mode'] ==
+                                                        '1')
+                                                ? Colors.white70
+                                                : Colors.black54,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -269,12 +424,17 @@ class DeviceDetailView extends StatelessWidget {
                                       (currentDevice.modes['ai_mode'] == true ||
                                       currentDevice.modes['ai_mode'] == 1 ||
                                       currentDevice.modes['ai_mode'] == '1'),
-                                  activeColor: Colors.purple,
                                   onChanged: (value) {
-                                    context.read<DeviceCubit>().toggleMode(
-                                      currentDevice.id,
-                                      'ai_mode',
-                                      value,
+                                    DeviceDialogs.showAIModeConfirmDialog(
+                                      context: context,
+                                      isTurningOn: value,
+                                      onConfirm: () {
+                                        context.read<DeviceCubit>().toggleMode(
+                                          currentDevice.id,
+                                          'ai_mode',
+                                          value,
+                                        );
+                                      },
                                     );
                                   },
                                 ),
@@ -302,6 +462,27 @@ class DeviceDetailView extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildLegendItem(Color color, String text) {
+    return Row(
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }

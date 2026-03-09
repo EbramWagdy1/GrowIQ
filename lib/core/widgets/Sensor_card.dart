@@ -6,6 +6,8 @@ class AnimatedSensorCard extends StatefulWidget {
   final double sensorValue;
   final String unit;
   final IconData icon;
+  final double? minLimit;
+  final double? maxLimit;
 
   const AnimatedSensorCard({
     super.key,
@@ -13,6 +15,8 @@ class AnimatedSensorCard extends StatefulWidget {
     required this.sensorValue,
     required this.unit,
     required this.icon,
+    this.minLimit,
+    this.maxLimit,
   });
 
   @override
@@ -55,37 +59,20 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
   }
 
   Color getColor(double currentValue) {
-    final name = widget.sensorName.toLowerCase();
+    if (widget.minLimit != null && widget.maxLimit != null) {
+      final min = widget.minLimit!;
+      final max = widget.maxLimit!;
 
-    // 🌡️ Temperature sensors (air or soil)
-    if (name.contains('temperature')) {
-      if (currentValue > 35) return Colors.red;
-      if (currentValue >= 20) return Colors.orange;
-      return Colors.green;
+      if (currentValue >= min && currentValue <= max) {
+        return Colors.green; // Inside perfect threshold
+      } else if (currentValue < min) {
+        return Colors.blue; // Too low (cold, dry..etc)
+      } else {
+        return Colors.red; // Too high (hot, over-watered..etc)
+      }
     }
 
-    // 💧 Humidity sensors (air or soil moisture)
-    if (name.contains('humidity') || name.contains('moisture')) {
-      if (currentValue < 30) return Colors.orange;
-      if (currentValue <= 70) return Colors.green;
-      return Colors.blue;
-    }
-
-    // 🌫️ Air Quality / MQ-135
-    if (name.contains('quality') ||
-        name.contains('mq-135') ||
-        name.contains('co2')) {
-      if (currentValue > 300) return Colors.red;
-      if (currentValue > 150) return Colors.orange;
-      return Colors.green;
-    }
-
-    // 💡 Light level / LDR
-    if (name.contains('light') || name.contains('ldr')) {
-      return Colors.amber;
-    }
-
-    return Colors.teal;
+    return Colors.teal; // Fallback
   }
 
   @override
@@ -95,21 +82,31 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
       builder: (context, child) {
         final currentValue = _animation.value;
         final color = getColor(currentValue);
-        final percent = (currentValue / 100).clamp(0.0, 1.0);
+
+        double percent;
+        if (widget.minLimit != null && widget.maxLimit != null) {
+          final range = widget.maxLimit! - widget.minLimit!;
+          if (range == 0) {
+            percent = 0.5;
+          } else {
+            // How much of the max limit are we at (or clamp)
+            percent = (currentValue / (widget.maxLimit! * 1.5)).clamp(0.0, 1.0);
+          }
+        } else {
+          percent = (currentValue / 100).clamp(0.0, 1.0);
+        }
 
         return Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              // ignore: deprecated_member_use
-              colors: [color.withOpacity(0.3), Colors.white],
+              colors: [color.withValues(alpha: 0.3), Colors.white],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                // ignore: deprecated_member_use
-                color: color.withOpacity(0.4),
+                color: color.withValues(alpha: 0.4),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),
@@ -168,5 +165,3 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
     super.dispose();
   }
 }
-
-
