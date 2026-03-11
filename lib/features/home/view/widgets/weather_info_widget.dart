@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 
 class WeatherInfoWidget extends StatelessWidget {
@@ -23,7 +24,7 @@ class WeatherInfoWidget extends StatelessWidget {
             condition,
             style: AppTextStyles.hintText.copyWith(
               fontSize: 12,
-              color: Colors.white70,
+              color: AppColors.white70,
             ),
           ),
           const SizedBox(height: 10),
@@ -32,7 +33,7 @@ class WeatherInfoWidget extends StatelessWidget {
             style: AppTextStyles.buttonText.copyWith(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: AppColors.white,
             ),
           ),
         ],

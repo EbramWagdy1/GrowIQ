@@ -16,4 +16,60 @@ abstract class AppColors {
   // Chat Colors
   static const Color lightMint = Color(0xFFE8F5E9);
   static const Color iconColor = Color(0xFF385123);
+
+  // UI Colors
+  static const Color errorColor = Colors.red;
+  static const Color successColor = Colors.green;
+  static const Color greyColor = Colors.grey;
+  static const Color lightGreyColor = Color(0xFFF5F5F5); 
+  static const Color black87 = Colors.black87;
+  static const Color black54 = Colors.black54;
+  static const Color greenAccent = Colors.greenAccent;
+  static const Color black = Colors.black;
+  static const Color black54Opaque = Colors.black54;
+  static const Color blue = Colors.blue;
+  static const Color lightGreyBackground = Color(0xFFF5F5F5);
+  static const Color greyShade300 = Color(0xFFE0E0E0);
+  static const Color greyShade600 = Color(0xFF757575);
+  static const Color darkGreyIcon = Color(0xFF4A4A4A);
+  static const Color textColor2D = Color(0xFF2D2D2D);
+
+  static const Color healthyGradientStart = Color(0xFF66BB6A); // Colors.green.shade400
+  static const Color healthyGradientEnd = Color(0xFF009688); // Colors.teal.shade500
+  static const Color unhealthyGradientStart = Color(0xFFFFA726); // Colors.orange.shade400
+  static const Color unhealthyGradientEnd = Color(0xFFEF5350); // Colors.red.shade400
+  static const Color aiModeGradientStart = Color(0xFF7E57C2); // Colors.deepPurple.shade400
+  static const Color aiModeGradientEnd = Color(0xFF8E24AA); // Colors.purple.shade600
+  
+  static const Color tealShade50 = Color(0xFFE0F2F1);
+  static const Color tealShade400 = Color(0xFF26A69A);
+  static const Color tealShade600 = Color(0xFF00897B);
+  static const Color tealShade700 = Color(0xFF00796B);
+  static const Color tealShade800 = Color(0xFF00695C);
+
+  static const Color purpleShade50 = Color(0xFFF3E5F5);
+  static const Color purpleShade500 = Color(0xFF9C27B0);
+  static const Color purpleShade600 = Color(0xFF8E24AA);
+  static const Color purpleShade700 = Color(0xFF7B1FA2);
+
+  static const Color orangeShade50 = Color(0xFFFFF3E0);
+  static const Color orangeShade600 = Color(0xFFFB8C00);
+  static const Color orangeShade700 = Color(0xFFF57C00);
+
+  static const Color greyShade50 = Color(0xFFFAFAFA);
+  static const Color greyShade200 = Color(0xFFEEEEEE);
+  static const Color greyShade700 = Color(0xFF616161);
+
+  static const Color facebookBlue = Color(0xFF1877F2);
+  static const Color googleRed = Color(0xFFDB4437);
+
+
+  // Whites
+  static const Color white = Colors.white;
+  static const Color white70 = Colors.white70;
+  static const Color white54 = Colors.white54;
+  static const Color white24 = Colors.white24;
+  static const Color white12 = Colors.white12;
+  static const Color transparentWhite10 = Color(0x1AFFFFFF);
+  static const Color transparentWhite05 = Color(0x0DFFFFFF);
 }

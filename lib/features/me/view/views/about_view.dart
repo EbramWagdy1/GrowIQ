@@ -11,7 +11,7 @@ class AboutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'About'),
+      appBar: CustomAppBar(title: AppStrings.aboutApp),
       body: Column(
         children: [
           Expanded(
@@ -33,7 +33,7 @@ class AboutView extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
-                  Text("Our Team", style: AppTextStyles.titleMedium),
+                  Text(AppStrings.ourTeam, style: AppTextStyles.titleMedium),
 
                   const SizedBox(height: 20),
 

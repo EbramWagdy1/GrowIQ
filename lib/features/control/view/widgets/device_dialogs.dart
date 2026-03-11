@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/model/device_model.dart';
 import 'package:growiq/core/utils/plant_types.dart';
+import 'package:growiq/core/utils/app_colors.dart';
+import 'package:growiq/core/utils/app_strings.dart';
 
 class DeviceDialogs {
   static void showRenameDialog({
@@ -14,18 +16,18 @@ class DeviceDialogs {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text("Rename Device"),
+        title: const Text(AppStrings.renameDevice),
         content: TextField(
           controller: controller,
           decoration: const InputDecoration(
-            hintText: "Enter new name",
+            hintText: AppStrings.enterNewName,
             border: OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text("Cancel"),
+            child: const Text(AppStrings.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -37,7 +39,7 @@ class DeviceDialogs {
                 Navigator.pop(dialogContext);
               }
             },
-            child: const Text("Save"),
+            child: const Text(AppStrings.save),
           ),
         ],
       ),
@@ -53,21 +55,21 @@ class DeviceDialogs {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text("Delete Device"),
-        content: Text("Are you sure you want to remove '${device.name}'?"),
+        title: const Text(AppStrings.deleteDevice),
+        content: Text("${AppStrings.deleteDeviceConfirmPrefix}${device.name}${AppStrings.deleteDeviceConfirmSuffix}"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text("Cancel"),
+            child: const Text(AppStrings.cancel),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorColor),
             onPressed: () {
               context.read<DeviceCubit>().removeDevice(device.id);
               Navigator.pop(dialogContext); // close dialog only
               onDeleted?.call(); // caller handles page navigation
             },
-            child: const Text("Delete", style: TextStyle(color: Colors.white)),
+            child: const Text(AppStrings.delete, style: TextStyle(color: AppColors.white)),
           ),
         ],
       ),
@@ -104,11 +106,11 @@ class DeviceDialogs {
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
+                      color: AppColors.black.withValues(alpha: 0.1),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -119,32 +121,32 @@ class DeviceDialogs {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.teal.shade50,
+                      decoration: const BoxDecoration(
+                        color: AppColors.tealShade50,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.park_rounded,
                         size: 40,
-                        color: Colors.teal.shade700,
+                        color: AppColors.tealShade700,
                       ),
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      "Select Crop Type",
+                      AppStrings.selectCropType,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: AppColors.black87,
                       ),
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      "What are you growing in this farm?\nThis helps us set the ideal environment thresholds.",
+                      AppStrings.whatAreYouGrowing,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.black54,
+                        color: AppColors.black54,
                         height: 1.4,
                       ),
                     ),
@@ -176,13 +178,13 @@ class DeviceDialogs {
                               duration: const Duration(milliseconds: 200),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? Colors.teal.shade50
-                                    : Colors.grey.shade50,
+                                    ? AppColors.tealShade50
+                                    : AppColors.greyShade50,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: isSelected
-                                      ? Colors.teal.shade400
-                                      : Colors.grey.shade200,
+                                      ? AppColors.tealShade400
+                                      : AppColors.greyShade200,
                                   width: isSelected ? 2 : 1,
                                 ),
                               ),
@@ -193,8 +195,8 @@ class DeviceDialogs {
                                     icon,
                                     size: 20,
                                     color: isSelected
-                                        ? Colors.teal.shade700
-                                        : Colors.grey.shade600,
+                                        ? AppColors.tealShade700
+                                        : AppColors.greyShade600,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
@@ -204,8 +206,8 @@ class DeviceDialogs {
                                           ? FontWeight.bold
                                           : FontWeight.w500,
                                       color: isSelected
-                                          ? Colors.teal.shade800
-                                          : Colors.grey.shade700,
+                                          ? AppColors.tealShade800
+                                          : AppColors.greyShade700,
                                     ),
                                   ),
                                 ],
@@ -221,7 +223,7 @@ class DeviceDialogs {
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.teal.shade600,
+                          backgroundColor: AppColors.tealShade600,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -243,9 +245,9 @@ class DeviceDialogs {
                           }
                         },
                         child: const Text(
-                          "Save Configuration",
+                          AppStrings.saveConfiguration,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 0.5,
@@ -275,11 +277,11 @@ class DeviceDialogs {
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: AppColors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -292,37 +294,37 @@ class DeviceDialogs {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: isTurningOn
-                      ? Colors.purple.shade50
-                      : Colors.orange.shade50,
+                      ? AppColors.purpleShade50
+                      : AppColors.orangeShade50,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   isTurningOn ? Icons.auto_awesome : Icons.power_settings_new,
                   size: 40,
                   color: isTurningOn
-                      ? Colors.purple.shade700
-                      : Colors.orange.shade700,
+                      ? AppColors.purpleShade700
+                      : AppColors.orangeShade700,
                 ),
               ),
               const SizedBox(height: 16),
               Text(
-                isTurningOn ? "Enable AI Auto Mode?" : "Disable AI Auto Mode?",
+                isTurningOn ? AppStrings.enableAiModeQuestion : AppStrings.disableAiModeQuestion,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: AppColors.black87,
                 ),
               ),
               const SizedBox(height: 12),
               Text(
                 isTurningOn
-                    ? "The AI will take full control of the water pump, fans, and lights based on the selected crop's ideal thresholds. Manual controls will be overridden."
-                    : "You will regain manual control over the water pump, fans, and lights. The AI will no longer automate these for you.",
+                    ? AppStrings.enableAiModeDesc
+                    : AppStrings.disableAiModeDesc,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 14,
-                  color: Colors.black54,
+                  color: AppColors.black54,
                   height: 1.5,
                 ),
               ),
@@ -339,11 +341,11 @@ class DeviceDialogs {
                       ),
                       onPressed: () => Navigator.pop(dialogContext),
                       child: const Text(
-                        "Cancel",
+                        AppStrings.cancel,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black54,
+                          color: AppColors.black54,
                         ),
                       ),
                     ),
@@ -354,8 +356,8 @@ class DeviceDialogs {
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: isTurningOn
-                            ? Colors.purple.shade600
-                            : Colors.orange.shade600,
+                            ? AppColors.purpleShade600
+                            : AppColors.orangeShade600,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -366,9 +368,9 @@ class DeviceDialogs {
                         onConfirm();
                       },
                       child: Text(
-                        isTurningOn ? "Enable" : "Disable",
+                        isTurningOn ? AppStrings.enable : AppStrings.disable,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),

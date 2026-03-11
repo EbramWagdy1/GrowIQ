@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:growiq/core/utils/app_colors.dart';
+import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/device_card.dart';
 import 'package:growiq/core/widgets/sensor_card.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
@@ -33,10 +35,10 @@ class HomeBodyState extends State<HomeBody> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
-              backgroundColor: Colors.red,
+              backgroundColor: AppColors.errorColor,
               action: SnackBarAction(
-                label: 'Retry',
-                textColor: Colors.white,
+                label: AppStrings.retry,
+                textColor: AppColors.white,
                 onPressed: () => context.read<DeviceCubit>().refresh(),
               ),
             ),
@@ -45,8 +47,8 @@ class HomeBodyState extends State<HomeBody> {
         if (state is DeviceAddSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text("Farm added successfully!"),
-              backgroundColor: Colors.green,
+              content: Text(AppStrings.farmAddedSuccess),
+              backgroundColor: AppColors.successColor,
             ),
           );
           DeviceDialogs.showPlantSelectionDialog(
@@ -72,9 +74,9 @@ class HomeBodyState extends State<HomeBody> {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: 16),
-            Text(
-              "Checking for devices...",
-              style: TextStyle(color: Colors.grey),
+             Text(
+              AppStrings.checkingDevices,
+              style: TextStyle(color: AppColors.greyColor),
             ),
           ],
         ),
@@ -110,7 +112,7 @@ class HomeBodyState extends State<HomeBody> {
                   child: DropdownButton<int>(
                     value: _selectedDeviceIndex,
                     isExpanded: false,
-                    icon: const Icon(Icons.arrow_drop_down, color: Colors.teal),
+                    icon: const Icon(Icons.arrow_drop_down, color: AppColors.primaryColor),
                     onChanged: (value) {
                       if (value != null) {
                         setState(() {
@@ -126,7 +128,7 @@ class HomeBodyState extends State<HomeBody> {
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: Colors.black87,
+                            color: AppColors.black87,
                           ),
                         ),
                       );
@@ -204,14 +206,14 @@ class HomeBodyState extends State<HomeBody> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.eco_outlined, size: 60, color: Colors.grey),
+          const Icon(Icons.eco_outlined, size: 60, color: AppColors.greyColor),
           const SizedBox(height: 16),
           const Text(
-            "No Farms Linked Yet",
+            AppStrings.noFarmsLinked,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black54,
+              color: AppColors.black54,
             ),
           ),
           const SizedBox(height: 24),
@@ -225,20 +227,20 @@ class HomeBodyState extends State<HomeBody> {
               child: Column(
                 children: [
                   const Text(
-                    "Add Your Device",
+                    AppStrings.addYourDevice,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   TextField(
                     controller: _addDeviceController,
                     decoration: InputDecoration(
-                      hintText: "Enter Device ID",
+                      hintText: AppStrings.enterDeviceId,
                       prefixIcon: const Icon(Icons.qr_code_scanner),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       filled: true,
-                      fillColor: Colors.grey[100],
+                      fillColor: AppColors.lightGreyColor,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -246,7 +248,7 @@ class HomeBodyState extends State<HomeBody> {
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
+                        backgroundColor: AppColors.primaryColor,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -261,8 +263,8 @@ class HomeBodyState extends State<HomeBody> {
                         }
                       },
                       child: const Text(
-                        "Connect",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        AppStrings.connect,
+                        style: TextStyle(color: AppColors.white, fontSize: 16),
                       ),
                     ),
                   ),
@@ -275,7 +277,7 @@ class HomeBodyState extends State<HomeBody> {
             Text(
               state.message,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.red),
+              style: const TextStyle(color: AppColors.errorColor),
             ),
           ],
         ],
@@ -288,21 +290,21 @@ class HomeBodyState extends State<HomeBody> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Add New Farm"),
+        title: const Text(AppStrings.addNewFarm),
         content: TextField(
           controller: _addDeviceController,
           decoration: const InputDecoration(
-            hintText: "Enter Device ID",
+            hintText: AppStrings.enterDeviceId,
             border: OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+            child: const Text(AppStrings.cancel),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
             onPressed: () {
               if (_addDeviceController.text.isNotEmpty) {
                 context.read<DeviceCubit>().addDevice(
@@ -311,7 +313,7 @@ class HomeBodyState extends State<HomeBody> {
                 Navigator.pop(context);
               }
             },
-            child: const Text("Connect", style: TextStyle(color: Colors.white)),
+            child: const Text(AppStrings.connect, style: TextStyle(color: AppColors.white)),
           ),
         ],
       ),

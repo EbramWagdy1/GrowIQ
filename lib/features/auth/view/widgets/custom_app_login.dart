@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
-// Update with your actual import
+import 'package:growiq/core/utils/app_colors.dart';
 
 class CustomAppLogin extends StatelessWidget {
   const CustomAppLogin({super.key});
@@ -16,7 +16,7 @@ class CustomAppLogin extends StatelessWidget {
         height: 72,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: AppColors.greyShade300),
         ),
         child: Center(child: icon),
       ),
@@ -31,7 +31,7 @@ class CustomAppLogin extends StatelessWidget {
         _socialIcon(
           icon: const FaIcon(
             FontAwesomeIcons.facebook,
-            color: Color(0xFF1877F2),
+            color: AppColors.facebookBlue,
             size: 32,
           ),
           onTap: () {},
@@ -40,7 +40,7 @@ class CustomAppLogin extends StatelessWidget {
         _socialIcon(
           icon: const FaIcon(
             FontAwesomeIcons.google,
-            color: Color(0xFFDB4437),
+            color: AppColors.googleRed,
             size: 32,
           ),
           onTap: () {
@@ -53,7 +53,7 @@ class CustomAppLogin extends StatelessWidget {
         _socialIcon(
           icon: const FaIcon(
             FontAwesomeIcons.apple,
-            color: Colors.black,
+            color: AppColors.black,
             size: 32,
           ),
           onTap: () {},

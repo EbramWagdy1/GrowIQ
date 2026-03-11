@@ -68,11 +68,11 @@ class _ProfileViewState extends State<ProfileView> {
         listener: (context, state) {
           if (state is ProfileUpdateSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Profile Updated Successfully')),
+              const SnackBar(content: Text(AppStrings.profileUpdatedSuccess)),
             );
           } else if (state is ProfileUpdateFailureState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error: ${state.errMessage}')),
+              SnackBar(content: Text('${AppStrings.errorPrefix}${state.errMessage}')),
             );
           }
         },
@@ -119,7 +119,7 @@ class _ProfileViewState extends State<ProfileView> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.green.shade50,
+                        color: AppColors.lightMint,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Row(
@@ -131,12 +131,12 @@ class _ProfileViewState extends State<ProfileView> {
                               controller: _nameController,
                               decoration: const InputDecoration(
                                 border: InputBorder.none, 
-                                hintText: "Enter your name",
+                                hintText: AppStrings.name,
                               ),
                               style: const TextStyle(fontSize: 16),
                             ),
                           ),
-                          const Icon(Icons.edit, size: 18, color: Colors.grey), 
+                          const Icon(Icons.edit, size: 18, color: AppColors.greyColor), 
                         ],
                       ),
                     ),
@@ -147,7 +147,7 @@ class _ProfileViewState extends State<ProfileView> {
                   state is ProfileUpdateLoadingState
                       ? const CircularProgressIndicator()
                       : CustomButtom(
-                          text: "Save",
+                          text: AppStrings.save,
                           onPressed: _saveProfile,
                         ),
                 ],

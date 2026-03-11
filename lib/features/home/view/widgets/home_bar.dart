@@ -19,7 +19,7 @@ class HomeBar extends StatelessWidget {
       stream: FirebaseAuth.instance.userChanges(),
       builder: (context, snapshot) {
         final user = snapshot.data;
-        final name = user?.displayName ?? "Guest User";
+        final name = user?.displayName ?? AppStrings.guestUser;
         final photoUrl = user?.photoURL;
 
         return Container(
@@ -37,31 +37,31 @@ class HomeBar extends StatelessWidget {
                     backgroundImage: photoUrl != null
                         ? CachedNetworkImageProvider(user!.photoURL!)
                         : AssetImage(Assets.imagesOnboarding1) as ImageProvider,
-                    backgroundColor: Colors.white12,
+                    backgroundColor: AppColors.white12,
                   ),
                   title: Text(
                     AppStrings.welcome,
                     style: AppTextStyles.hintText.copyWith(
-                      color: Colors.white70,
+                      color: AppColors.white70,
                     ),
                   ),
                   subtitle: Text(
                     name,
                     style: AppTextStyles.buttonText.copyWith(
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.add, color: Colors.white),
+                        icon: const Icon(Icons.add, color: AppColors.white),
                         onPressed: onAddDevice,
                       ),
                       IconButton(
                         icon: SvgPicture.asset(
                           Assets.svgsQr,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                         onPressed: () {
                           customNavigate(context, '/scanner');

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
+import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/features/onboarding/model/on_boarding_model.dart';
 import 'package:growiq/features/onboarding/view/widgets/custom_smooth_page.dart';
 
@@ -31,7 +32,7 @@ class Onboardingwidgetbody extends StatelessWidget {
               const SizedBox(height: 24),
               Customesmoothpageindicator(controller: controller),
               const SizedBox(height: 24),
-              Text("Welcome", style: AppTextStyles.headlineLarge, maxLines: 1),
+              Text(AppStrings.welcome, style: AppTextStyles.headlineLarge, maxLines: 1),
               const SizedBox(height: 16),
               Text(
                 onBoardingData[index].title,

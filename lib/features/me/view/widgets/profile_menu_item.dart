@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:growiq/core/utils/app_colors.dart';
 
 class ProfileMenuItem extends StatelessWidget {
   final String text;
@@ -25,12 +26,12 @@ class ProfileMenuItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 20),
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(50), // Pill shape
           boxShadow: [
             BoxShadow(
               // ignore: deprecated_member_use
-              color: Colors.grey.withOpacity(0.3),
+              color: AppColors.greyColor.withValues(alpha: 0.3),
               spreadRadius: 1,
               blurRadius: 10,
               offset: const Offset(0, 4),
@@ -40,7 +41,7 @@ class ProfileMenuItem extends StatelessWidget {
         child: Row(
           children: [
             // Using Flutter Icon to render the assets
-            Icon(icon, size: 24, color: iconColor ?? const Color(0xFF4A4A4A)),
+            Icon(icon, size: 24, color: iconColor ?? AppColors.darkGreyIcon),
             const SizedBox(width: 20),
             Expanded(
               child: Text(
@@ -48,7 +49,7 @@ class ProfileMenuItem extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF2E2E2E),
+                  color: AppColors.textColorPrimary,
                 ),
               ),
             ),
@@ -56,7 +57,7 @@ class ProfileMenuItem extends StatelessWidget {
                 const Icon(
                   Icons.arrow_forward_ios_rounded, 
                   size: 18,
-                  color: Colors.grey,
+                  color: AppColors.greyColor,
                 ),
           ],
         ),

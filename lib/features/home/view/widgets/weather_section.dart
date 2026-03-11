@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/utils/app_assets.dart';
+import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/features/home/model/weather_model.dart';
 import 'package:growiq/features/home/view_model/weather_cubit.dart';
 import 'package:growiq/features/home/view_model/weather_state.dart';
@@ -34,9 +35,9 @@ class WeatherSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.1),
+        color: AppColors.transparentWhite10,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppColors.transparentWhite05),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +95,7 @@ class WeatherSection extends StatelessWidget {
                 height: 28,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.5,
-                  color: Colors.white54,
+                  color: AppColors.white54,
                 ),
               ),
             ),
@@ -112,7 +113,7 @@ class WeatherSection extends StatelessWidget {
                       height: 12,
                       width: 60,
                       decoration: BoxDecoration(
-                        color: Colors.white24,
+                        color: AppColors.white24,
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
@@ -121,7 +122,7 @@ class WeatherSection extends StatelessWidget {
                       height: 10,
                       width: 40,
                       decoration: BoxDecoration(
-                        color: Colors.white12,
+                        color: AppColors.white12,
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),

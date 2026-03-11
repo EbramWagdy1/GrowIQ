@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
+import 'package:growiq/core/utils/app_colors.dart';
+import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/features/me/view/widgets/profile_menu_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
@@ -29,8 +31,8 @@ class MeView extends StatelessWidget {
                   stream: getIt<AuthCubit>().authStateChanges,
                   builder: (context, snapshot) {
                     final user = snapshot.data;
-                    final name = user?.displayName ?? "Guest User";
-                    final email = user?.email ?? "No Email";
+                    final name = user?.displayName ?? AppStrings.guestUser;
+                    final email = user?.email ?? AppStrings.noEmail;
                     final photoUrl = user?.photoURL;
 
                     return Column(
@@ -42,7 +44,7 @@ class MeView extends StatelessWidget {
                             boxShadow: [
                               BoxShadow(
                                 // ignore: deprecated_member_use
-                                color: Colors.black.withOpacity(0.2),
+                                color: AppColors.black.withValues(alpha: 0.2),
                                 blurRadius: 15,
                                 offset: const Offset(0, 5),
                               ),
@@ -64,16 +66,16 @@ class MeView extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF2D2D2D),
+                            color: AppColors.textColor2D,
                           ),
                         ),
                         const SizedBox(height: 6),
                         Text(
                           email,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Colors.grey[600],
+                            color: AppColors.greyShade600,
                           ),
                         ),
                       ],
@@ -86,7 +88,7 @@ class MeView extends StatelessWidget {
                 // --- 3. Menu Items ---
                 // Profile
                 ProfileMenuItem(
-                  text: "Profile",
+                  text: AppStrings.profile,
                   icon: Icons.person_outline,
                   onTap: () {
                     customNavigate(context, '/profile-data');
@@ -96,7 +98,7 @@ class MeView extends StatelessWidget {
 
                 // Settings
                 ProfileMenuItem(
-                  text: "Settings",
+                  text: AppStrings.settings,
                   icon: Icons.settings_outlined,
                   onTap: () {
                     customNavigate(context, '/settings');
@@ -104,7 +106,7 @@ class MeView extends StatelessWidget {
                 ),
                 // About
                 ProfileMenuItem(
-                  text: "About",
+                  text: AppStrings.aboutApp,
                   icon: Icons.info_outline,
                   onTap: () {
                     customNavigate(context, '/about');
@@ -121,12 +123,12 @@ class MeView extends StatelessWidget {
                             customReplacementNavigate(context, "/Login");
                           } else if (state is SignOutFailureState) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Error: ${state.errMessage}')),
+                              SnackBar(content: Text('${AppStrings.errorPrefix}${state.errMessage}')),
                             );
                           }
                         },
                         child: ProfileMenuItem(
-                          text: "Logout",
+                          text: AppStrings.logout,
                           icon: Icons.logout,
                           onTap: () {
                             context.read<AuthCubit>().signOut();

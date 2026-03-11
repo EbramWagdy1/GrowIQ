@@ -59,6 +59,7 @@ abstract class AppStrings {
   /* ================= Home ================= */
   static const String home = 'Home';
   static const String welcome = 'Welcome';
+  static const String guestUser = 'Guest User';
 
   static const String dashboard = 'Dashboard';
 
@@ -79,6 +80,13 @@ abstract class AppStrings {
   static const String deviceDetails = 'Device Details';
   static const String addDevice = 'Add Device';
   static const String removeDevice = 'Remove Device';
+  static const String farmAddedSuccess = 'Farm added successfully!';
+  static const String checkingDevices = 'Checking for devices...';
+  static const String noFarmsLinked = 'No Farms Linked Yet';
+  static const String addYourDevice = 'Add Your Device';
+  static const String enterDeviceId = 'Enter Device ID';
+  static const String connect = 'Connect';
+  static const String addNewFarm = 'Add New Farm';
 
   /* ================= Chat ================= */
 
@@ -141,4 +149,36 @@ abstract class AppStrings {
   static const String noInternetConnection = 'No internet connection';
   static const String invalidEmail = 'Invalid email address';
   static const String weakPassword = 'Password is too weak';
+  static const String profileUpdatedSuccess = 'Profile Updated Successfully';
+  static const String ourTeam = 'Our Team';
+  static const String noEmail = 'No Email';
+  static const String errorPrefix = 'Error: ';
+
+  // Control Feature Strings
+  static const String noDevicesFound = 'No devices found';
+  static const String editName = 'Edit Name';
+  static const String deleteDevice = 'Delete Device';
+  static const String deviceOffline = 'Device is Offline';
+  static const String environmentalOverview = 'Environmental Overview';
+  static const String low = ' Low';
+  static const String perfect = ' Perfect';
+  static const String high = ' High';
+  static const String smartControls = 'Smart Controls';
+  static const String aiAutoMode = 'AI Auto Mode';
+  static const String aiManageFarm = 'Let AI manage the farm';
+  static const String renameDevice = 'Rename Device';
+  static const String enterNewName = 'Enter new name';
+  static const String deleteDeviceConfirmPrefix = "Are you sure you want to remove '";
+  static const String deleteDeviceConfirmSuffix = "'?";
+  static const String delete = 'Delete';
+  static const String selectCropType = 'Select Crop Type';
+  static const String whatAreYouGrowing = 'What are you growing in this farm?\nThis helps us set the ideal environment thresholds.';
+  static const String saveConfiguration = 'Save Configuration';
+  static const String enableAiModeQuestion = 'Enable AI Auto Mode?';
+  static const String disableAiModeQuestion = 'Disable AI Auto Mode?';
+  static const String enableAiModeDesc = "The AI will take full control of the water pump, fans, and lights based on the selected crop's ideal thresholds. Manual controls will be overridden.";
+  static const String disableAiModeDesc = 'You will regain manual control over the water pump, fans, and lights. The AI will no longer automate these for you.';
+  static const String enable = 'Enable';
+  static const String disable = 'Disable';
+  static const String comingSoon = ' Coming Soon';
 }

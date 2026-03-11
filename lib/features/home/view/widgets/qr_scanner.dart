@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/view_model/device_state.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
@@ -20,7 +21,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.black,
       body: BlocConsumer<DeviceCubit, DeviceState>(
         listener: (context, state) {
           if (state is DeviceAddSuccess) {
@@ -62,7 +63,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
               /// 🌑 Dark overlay
               Container(
                 // ignore: deprecated_member_use
-                decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
+                decoration: BoxDecoration(color: AppColors.black54Opaque),
               ),
 
               /// 🟩 Scanner frame
@@ -71,7 +72,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                   width: 250,
                   height: 250,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.greenAccent, width: 3),
+                    border: Border.all(color: AppColors.greenAccent, width: 3),
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
@@ -95,7 +96,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                             state.torchState == TorchState.on
                                 ? Icons.flash_on
                                 : Icons.flash_off,
-                            color: Colors.white,
+                            color: AppColors.white,
                             size: 36,
                           ),
                         );
@@ -107,7 +108,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                       onPressed: () => cameraController.switchCamera(),
                       icon: const Icon(
                         Icons.cameraswitch,
-                        color: Colors.white,
+                        color: AppColors.white,
                         size: 36,
                       ),
                     ),
@@ -120,10 +121,10 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 top: 60,
                 left: 20,
                 child: FloatingActionButton(
-                  backgroundColor: Colors.greenAccent,
+                  backgroundColor: AppColors.greenAccent,
                   child: const Icon(
                     Icons.arrow_back,
-                    color: Colors.black,
+                    color: AppColors.black,
                     size: 28,
                   ),
                   onPressed: () {
@@ -135,9 +136,9 @@ class _QRScannerPageState extends State<QRScannerPage> {
               /// Loading overlay
               if (state is DeviceLoading)
                 Container(
-                  color: Colors.black54,
+                  color: AppColors.black54,
                   child: const Center(
-                    child: CircularProgressIndicator(color: Colors.greenAccent),
+                    child: CircularProgressIndicator(color: AppColors.greenAccent),
                   ),
                 ),
             ],

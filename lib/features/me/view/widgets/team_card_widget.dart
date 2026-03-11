@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:growiq/core/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TeamMemberCard extends StatelessWidget {
@@ -48,12 +49,12 @@ Future<void> _launchURL(String url) async {
         right: 20,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F5),
+        color: AppColors.lightGreyBackground,
         borderRadius: BorderRadius.circular(35),
         boxShadow: [
           BoxShadow(
             // ignore: deprecated_member_use
-            color: Colors.black.withOpacity(0.3),
+            color: AppColors.black.withValues(alpha: 0.3),
             blurRadius: 25,
             offset: const Offset(0, 15),
           ),
@@ -65,7 +66,7 @@ Future<void> _launchURL(String url) async {
           /// Profile Image
           CircleAvatar(
             radius: 75,
-            backgroundColor: Colors.grey.shade300,
+            backgroundColor: AppColors.greyShade300,
             backgroundImage: AssetImage(imagePath),
           ),
 
@@ -77,7 +78,7 @@ Future<void> _launchURL(String url) async {
             style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: Colors.black,
+              color: AppColors.black,
             ),
             textAlign: TextAlign.center,
           ),
@@ -90,7 +91,7 @@ Future<void> _launchURL(String url) async {
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w400,
-              color: Colors.black87,
+              color: AppColors.black87,
             ),
             textAlign: TextAlign.center,
           ),
@@ -108,7 +109,7 @@ Future<void> _launchURL(String url) async {
                 child: FaIcon(
                   FontAwesomeIcons.linkedin,
                   size: 36,
-                  color: linkedInLink != null ? Colors.blue : Colors.grey,
+                  color: linkedInLink != null ? AppColors.blue : AppColors.greyColor,
                 ),
               ),
               const SizedBox(width: 35),
@@ -119,7 +120,7 @@ Future<void> _launchURL(String url) async {
                 child: FaIcon(
                   FontAwesomeIcons.github,
                   size: 36,
-                  color: githubLink != null ? Colors.black : Colors.grey,
+                  color: githubLink != null ? AppColors.black : AppColors.greyColor,
                 ),
               ),
             ],

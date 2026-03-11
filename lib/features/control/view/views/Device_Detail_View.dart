@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:growiq/core/utils/app_colors.dart';
+import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:growiq/features/control/view/widgets/actuator_section.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
@@ -23,7 +25,7 @@ class DeviceDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.greyShade50,
       appBar: CustomAppBar(
         title: deviceName,
         actions: [
@@ -68,8 +70,8 @@ class DeviceDetailView extends StatelessWidget {
                   }
                 },
                 itemBuilder: (context) => const [
-                  PopupMenuItem(value: 'rename', child: Text('Edit Name')),
-                  PopupMenuItem(value: 'delete', child: Text('Delete Device')),
+                  PopupMenuItem(value: 'rename', child: Text(AppStrings.editName)),
+                  PopupMenuItem(value: 'delete', child: Text(AppStrings.deleteDevice)),
                 ],
               );
             },
@@ -122,12 +124,12 @@ class DeviceDetailView extends StatelessWidget {
                                   colors:
                                       currentDevice.isHealthy
                                       ? [
-                                          Colors.green.shade400,
-                                          Colors.teal.shade500,
+                                          AppColors.healthyGradientStart,
+                                          AppColors.healthyGradientEnd,
                                         ]
                                       : [
-                                          Colors.orange.shade400,
-                                          Colors.red.shade400,
+                                          AppColors.unhealthyGradientStart,
+                                          AppColors.unhealthyGradientEnd,
                                         ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
@@ -137,8 +139,8 @@ class DeviceDetailView extends StatelessWidget {
                                   BoxShadow(
                                     color:
                                         currentDevice.isHealthy
-                                        ? Colors.green.withValues(alpha: 0.3)
-                                        : Colors.red.withValues(alpha: 0.3),
+                                        ? AppColors.successColor.withValues(alpha: 0.3)
+                                        : AppColors.errorColor.withValues(alpha: 0.3),
                                     blurRadius: 15,
                                     offset: const Offset(0, 8),
                                   ),
@@ -213,16 +215,16 @@ class DeviceDetailView extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.sensors,
-                                color: Colors.teal.shade700,
+                                color: AppColors.tealShade700,
                                 size: 24,
                               ),
                               const SizedBox(width: 8),
                               const Text(
-                                "Environmental Overview",
+                                AppStrings.environmentalOverview,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w800,
-                                  color: Colors.black87,
+                                  color: AppColors.black87,
                                 ),
                               ),
                             ],
@@ -242,11 +244,11 @@ class DeviceDetailView extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _buildLegendItem(Colors.blue, " Low"),
+                                _buildLegendItem(AppColors.blue, AppStrings.low),
                                 const SizedBox(width: 15),
-                                _buildLegendItem(Colors.green, " Perfect"),
+                                _buildLegendItem(AppColors.successColor, AppStrings.perfect),
                                 const SizedBox(width: 15),
-                                _buildLegendItem(Colors.red, " High"),
+                                _buildLegendItem(AppColors.errorColor, AppStrings.high),
                               ],
                             ),
                           ),
@@ -257,16 +259,16 @@ class DeviceDetailView extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.dashboard_customize_rounded,
-                                color: Colors.teal.shade700,
+                                color: AppColors.tealShade700,
                                 size: 24,
                               ),
                               const SizedBox(width: 8),
                               const Text(
-                                "Smart Controls",
+                                AppStrings.smartControls,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w800,
-                                  color: Colors.black87,
+                                  color: AppColors.black87,
                                 ),
                               ),
                             ],
@@ -282,17 +284,17 @@ class DeviceDetailView extends StatelessWidget {
                               gradient: LinearGradient(
                                 colors: currentDevice.isAiMode
                                     ? [
-                                        Colors.deepPurple.shade400,
-                                        Colors.purple.shade600,
+                                        AppColors.aiModeGradientStart,
+                                        AppColors.aiModeGradientEnd,
                                       ]
-                                    : [Colors.white, Colors.white],
+                                    : [AppColors.white, AppColors.white],
                               ),
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
                                   color: currentDevice.isAiMode
-                                      ? Colors.purple.withValues(alpha: 0.3)
-                                      : Colors.black.withValues(alpha: 0.05),
+                                      ? AppColors.purpleShade500.withValues(alpha: 0.3)
+                                      : AppColors.black.withValues(alpha: 0.05),
                                   blurRadius: 10,
                                   offset: const Offset(0, 4),
                                 ),
@@ -300,7 +302,7 @@ class DeviceDetailView extends StatelessWidget {
                               border: Border.all(
                                 color: currentDevice.isAiMode
                                     ? Colors.transparent
-                                    : Colors.grey.shade200,
+                                    : AppColors.greyShade200,
                                 width: 1.5,
                               ),
                             ),
@@ -313,10 +315,10 @@ class DeviceDetailView extends StatelessWidget {
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: currentDevice.isAiMode
-                                            ? Colors.white.withValues(
+                                            ? AppColors.white.withValues(
                                                 alpha: 0.2,
                                               )
-                                            : Colors.purple.withValues(
+                                            : AppColors.purpleShade500.withValues(
                                                 alpha: 0.1,
                                               ),
                                         shape: BoxShape.circle,
@@ -324,8 +326,8 @@ class DeviceDetailView extends StatelessWidget {
                                       child: Icon(
                                         Icons.auto_awesome,
                                         color: currentDevice.isAiMode
-                                            ? Colors.white
-                                            : Colors.purple.shade500,
+                                            ? AppColors.white
+                                            : AppColors.purpleShade500,
                                         size: 24,
                                       ),
                                     ),
@@ -335,7 +337,7 @@ class DeviceDetailView extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "AI Auto Mode",
+                                          AppStrings.aiAutoMode,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
@@ -350,12 +352,12 @@ class DeviceDetailView extends StatelessWidget {
                                                     currentDevice
                                                             .modes['ai_mode'] ==
                                                         '1')
-                                                ? Colors.white
-                                                : Colors.black87,
+                                                ? AppColors.white
+                                                : AppColors.black87,
                                           ),
                                         ),
                                         Text(
-                                          "Let AI manage the farm",
+                                          AppStrings.aiManageFarm,
                                           style: TextStyle(
                                             fontSize: 12,
                                             color:
@@ -368,8 +370,8 @@ class DeviceDetailView extends StatelessWidget {
                                                     currentDevice
                                                             .modes['ai_mode'] ==
                                                         '1')
-                                                ? Colors.white70
-                                                : Colors.black54,
+                                                ? AppColors.white70
+                                                : AppColors.black54,
                                           ),
                                         ),
                                       ],
@@ -408,9 +410,9 @@ class DeviceDetailView extends StatelessWidget {
                 : const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.cancel, color: Colors.red, size: 80),
+                      Icon(Icons.cancel, color: AppColors.errorColor, size: 80),
                       SizedBox(height: 20),
-                      Text('Device is Offline', style: TextStyle(fontSize: 24)),
+                      Text(AppStrings.deviceOffline, style: TextStyle(fontSize: 24)),
                     ],
                   );
           },
@@ -432,7 +434,7 @@ class DeviceDetailView extends StatelessWidget {
           text,
           style: const TextStyle(
             fontSize: 16,
-            color: Colors.black54,
+            color: AppColors.black54,
             fontWeight: FontWeight.bold,
           ),
         ),
