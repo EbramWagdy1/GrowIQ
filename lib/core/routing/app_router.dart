@@ -35,17 +35,17 @@ class AppRouter {
       GoRoute(
         path: '/Login',
         builder: (context, state) =>
-            BlocProvider(create: (_) => AuthCubit(), child: const Loginview()),
+            BlocProvider(create: (_) => getIt<AuthCubit>(), child: const Loginview()),
       ),
       GoRoute(
         path: '/Signup',
         builder: (context, state) =>
-            BlocProvider(create: (_) => AuthCubit(), child: const SignupView()),
+            BlocProvider(create: (_) => getIt<AuthCubit>(), child: const SignupView()),
       ),
       GoRoute(
         path: '/forget-password',
-        builder: (context, state) => BlocProvider(
-          create: (_) => AuthCubit(),
+        builder: (context, state) => BlocProvider.value(
+          value: getIt<AuthCubit>(),
           child: ForgetPasswordView(),
         ),
       ),

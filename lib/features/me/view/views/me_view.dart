@@ -1,9 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/features/me/view/widgets/profile_menu_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:growiq/features/auth/view_model/auth_cubit.dart';
+import 'package:growiq/features/auth/view_model/auth_state.dart';
+import 'package:growiq/core/services/service_locator.dart';
 
 class MeView extends StatelessWidget {
   const MeView({super.key});
@@ -22,8 +25,8 @@ class MeView extends StatelessWidget {
               children: [
                 const SizedBox(height: 40),
 
-                StreamBuilder<User?>(
-                  stream: FirebaseAuth.instance.userChanges(),
+                StreamBuilder(
+                  stream: getIt<AuthCubit>().authStateChanges,
                   builder: (context, snapshot) {
                     final user = snapshot.data;
                     final name = user?.displayName ?? "Guest User";
@@ -108,15 +111,30 @@ class MeView extends StatelessWidget {
                   },
                 ),
                 // Logout
-                ProfileMenuItem(
-                  text: "Logout",
-                  icon: Icons.logout,
-                  onTap: () async {
-                    await FirebaseAuth.instance.signOut();
-                    if (context.mounted) {
-                      customReplacementNavigate(context, "/Login");
+                BlocProvider.value(
+                  value: getIt<AuthCubit>(),
+                  child: Builder(
+                    builder: (context) {
+                      return BlocListener<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          if (state is SignOutSuccessState) {
+                            customReplacementNavigate(context, "/Login");
+                          } else if (state is SignOutFailureState) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Error: ${state.errMessage}')),
+                            );
+                          }
+                        },
+                        child: ProfileMenuItem(
+                          text: "Logout",
+                          icon: Icons.logout,
+                          onTap: () {
+                            context.read<AuthCubit>().signOut();
+                          },
+                        ),
+                      );
                     }
-                  },
+                  ),
                 ),
               ],
             ),

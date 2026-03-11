@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:growiq/core/utils/sensor_utils.dart';
 
 class DeviceModel extends Equatable {
   final String id;
@@ -22,6 +23,20 @@ class DeviceModel extends Equatable {
     this.ai = const {},
     this.thresholds = const {},
   });
+
+  bool get isHealthy => ai['disease']?.toString().toLowerCase() == 'healthy';
+  
+  String get aiDiseaseMessage => isHealthy 
+      ? 'Farm is Healthy' 
+      : 'Issue Detected: ${ai['disease'] ?? 'Unknown'}';
+      
+  String get aiConfidenceMessage => isHealthy 
+      ? 'All systems are running optimally.' 
+      : 'AI Confidence: ${(double.tryParse(ai['confidence']?.toString() ?? '0.0') ?? 0.0).toStringAsFixed(1)}%';
+      
+  bool get isAiMode => modes['ai_mode'] == true || modes['ai_mode'] == 1 || modes['ai_mode'] == '1';
+  
+  List<String> get displaySensorKeys => SensorUtils.getSortedSensorKeys(sensors);
   factory DeviceModel.fromMap(String id, Map<dynamic, dynamic> map) {
     final String name = map['name'] ?? map['deviceId'] ?? 'Farm $id';
     final bool isOnline = map['isOnline'] ?? true;

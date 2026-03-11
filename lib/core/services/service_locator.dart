@@ -8,6 +8,9 @@ import 'package:growiq/features/home/view_model/weather_cubit.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/core/services/device_service.dart';
+import 'package:growiq/core/services/auth_service.dart';
+import 'package:growiq/core/services/cloudinary_service.dart';
+import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 
 final getIt = GetIt.instance;
 void setupServiceLocator() {
@@ -27,6 +30,13 @@ void setupServiceLocator() {
   // Home Feature
   getIt.registerLazySingleton<DeviceService>(() => DeviceService());
   getIt.registerLazySingleton<DeviceCubit>(
-    () => DeviceCubit(getIt<DeviceService>()),
+    () => DeviceCubit(getIt<DeviceService>(), getIt<AuthService>()),
+  );
+
+  // Auth Feature
+  getIt.registerLazySingleton<AuthService>(() => AuthService());
+  getIt.registerLazySingleton<CloudinaryService>(() => CloudinaryService());
+  getIt.registerLazySingleton<AuthCubit>(
+    () => AuthCubit(getIt<AuthService>(), getIt<CloudinaryService>()),
   );
 }

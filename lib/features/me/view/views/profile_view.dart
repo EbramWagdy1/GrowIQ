@@ -1,14 +1,17 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
-import 'package:growiq/core/services/cloudinary_service.dart'; 
+import 'package:growiq/core/services/service_locator.dart';
+import 'package:growiq/core/services/auth_service.dart';
+import 'package:growiq/features/auth/view_model/auth_cubit.dart';
+import 'package:growiq/features/auth/view_model/auth_state.dart'; 
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -18,19 +21,19 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  final User? user = FirebaseAuth.instance.currentUser;
-
+  late final AuthCubit _authCubit;
+  
   late TextEditingController _nameController;
   
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
-  final CloudinaryService _cloudinary = CloudinaryService();
-  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: user?.displayName ?? "");
+    _authCubit = getIt<AuthCubit>();
+    final currentUser = getIt<AuthService>().currentUser;
+    _nameController = TextEditingController(text: currentUser?.displayName ?? "");
   }
 
   @override
@@ -49,119 +52,109 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Future<void> _saveProfile() async {
-    setState(() => _isLoading = true);
-    try {
-  
-      if (_nameController.text.isNotEmpty && _nameController.text != user?.displayName) {
-        await user?.updateDisplayName(_nameController.text);
-      }
-
-  
-      if (_selectedImage != null) {
-        final imageUrl = await _cloudinary.uploadImage(_selectedImage!);
-        if (imageUrl != null) {
-          await user?.updatePhotoURL(imageUrl);
-        }
-      }
-
-      await user?.reload();
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile Updated Successfully')),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
-      }
-    } finally {
-      setState(() => _isLoading = false);
-    }
+    await _authCubit.updateProfile(
+      newName: _nameController.text,
+      newImage: _selectedImage,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final photoURL = getIt<AuthService>().currentUser?.photoURL;
     return Scaffold(
       appBar: CustomAppBar(title: AppStrings.profile),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 30),
-              
-              Stack(
-                alignment: Alignment.bottomRight,
+      body: BlocConsumer<AuthCubit, AuthState>(
+        bloc: _authCubit,
+        listener: (context, state) {
+          if (state is ProfileUpdateSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Profile Updated Successfully')),
+            );
+          } else if (state is ProfileUpdateFailureState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${state.errMessage}')),
+            );
+          }
+        },
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Center(
+              child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 100,
-                    backgroundImage: _selectedImage != null
-                        ? FileImage(_selectedImage!) as ImageProvider
-                        : (user?.photoURL != null
-                            ? CachedNetworkImageProvider(user!.photoURL!)
-                            : AssetImage(Assets.imagesLogoApp) as ImageProvider),
-                  ),
-                  InkWell(
-                    onTap: _pickImage,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(
-                        color: AppColors.primaryColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.camera_alt,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              
-              const SizedBox(height: 20),
-              
-              Padding(
-                padding: const EdgeInsets.all(30),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.green.shade50,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Row(
+                  const SizedBox(height: 30),
+                  
+                  Stack(
+                    alignment: Alignment.bottomRight,
                     children: [
-                      const Icon(Icons.person, color: AppColors.primaryColor),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: TextField(
-                          controller: _nameController,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none, 
-                            hintText: "Enter your name",
+                      CircleAvatar(
+                        radius: 100,
+                        backgroundImage: _selectedImage != null
+                            ? FileImage(_selectedImage!) as ImageProvider
+                            : (photoURL != null
+                                ? CachedNetworkImageProvider(photoURL)
+                                : const AssetImage(Assets.imagesLogoApp) as ImageProvider),
+                      ),
+                      InkWell(
+                        onTap: _pickImage,
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: AppColors.primaryColor,
+                            shape: BoxShape.circle,
                           ),
-                          style: const TextStyle(fontSize: 16),
+                          child: const Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 24,
+                          ),
                         ),
                       ),
-                      const Icon(Icons.edit, size: 18, color: Colors.grey), 
                     ],
                   ),
-                ),
-              ),
-              
-              const SizedBox(height: 20),
-              
-              _isLoading 
-                  ? const CircularProgressIndicator()
-                  : CustomButtom(
-                      text: "Save",
-                      onPressed: _saveProfile,
+                  
+                  const SizedBox(height: 20),
+                  
+                  Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.person, color: AppColors.primaryColor),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextField(
+                              controller: _nameController,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none, 
+                                hintText: "Enter your name",
+                              ),
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          const Icon(Icons.edit, size: 18, color: Colors.grey), 
+                        ],
+                      ),
                     ),
-            ],
-          ),
-        ),
+                  ),
+                  
+                  const SizedBox(height: 20),
+                  
+                  state is ProfileUpdateLoadingState
+                      ? const CircularProgressIndicator()
+                      : CustomButtom(
+                          text: "Save",
+                          onPressed: _saveProfile,
+                        ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

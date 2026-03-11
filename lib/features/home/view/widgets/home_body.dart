@@ -87,34 +87,7 @@ class HomeBodyState extends State<HomeBody> {
       }
 
       final device = state.devices[_selectedDeviceIndex];
-
-      // Filter sensors: remove actuators
-      final actuators = ['pump', 'light', 'fan'];
-      final sensorKeys = device.sensors.keys
-          .where((k) => !actuators.contains(k.toLowerCase()))
-          .toList();
-
-      // Prioritize Soil Temperature first, Humidity second
-      sensorKeys.sort((a, b) {
-        final aLower = a.toLowerCase();
-        final bLower = b.toLowerCase();
-
-        if (aLower.contains('soil temp') && !bLower.contains('soil temp')) {
-          return -1;
-        }
-        if (!aLower.contains('soil temp') && bLower.contains('soil temp')) {
-          return 1;
-        }
-
-        if (aLower.contains('humidity') && !bLower.contains('humidity')) {
-          return -1;
-        }
-        if (!aLower.contains('humidity') && bLower.contains('humidity')) {
-          return 1;
-        }
-
-        return a.compareTo(b);
-      });
+      final sensorKeys = device.displaySensorKeys;
 
       return SingleChildScrollView(
         child: Column(

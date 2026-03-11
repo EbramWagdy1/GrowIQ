@@ -4,10 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:growiq/core/services/auth_service.dart';
+import 'package:growiq/core/services/cloudinary_service.dart';
+import 'dart:io';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());
+  final AuthService _authService;
+  final CloudinaryService _cloudinaryService;
+
+  AuthCubit(this._authService, this._cloudinaryService) : super(AuthInitial());
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
   String? name = '';
@@ -15,6 +20,8 @@ class AuthCubit extends Cubit<AuthState> {
   String? password;
   String? confirmPassword;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  Stream<User?> get authStateChanges => _authService.authStateChanges;
 
   void togglePasswordVisibility() {
     isPasswordVisible = !isPasswordVisible;
@@ -30,9 +37,8 @@ class AuthCubit extends Cubit<AuthState> {
   signUpWithEmailAndPassword() async {
     try {
       emit(SignupLoadingState());
-      // ignore: unused_local_variable
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email!, password: password!);
+      final credential = await _authService.signUpWithEmailAndPassword(
+          email: email!, password: password!);
 
       if (credential.user != null) {
         await credential.user!.updateDisplayName(name);
@@ -54,8 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
   signInWithEmailAndPassword() async {
     try {
       emit(SignInLoadingState());
-      // ignore: unused_local_variable
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await _authService.signInWithEmailAndPassword(
         email: email!,
         password: password!,
       );
@@ -75,19 +80,11 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signInWithGoogle() async {
     try {
       emit(SignInLoadingState());
-      final GoogleSignIn googleSignIn = GoogleSignIn();
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) {
+      final credential = await _authService.signInWithGoogle();
+      if (credential == null) {
         emit(SignInFailureState('Google sign-in aborted'));
         return;
       }
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await FirebaseAuth.instance.signInWithCredential(credential);
       emit(SignInSuccessState());
     } catch (e) {
       emit(SignInFailureState(e.toString()));
@@ -103,7 +100,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ResetPasswordLoadingState());
 
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email!);
+      await _authService.sendPasswordResetEmail(email: email!);
       emit(ResetPasswordSuccessState());
     } on FirebaseAuthException catch (e) {
       String errorMessage;
@@ -120,6 +117,37 @@ class AuthCubit extends Cubit<AuthState> {
       emit(ResetPasswordFailureState(errorMessage));
     } catch (_) {
       emit(ResetPasswordFailureState('Something went wrong.'));
+    }
+  }
+
+  // Profile Management
+  Future<void> updateProfile({String? newName, File? newImage}) async {
+    try {
+      emit(ProfileUpdateLoadingState());
+      
+      if (newName != null && newName.isNotEmpty) {
+        await _authService.updateDisplayName(newName);
+      }
+
+      if (newImage != null) {
+        final imageUrl = await _cloudinaryService.uploadImage(newImage);
+        if (imageUrl != null) {
+          await _authService.updatePhotoURL(imageUrl);
+        }
+      }
+
+      emit(ProfileUpdateSuccessState());
+    } catch (e) {
+      emit(ProfileUpdateFailureState(e.toString()));
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await _authService.signOut();
+      emit(SignOutSuccessState());
+    } catch (e) {
+      emit(SignOutFailureState(e.toString()));
     }
   }
 }

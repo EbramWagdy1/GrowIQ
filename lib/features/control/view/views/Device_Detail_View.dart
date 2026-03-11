@@ -120,10 +120,7 @@ class DeviceDetailView extends StatelessWidget {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors:
-                                      (currentDevice.ai['disease']
-                                              ?.toString()
-                                              .toLowerCase() ==
-                                          'healthy')
+                                      currentDevice.isHealthy
                                       ? [
                                           Colors.green.shade400,
                                           Colors.teal.shade500,
@@ -139,10 +136,7 @@ class DeviceDetailView extends StatelessWidget {
                                 boxShadow: [
                                   BoxShadow(
                                     color:
-                                        (currentDevice.ai['disease']
-                                                ?.toString()
-                                                .toLowerCase() ==
-                                            'healthy')
+                                        currentDevice.isHealthy
                                         ? Colors.green.withValues(alpha: 0.3)
                                         : Colors.red.withValues(alpha: 0.3),
                                     blurRadius: 15,
@@ -161,10 +155,7 @@ class DeviceDetailView extends StatelessWidget {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
-                                      (currentDevice.ai['disease']
-                                                  ?.toString()
-                                                  .toLowerCase() ==
-                                              'healthy')
+                                      currentDevice.isHealthy
                                           ? Icons.health_and_safety
                                           : Icons.warning_amber_rounded,
                                       color: Colors.white,
@@ -178,12 +169,7 @@ class DeviceDetailView extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          (currentDevice.ai['disease']
-                                                      ?.toString()
-                                                      .toLowerCase() ==
-                                                  'healthy')
-                                              ? 'Farm is Healthy'
-                                              : 'Issue Detected: ${currentDevice.ai['disease'] ?? 'Unknown'}',
+                                          currentDevice.aiDiseaseMessage,
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -192,14 +178,10 @@ class DeviceDetailView extends StatelessWidget {
                                           ),
                                         ),
                                         const SizedBox(height: 4),
-                                        if (currentDevice.ai['confidence'] !=
-                                                null &&
-                                            currentDevice.ai['disease']
-                                                    ?.toString()
-                                                    .toLowerCase() !=
-                                                'healthy')
+                                        if (currentDevice.ai['confidence'] != null &&
+                                            !currentDevice.isHealthy)
                                           Text(
-                                            'AI Confidence: ${(double.tryParse(currentDevice.ai['confidence'].toString()) ?? 0.0).toStringAsFixed(1)}%',
+                                            currentDevice.aiConfidenceMessage,
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.white.withValues(
@@ -210,7 +192,7 @@ class DeviceDetailView extends StatelessWidget {
                                           )
                                         else
                                           Text(
-                                            'All systems are running optimally.',
+                                            currentDevice.aiConfidenceMessage,
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.white.withValues(
@@ -298,10 +280,7 @@ class DeviceDetailView extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors:
-                                    (currentDevice.modes['ai_mode'] == true ||
-                                        currentDevice.modes['ai_mode'] == 1 ||
-                                        currentDevice.modes['ai_mode'] == '1')
+                                colors: currentDevice.isAiMode
                                     ? [
                                         Colors.deepPurple.shade400,
                                         Colors.purple.shade600,
@@ -311,10 +290,7 @@ class DeviceDetailView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color:
-                                      (currentDevice.modes['ai_mode'] == true ||
-                                          currentDevice.modes['ai_mode'] == 1 ||
-                                          currentDevice.modes['ai_mode'] == '1')
+                                  color: currentDevice.isAiMode
                                       ? Colors.purple.withValues(alpha: 0.3)
                                       : Colors.black.withValues(alpha: 0.05),
                                   blurRadius: 10,
@@ -322,10 +298,7 @@ class DeviceDetailView extends StatelessWidget {
                                 ),
                               ],
                               border: Border.all(
-                                color:
-                                    (currentDevice.modes['ai_mode'] == true ||
-                                        currentDevice.modes['ai_mode'] == 1 ||
-                                        currentDevice.modes['ai_mode'] == '1')
+                                color: currentDevice.isAiMode
                                     ? Colors.transparent
                                     : Colors.grey.shade200,
                                 width: 1.5,
@@ -339,15 +312,7 @@ class DeviceDetailView extends StatelessWidget {
                                     Container(
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
-                                        color:
-                                            (currentDevice.modes['ai_mode'] ==
-                                                    true ||
-                                                currentDevice
-                                                        .modes['ai_mode'] ==
-                                                    1 ||
-                                                currentDevice
-                                                        .modes['ai_mode'] ==
-                                                    '1')
+                                        color: currentDevice.isAiMode
                                             ? Colors.white.withValues(
                                                 alpha: 0.2,
                                               )
@@ -358,15 +323,7 @@ class DeviceDetailView extends StatelessWidget {
                                       ),
                                       child: Icon(
                                         Icons.auto_awesome,
-                                        color:
-                                            (currentDevice.modes['ai_mode'] ==
-                                                    true ||
-                                                currentDevice
-                                                        .modes['ai_mode'] ==
-                                                    1 ||
-                                                currentDevice
-                                                        .modes['ai_mode'] ==
-                                                    '1')
+                                        color: currentDevice.isAiMode
                                             ? Colors.white
                                             : Colors.purple.shade500,
                                         size: 24,
@@ -420,10 +377,7 @@ class DeviceDetailView extends StatelessWidget {
                                   ],
                                 ),
                                 Switch(
-                                  value:
-                                      (currentDevice.modes['ai_mode'] == true ||
-                                      currentDevice.modes['ai_mode'] == 1 ||
-                                      currentDevice.modes['ai_mode'] == '1'),
+                                  value: currentDevice.isAiMode,
                                   onChanged: (value) {
                                     DeviceDialogs.showAIModeConfirmDialog(
                                       context: context,

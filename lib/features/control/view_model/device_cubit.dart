@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/device_model.dart';
 import '../../../core/services/device_service.dart';
+import '../../../core/services/auth_service.dart';
 import 'device_state.dart';
 
 class DeviceCubit extends Cubit<DeviceState> {
   final DeviceService _service;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AuthService _authService;
 
   // Real-time subscriptions management
   StreamSubscription<List<String>>? _deviceIdsSubscription;
@@ -17,12 +18,12 @@ class DeviceCubit extends Cubit<DeviceState> {
   // Current state data
   final Map<String, DeviceModel> _devicesMap = {};
 
-  DeviceCubit(this._service) : super(DeviceInitial()) {
+  DeviceCubit(this._service, this._authService) : super(DeviceInitial()) {
     _listenToAuthChanges();
   }
 
   void _listenToAuthChanges() {
-    _authSubscription = _auth.authStateChanges().listen((user) {
+    _authSubscription = _authService.authStateChanges.listen((user) {
       if (user != null) {
         _initUserDevicesListener(user.uid);
       } else {
@@ -102,7 +103,7 @@ class DeviceCubit extends Cubit<DeviceState> {
   }
 
   Future<void> addDevice(String deviceId) async {
-    final user = _auth.currentUser;
+    final user = _authService.currentUser;
     if (user == null) {
       emit(const DeviceError("User not logged in"));
       return;
@@ -197,7 +198,7 @@ class DeviceCubit extends Cubit<DeviceState> {
   }
 
   Future<void> removeDevice(String deviceId) async {
-    final user = _auth.currentUser;
+    final user = _authService.currentUser;
     if (user == null) return;
 
     try {
@@ -210,7 +211,7 @@ class DeviceCubit extends Cubit<DeviceState> {
   }
 
   void refresh() {
-    final user = _auth.currentUser;
+    final user = _authService.currentUser;
     if (user != null) {
       _initUserDevicesListener(user.uid);
     }

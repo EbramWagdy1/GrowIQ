@@ -28,3 +28,16 @@ class ResetPasswordFailureState extends AuthState {
   final String error;
   ResetPasswordFailureState(this.error);
 }
+
+class ProfileUpdateLoadingState extends AuthState {}
+class ProfileUpdateSuccessState extends AuthState {}
+class ProfileUpdateFailureState extends AuthState {
+  final String errMessage;
+  ProfileUpdateFailureState(this.errMessage);
+}
+
+class SignOutSuccessState extends AuthState {}
+class SignOutFailureState extends AuthState {
+  final String errMessage;
+  SignOutFailureState(this.errMessage);
+}
