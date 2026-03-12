@@ -4,7 +4,7 @@ class Assets {
   
   /// Assets for imagesLogoApp
   /// assets/images/logo-app.png
-  static const String imagesLogoApp = "assets/images/logo-app.png";
+  static const String imagesLogoApp = "assets/images/logo2.png";
 
   /// Assets for imagesOnboarding
   static const String imagesOnboarding1 = "assets/images/onboarding1.png";
