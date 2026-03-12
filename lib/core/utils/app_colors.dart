@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 abstract class AppColors {
+  static const LinearGradient backgroundGradient = LinearGradient(
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter,
+    colors: [Color(0xFF004D40), Color(0xFF065547), Color(0xFF9EA7A6)],
+    stops: [0.0, 0.4, 1],
+  );
+
   static const Color primaryColor = Color(0xFF004D40);
   static const Color secondaryColor = Color(0xFF009970);
   static const Color backgroundColor = Color(0xFFF4faf4);
@@ -21,7 +28,7 @@ abstract class AppColors {
   static const Color errorColor = Colors.red;
   static const Color successColor = Colors.green;
   static const Color greyColor = Colors.grey;
-  static const Color lightGreyColor = Color(0xFFF5F5F5); 
+  static const Color lightGreyColor = Color(0xFFF5F5F5);
   static const Color black87 = Colors.black87;
   static const Color black54 = Colors.black54;
   static const Color greenAccent = Colors.greenAccent;
@@ -34,13 +41,25 @@ abstract class AppColors {
   static const Color darkGreyIcon = Color(0xFF4A4A4A);
   static const Color textColor2D = Color(0xFF2D2D2D);
 
-  static const Color healthyGradientStart = Color(0xFF66BB6A); // Colors.green.shade400
-  static const Color healthyGradientEnd = Color(0xFF009688); // Colors.teal.shade500
-  static const Color unhealthyGradientStart = Color(0xFFFFA726); // Colors.orange.shade400
-  static const Color unhealthyGradientEnd = Color(0xFFEF5350); // Colors.red.shade400
-  static const Color aiModeGradientStart = Color(0xFF7E57C2); // Colors.deepPurple.shade400
-  static const Color aiModeGradientEnd = Color(0xFF8E24AA); // Colors.purple.shade600
-  
+  static const Color healthyGradientStart = Color(
+    0xFF66BB6A,
+  ); // Colors.green.shade400
+  static const Color healthyGradientEnd = Color(
+    0xFF009688,
+  ); // Colors.teal.shade500
+  static const Color unhealthyGradientStart = Color(
+    0xFFFFA726,
+  ); // Colors.orange.shade400
+  static const Color unhealthyGradientEnd = Color(
+    0xFFEF5350,
+  ); // Colors.red.shade400
+  static const Color aiModeGradientStart = Color(
+    0xFF7E57C2,
+  ); // Colors.deepPurple.shade400
+  static const Color aiModeGradientEnd = Color(
+    0xFF8E24AA,
+  ); // Colors.purple.shade600
+
   static const Color tealShade50 = Color(0xFFE0F2F1);
   static const Color tealShade400 = Color(0xFF26A69A);
   static const Color tealShade600 = Color(0xFF00897B);
@@ -62,7 +81,6 @@ abstract class AppColors {
 
   static const Color facebookBlue = Color(0xFF1877F2);
   static const Color googleRed = Color(0xFFDB4437);
-
 
   // Whites
   static const Color white = Colors.white;

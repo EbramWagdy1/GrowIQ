@@ -29,11 +29,9 @@ class CustomNavBar extends StatelessWidget {
         GlazeNavBarItem(
           child: SvgPicture.asset(
             Assets.controlicon,
-              width: 24,
-        height: 24,
-            color: currentIndex == 1
-                ? Colors.greenAccent
-                : Colors.white, 
+            width: 24,
+            height: 24,
+            color: currentIndex == 1 ? Colors.greenAccent : Colors.white,
           ),
           label: 'Control',
           labelStyle: TextStyle(color: Colors.white),
@@ -58,12 +56,20 @@ class CustomNavBar extends StatelessWidget {
       gradient: const LinearGradient(
         begin: Alignment.bottomLeft,
         end: Alignment.topRight,
-        colors: [Color(0xFF438E6E), Color(0xFF13281F)],
+        colors: [
+          Color(0xFF004D40),
+          Color(0xFF065547),
+          Color.fromARGB(255, 124, 129, 129),
+        ],
       ),
       buttonGradient: const LinearGradient(
         begin: Alignment.bottomLeft,
         end: Alignment.topRight,
-        colors: [Color(0xFF438E6E), Color(0xFF13281F)],
+        colors: [
+          Color(0xFF004D40),
+          Color(0xFF065547),
+          Color.fromARGB(255, 125, 131, 130),
+        ],
       ),
       onTap: onTap,
     );

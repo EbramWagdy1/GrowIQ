@@ -24,7 +24,9 @@ class HomeBar extends StatelessWidget {
 
         return Container(
           width: double.infinity,
-          color: AppColors.primaryColor,
+          decoration: const BoxDecoration(
+            gradient: AppColors.backgroundGradient,
+          ),
           padding: const EdgeInsets.all(16),
           child: SafeArea(
             child: Column(

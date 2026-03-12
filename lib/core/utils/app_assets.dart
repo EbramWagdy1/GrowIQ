@@ -68,16 +68,16 @@ static const String lottieWeather ="assets/lottie/Weather-snow sunny.json";
   // ignore: constant_identifier_names
   static const String PartlyCloudy = "assets/images/weather.png";
 
-static const String controlicon = "assets/svgs/control.svg";
+  static const String controlicon = "assets/svgs/control.svg";
 
   static const String lottieDevice = "assets/lottie/IOT house.json";
-    static const String forgetpass = "assets/lottie/Forget password animation.json";
+  static const String forgetpass = "assets/lottie/Forget password animation.json";
 
  static const String imagesEbram = "assets/images/Ebram.jpg";
-  static const String imagesYousef = "assets/images/yousef.jpg";
-    static const String imagessaber = "assets/images/saber.jpeg";
-      static const String imagesismail = "assets/images/ismail.jpeg";
-        static const String imagesibrahim = "assets/images/ibrahim.jpeg";
+ static const String imagesYousef = "assets/images/yousef.jpg";
+ static const String imagessaber = "assets/images/saber.jpeg";
+ static const String imagesismail = "assets/images/ismail.jpeg";
+ static const String imagesibrahim = "assets/images/ibrahim.jpeg";
 
 
 
