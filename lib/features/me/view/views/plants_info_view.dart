@@ -37,14 +37,20 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search plants...',
-                prefixIcon: const Icon(Icons.search, color: AppColors.primaryColor),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColors.primaryColor,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: AppColors.primaryColor),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
+                  borderSide: const BorderSide(
+                    color: AppColors.primaryColor,
+                    width: 2,
+                  ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(vertical: 0),
               ),
@@ -57,98 +63,109 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 4.0,
+              ),
               itemCount: displayedPlants.length,
               itemBuilder: (context, index) {
                 final plantName = displayedPlants[index];
-          final thresholds = PlantConfig.defaultThresholds[plantName]!;
+                final thresholds = PlantConfig.defaultThresholds[plantName]!;
 
-          return Card(
-            margin: const EdgeInsets.only(bottom: 16.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            elevation: 2,
-            child: Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                leading: const CircleAvatar(
-                  backgroundColor: AppColors.lightMint,
-                  child: Icon(Icons.local_florist, color: AppColors.primaryColor),
-                ),
-                title: Text(
-                  plantName,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textColor2D,
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
                   ),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    child: Column(
+                  elevation: 2,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(dividerColor: Colors.transparent),
+                    child: ExpansionTile(
+                      leading: const CircleAvatar(
+                        backgroundColor: AppColors.lightMint,
+                        child: Icon(
+                          Icons.local_florist,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                      title: Text(
+                        plantName,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textColor2D,
+                        ),
+                      ),
                       children: [
-                        _buildThresholdRow(
-                          icon: Icons.thermostat,
-                          label: 'Air Temperature',
-                          min: thresholds['air temperature']?['min'],
-                          max: thresholds['air temperature']?['max'],
-                          unit: '°C',
-                          color: Colors.orange,
-                        ),
-                        _buildThresholdRow(
-                          icon: Icons.water_drop,
-                          label: 'Humidity',
-                          min: thresholds['humidity']?['min'],
-                          max: thresholds['humidity']?['max'],
-                          unit: '%',
-                          color: Colors.blue,
-                        ),
-                        _buildThresholdRow(
-                          icon: Icons.grass,
-                          label: 'Soil Moisture',
-                          min: thresholds['soil moisture']?['min'],
-                          max: thresholds['soil moisture']?['max'],
-                          unit: '%',
-                          color: Colors.brown,
-                        ),
-                        _buildThresholdRow(
-                          icon: Icons.thermostat_auto,
-                          label: 'Soil Temperature',
-                          min: thresholds['soil temperature']?['min'],
-                          max: thresholds['soil temperature']?['max'],
-                          unit: '°C',
-                          color: Colors.deepOrange,
-                        ),
-                        _buildThresholdRow(
-                          icon: Icons.wb_sunny,
-                          label: 'Light Level',
-                          min: thresholds['light level']?['min'],
-                          max: thresholds['light level']?['max'],
-                          unit: ' lux',
-                          color: Colors.amber,
-                        ),
-                        _buildThresholdRow(
-                          icon: Icons.air,
-                          label: 'Air Quality (CO2)',
-                          min: thresholds['air quality']?['min'],
-                          max: thresholds['air quality']?['max'],
-                          unit: ' ppm',
-                          color: Colors.grey,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 8.0,
+                          ),
+                          child: Column(
+                            children: [
+                              _buildThresholdRow(
+                                icon: Icons.thermostat,
+                                label: 'Air Temperature',
+                                min: thresholds['air temperature']?['min'],
+                                max: thresholds['air temperature']?['max'],
+                                unit: '°C',
+                                color: Colors.orange,
+                              ),
+                              _buildThresholdRow(
+                                icon: Icons.water_drop,
+                                label: 'Humidity',
+                                min: thresholds['humidity']?['min'],
+                                max: thresholds['humidity']?['max'],
+                                unit: '%',
+                                color: Colors.blue,
+                              ),
+                              _buildThresholdRow(
+                                icon: Icons.grass,
+                                label: 'Soil Moisture',
+                                min: thresholds['soil moisture']?['min'],
+                                max: thresholds['soil moisture']?['max'],
+                                unit: '%',
+                                color: Colors.brown,
+                              ),
+                              _buildThresholdRow(
+                                icon: Icons.thermostat_auto,
+                                label: 'Soil Temperature',
+                                min: thresholds['soil temperature']?['min'],
+                                max: thresholds['soil temperature']?['max'],
+                                unit: '°C',
+                                color: Colors.deepOrange,
+                              ),
+                              _buildThresholdRow(
+                                icon: Icons.wb_sunny,
+                                label: 'Light Level',
+                                min: thresholds['light level']?['min'],
+                                max: thresholds['light level']?['max'],
+                                unit: ' lux',
+                                color: Colors.amber,
+                              ),
+                              _buildThresholdRow(
+                                icon: Icons.air,
+                                label: 'Air Quality (CO2)',
+                                min: thresholds['air quality']?['min'],
+                                max: thresholds['air quality']?['max'],
+                                unit: ' ppm',
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
-    ),
-  ],
-),
     );
   }
 

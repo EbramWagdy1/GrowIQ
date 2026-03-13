@@ -66,4 +66,8 @@ class DeviceService {
   ) async {
     await _database.ref('farms/$deviceId/thresholds').set(thresholds);
   }
+
+  Future<void> updateDeviceOnlineStatus(String deviceId, bool isOnline) async {
+    await _database.ref('farms/$deviceId').update({'isOnline': isOnline});
+  }
 }
