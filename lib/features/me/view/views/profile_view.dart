@@ -12,6 +12,7 @@ import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/services/auth_service.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart'; 
+import 'package:growiq/core/functions/navigation.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -70,6 +71,7 @@ class _ProfileViewState extends State<ProfileView> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text(AppStrings.profileUpdatedSuccess)),
             );
+            customPop(context, result: true);
           } else if (state is ProfileUpdateFailureState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('${AppStrings.errorPrefix}${state.errMessage}')),
