@@ -92,5 +92,27 @@ class PlantConfig {
       "light level": {"min": 8000.0, "max": 15000.0},
       "air quality": {"min": 0.0, "max": 300.0},
     },
+    "Spinh": {
+      "air temperature": {
+        "min": 10.0,
+        "max": 21.0,
+      }, // حساس جداً للحرارة (يزهر بسرعة إذا ارتفعت)
+      "humidity": {"min": 50.0, "max": 70.0},
+      "soil moisture": {"min": 45.0, "max": 65.0},
+      "soil temperature": {"min": 7.0, "max": 16.0},
+      "light level": {"min": 8000.0, "max": 15000.0},
+      "air quality": {"min": 0.0, "max": 300.0},
+    },
+    "Spch": {
+      "air temperature": {
+        "min": 10.0,
+        "max": 21.0,
+      }, // حساس جداً للحرارة (يزهر بسرعة إذا ارتفعت)
+      "humidity": {"min": 50.0, "max": 70.0},
+      "soil moisture": {"min": 45.0, "max": 65.0},
+      "soil temperature": {"min": 7.0, "max": 16.0},
+      "light level": {"min": 8000.0, "max": 15000.0},
+      "air quality": {"min": 0.0, "max": 300.0},
+    },
   };
 }

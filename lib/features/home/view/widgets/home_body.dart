@@ -139,6 +139,10 @@ class HomeBodyState extends State<HomeBody> {
                   context: context,
                   device: device,
                 ),
+                onChangePlant: () => DeviceDialogs.showPlantSelectionDialog(
+                  context: context,
+                  deviceId: device.id,
+                ),
                 onDelete: () => DeviceDialogs.showDeleteDialog(
                   context: context,
                   device: device,

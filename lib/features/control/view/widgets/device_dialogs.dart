@@ -82,16 +82,21 @@ class DeviceDialogs {
   }) {
     String selectedCrop = "Tomato"; // Default crop
 
-    final cropIcons = {
-      "Tomato": Icons.eco,
-      "Mint": Icons.spa,
-      "Lettuce": Icons.grass,
-      "Basil": Icons.local_florist,
-      "Pepper": Icons.whatshot,
-      "Cucumber": Icons.view_day,
-      "Strawberry": Icons.favorite,
-      "Spinach": Icons.nature_people,
-    };
+    final allCrops = PlantConfig.defaultThresholds.keys.toList();
+
+    IconData getIconForCrop(String crop) {
+      switch (crop) {
+        case "Tomato": return Icons.eco;
+        case "Mint": return Icons.spa;
+        case "Lettuce": return Icons.grass;
+        case "Basil": return Icons.local_florist;
+        case "Pepper": return Icons.whatshot;
+        case "Cucumber": return Icons.view_day;
+        case "Strawberry": return Icons.favorite;
+        case "Spinach": return Icons.nature_people;
+        default: return Icons.local_florist;
+      }
+    }
 
     showDialog(
       context: context,
@@ -162,10 +167,10 @@ class DeviceDialogs {
                               mainAxisSpacing: 12,
                               childAspectRatio: 2.5,
                             ),
-                        itemCount: cropIcons.length,
+                        itemCount: allCrops.length,
                         itemBuilder: (context, index) {
-                          final crop = cropIcons.keys.elementAt(index);
-                          final icon = cropIcons.values.elementAt(index);
+                          final crop = allCrops[index];
+                          final icon = getIconForCrop(crop);
                           final isSelected = selectedCrop == crop;
 
                           return GestureDetector(
@@ -218,42 +223,71 @@ class DeviceDialogs {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.tealShade600,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(color: AppColors.greyShade300),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(dialogContext);
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: const Text(
+                              AppStrings.cancel,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.black54,
+                              ),
+                            ),
                           ),
                         ),
-                        onPressed: () {
-                          final thresholds =
-                              PlantConfig.defaultThresholds[selectedCrop] ??
-                              PlantConfig.defaultThresholds["Tomato"]!;
-                          context.read<DeviceCubit>().setCropType(
-                            deviceId,
-                            thresholds,
-                          );
-                          Navigator.pop(dialogContext);
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              backgroundColor: AppColors.tealShade600,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () {
+                              final thresholds =
+                                  PlantConfig.defaultThresholds[selectedCrop] ??
+                                  PlantConfig.defaultThresholds["Tomato"]!;
+                              context.read<DeviceCubit>().setCropType(
+                                deviceId,
+                                thresholds,
+                              );
+                              Navigator.pop(dialogContext);
 
-                          // After dismissing dialog, dismiss the scanner page if necessary
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text(
-                          AppStrings.saveConfiguration,
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
+                              // After dismissing dialog, dismiss the scanner page if necessary
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: const Text(
+                              AppStrings.save,
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),

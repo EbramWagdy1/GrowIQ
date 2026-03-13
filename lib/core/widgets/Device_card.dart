@@ -8,6 +8,7 @@ class DeviceCard extends StatelessWidget {
   final String deviceName;
   final Widget? title;
   final VoidCallback? onRename;
+  final VoidCallback? onChangePlant;
   final VoidCallback? onDelete;
 
   const DeviceCard({
@@ -16,6 +17,7 @@ class DeviceCard extends StatelessWidget {
     required this.deviceName,
     this.title,
     this.onRename,
+    this.onChangePlant,
     this.onDelete,
   });
 
@@ -76,6 +78,8 @@ class DeviceCard extends StatelessWidget {
                   onSelected: (value) {
                     if (value == 'rename') {
                       onRename?.call();
+                    } else if (value == 'change_plant') {
+                      onChangePlant?.call();
                     } else if (value == 'delete') {
                       onDelete?.call();
                     }
@@ -88,6 +92,16 @@ class DeviceCard extends StatelessWidget {
                           Icon(Icons.edit, size: 20, color: Colors.blue),
                           SizedBox(width: 8),
                           Text('Edit Name'),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'change_plant',
+                      child: Row(
+                        children: [
+                          Icon(Icons.local_florist, size: 20, color: Colors.green),
+                          SizedBox(width: 8),
+                          Text('Change Plant'),
                         ],
                       ),
                     ),
