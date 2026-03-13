@@ -39,7 +39,12 @@ class DeviceModel extends Equatable {
   List<String> get displaySensorKeys => SensorUtils.getSortedSensorKeys(sensors);
   factory DeviceModel.fromMap(String id, Map<dynamic, dynamic> map) {
     final String name = map['name'] ?? map['deviceId'] ?? 'Farm $id';
-    final bool isOnline = map['isOnline'] ?? true;
+    
+    final dynamic isOnlineRaw = map['isOnline'];
+    final bool isOnline = isOnlineRaw is bool 
+        ? isOnlineRaw 
+        : (isOnlineRaw is String ? isOnlineRaw.toLowerCase() == 'true' : true);
+        
     final String ownerId = map['ownerId'] ?? '';
 
     final Map<String, dynamic> sensors = {};
