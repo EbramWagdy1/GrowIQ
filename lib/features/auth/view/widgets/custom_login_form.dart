@@ -17,7 +17,7 @@ class CustomLoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is SignInSuccessState || state is SignInSuccessState) {
+        if (state is SignInSuccessState) {
           showToast("Welcome back!");
           customReplacementNavigate(context, "/Home");
         } else if (state is SignInFailureState) {

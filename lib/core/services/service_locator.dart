@@ -36,7 +36,7 @@ void setupServiceLocator() {
   // Auth Feature
   getIt.registerLazySingleton<AuthService>(() => AuthService());
   getIt.registerLazySingleton<CloudinaryService>(() => CloudinaryService());
-  getIt.registerLazySingleton<AuthCubit>(
+  getIt.registerFactory<AuthCubit>(
     () => AuthCubit(getIt<AuthService>(), getIt<CloudinaryService>()),
   );
 }

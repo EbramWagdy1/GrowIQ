@@ -44,9 +44,9 @@ class AppRouter {
       ),
       GoRoute(
         path: '/forget-password',
-        builder: (context, state) => BlocProvider.value(
-          value: getIt<AuthCubit>(),
-          child: ForgetPasswordView(),
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<AuthCubit>(),
+          child: const ForgetPasswordView(),
         ),
       ),
 
