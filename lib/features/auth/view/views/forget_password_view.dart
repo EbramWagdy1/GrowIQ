@@ -25,11 +25,13 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   int _secondsRemaining = 30;
   Timer? _timer;
   bool _canResend = false;
+  bool _isEmailSent = false;
 
   void _startTimer() {
     setState(() {
       _secondsRemaining = 30;
       _canResend = false;
+      _isEmailSent = true;
     });
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -98,12 +100,14 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                       const SuccessMessageSection(),
                     const SizedBox(height: 40),
                     _buildResetButton(state, authCubit),
-                    const SizedBox(height: 30),
-                    ResendCodeSection(
-                      canResend: _canResend,
-                      secondsRemaining: _secondsRemaining,
-                      onResend: () => authCubit.resetPasswordWithEmail(),
-                    ),
+                    if (_isEmailSent) ...[
+                      const SizedBox(height: 30),
+                      ResendCodeSection(
+                        canResend: _canResend,
+                        secondsRemaining: _secondsRemaining,
+                        onResend: () => authCubit.resetPasswordWithEmail(),
+                      ),
+                    ],
                     const SizedBox(height: 40),
                   ],
                 ),
