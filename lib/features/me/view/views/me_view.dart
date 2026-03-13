@@ -129,6 +129,14 @@ class _MeViewState extends State<MeView> {
                         customNavigate(context, '/settings');
                       },
                     ),
+                    // Plants Info
+                    ProfileMenuItem(
+                      text: 'Plants Information',
+                      icon: Icons.local_florist_outlined,
+                      onTap: () {
+                        customNavigate(context, '/plants-info');
+                      },
+                    ),
                     // About
                     ProfileMenuItem(
                       text: AppStrings.aboutApp,

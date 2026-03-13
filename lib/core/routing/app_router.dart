@@ -19,6 +19,7 @@ import 'package:growiq/features/me/view/views/me_view.dart';
 import 'package:growiq/features/me/view/views/about_view.dart';
 import 'package:growiq/features/me/view/views/profile_view.dart';
 import 'package:growiq/features/me/view/views/settings_view.dart';
+import 'package:growiq/features/me/view/views/plants_info_view.dart';
 import 'package:growiq/features/onboarding/view/views/on_boarding_view.dart';
 import 'package:growiq/features/splash/view/views/splash_screen.dart';
 
@@ -83,6 +84,10 @@ class AppRouter {
         builder: (context, state) => const SettingsView(),
       ),
       GoRoute(path: '/about', builder: (context, state) => const AboutView()),
+      GoRoute(
+        path: '/plants-info',
+        builder: (context, state) => const PlantsInfoView(),
+      ),
 
       /// -------- Standalone --------
       GoRoute(
