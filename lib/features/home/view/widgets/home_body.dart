@@ -5,6 +5,7 @@ import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/device_card.dart';
 import 'package:growiq/core/widgets/sensor_card.dart';
+import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/view_model/device_state.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
@@ -68,15 +69,15 @@ class HomeBodyState extends State<HomeBody> {
 
   Widget _buildBody(BuildContext context, DeviceState state) {
     if (state is DeviceLoading) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-             Text(
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            Text(
               AppStrings.checkingDevices,
-              style: TextStyle(color: AppColors.greyColor),
+              style: AppTextStyles.bodyText1(context).copyWith(fontSize: 14),
             ),
           ],
         ),
@@ -112,7 +113,7 @@ class HomeBodyState extends State<HomeBody> {
                   child: DropdownButton<int>(
                     value: _selectedDeviceIndex,
                     isExpanded: false,
-                    icon: const Icon(Icons.arrow_drop_down, color: AppColors.primaryColor),
+                    icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.primary),
                     onChanged: (value) {
                       if (value != null) {
                         setState(() {
@@ -121,15 +122,39 @@ class HomeBodyState extends State<HomeBody> {
                       }
                     },
                     items: List.generate(state.devices.length, (index) {
+                      final currentDevice = state.devices[index];
                       return DropdownMenuItem(
                         value: index,
-                        child: Text(
-                          state.devices[index].name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: AppColors.black87,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              currentDevice.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ),
+                            Text(
+                              (currentDevice.modes['ai_mode'] == true ||
+                                      currentDevice.modes['ai_mode'] == 1 ||
+                                      currentDevice.modes['ai_mode'] == '1')
+                                  ? "AI Mode Active"
+                                  : "Manual Mode",
+                              style: AppTextStyles.bodyText1(context).copyWith(
+                                fontSize: 12,
+                                color: (currentDevice.modes['ai_mode'] == true ||
+                                        currentDevice.modes['ai_mode'] == 1 ||
+                                        currentDevice.modes['ai_mode'] == '1')
+                                    ? (Theme.of(context).brightness == Brightness.dark 
+                                        ? AppColors.white70 
+                                        : AppColors.primaryColor)
+                                    : Theme.of(context).colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     }),
@@ -212,12 +237,11 @@ class HomeBodyState extends State<HomeBody> {
         children: [
           const Icon(Icons.eco_outlined, size: 60, color: AppColors.greyColor),
           const SizedBox(height: 16),
-          const Text(
+          Text(
             AppStrings.noFarmsLinked,
-            style: TextStyle(
+            style: AppTextStyles.titleMedium(context).copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppColors.black54,
             ),
           ),
           const SizedBox(height: 24),
@@ -244,7 +268,7 @@ class HomeBodyState extends State<HomeBody> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       filled: true,
-                      fillColor: AppColors.lightGreyColor,
+                      fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -252,7 +276,7 @@ class HomeBodyState extends State<HomeBody> {
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -308,7 +332,7 @@ class HomeBodyState extends State<HomeBody> {
             child: const Text(AppStrings.cancel),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
+            style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary),
             onPressed: () {
               if (_addDeviceController.text.isNotEmpty) {
                 context.read<DeviceCubit>().addDevice(

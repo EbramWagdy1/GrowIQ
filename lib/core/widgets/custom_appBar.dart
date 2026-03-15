@@ -37,8 +37,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: Container(
                     width: 48,
                     height: 48,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF0BA37F),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -50,7 +50,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
 
-            if (title != null) Text(title!, style: AppTextStyles.titleMedium),
+            if (title != null) Text(title!, style: AppTextStyles.titleMedium(context)),
 
             /// Actions
             if (actions != null)

@@ -23,17 +23,17 @@ class AboutView extends StatelessWidget {
                 children: [
                   Text(
                     AppStrings.aboutGrowIQTitle,
-                    style: AppTextStyles.titleMedium,
+                    style: AppTextStyles.titleMedium(context),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     AppStrings.aboutGrowIQDesc,
-                    style: AppTextStyles.bodyText1,
+                    style: AppTextStyles.bodyText1(context),
                   ),
 
                   const SizedBox(height: 30),
 
-                  Text(AppStrings.ourTeam, style: AppTextStyles.titleMedium),
+                  Text(AppStrings.ourTeam, style: AppTextStyles.titleMedium(context)),
 
                   const SizedBox(height: 20),
 

@@ -49,12 +49,14 @@ Future<void> _launchURL(String url) async {
         right: 20,
       ),
       decoration: BoxDecoration(
-        color: AppColors.lightGreyBackground,
+        color: Theme.of(context).cardTheme.color,
         borderRadius: BorderRadius.circular(35),
         boxShadow: [
           BoxShadow(
             // ignore: deprecated_member_use
-            color: AppColors.black.withValues(alpha: 0.3),
+            color: Theme.of(context).brightness == Brightness.dark 
+                ? Colors.black54 
+                : AppColors.black.withValues(alpha: 0.1),
             blurRadius: 25,
             offset: const Offset(0, 15),
           ),
@@ -75,10 +77,10 @@ Future<void> _launchURL(String url) async {
           /// Name
           Text(
             name,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: AppColors.black,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             textAlign: TextAlign.center,
           ),
@@ -88,10 +90,10 @@ Future<void> _launchURL(String url) async {
           /// Role
           Text(
             role,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w400,
-              color: AppColors.black87,
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
             ),
             textAlign: TextAlign.center,
           ),
@@ -120,7 +122,7 @@ Future<void> _launchURL(String url) async {
                 child: FaIcon(
                   FontAwesomeIcons.github,
                   size: 36,
-                  color: githubLink != null ? AppColors.black : AppColors.greyColor,
+                  color: githubLink != null ? Theme.of(context).colorScheme.onSurface : AppColors.greyColor,
                 ),
               ),
             ],

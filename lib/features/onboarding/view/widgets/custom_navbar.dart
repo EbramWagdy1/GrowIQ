@@ -18,7 +18,7 @@ class CustomNavbar extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Align(
           alignment: Alignment.centerRight,
-          child: Text(AppStrings.skip, style: AppTextStyles.bodyText1),
+          child: Text(AppStrings.skip, style: AppTextStyles.bodyText1(context)),
         ),
       ),
     );

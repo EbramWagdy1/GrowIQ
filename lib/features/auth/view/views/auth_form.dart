@@ -25,7 +25,7 @@ class Autform extends StatelessWidget {
         SizedBox(height: 20),
         CustomAppLogin(),
         SizedBox(height: 20),
-        Center(child: Text(questionText, style: AppTextStyles.bodyText1)),
+        Center(child: Text(questionText, style: AppTextStyles.bodyText1(context))),
         SizedBox(height: 15),
         Center(
           child: GestureDetector(
@@ -34,7 +34,10 @@ class Autform extends StatelessWidget {
             },
             child: Text(
               createAccountText,
-              style: AppTextStyles.bodyText1.copyWith(color: Colors.blue),
+              style: AppTextStyles.bodyText1(context).copyWith(
+                color: Colors.grey,
+                fontSize: 14,
+              ),
             ),
           ),
         ),

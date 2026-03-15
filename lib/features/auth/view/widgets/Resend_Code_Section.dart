@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:growiq/core/utils/app_colors.dart';
+import 'package:growiq/core/utils/app_text_style.dart';
 
 class ResendCodeSection extends StatelessWidget {
   final bool canResend;
@@ -20,18 +20,18 @@ class ResendCodeSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Didn't receive any code? ",
-              style: TextStyle(fontSize: 14, color: Colors.black),
+              style: AppTextStyles.bodyText1(context).copyWith(fontSize: 14),
             ),
             GestureDetector(
               onTap: canResend ? onResend : null,
               child: Text(
                 "Resend Again",
-                style: TextStyle(
+                style: AppTextStyles.bodyText1(context).copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: canResend ? AppColors.secondaryColor : Colors.grey,
+                  color: canResend ? Theme.of(context).colorScheme.primary : Theme.of(context).disabledColor,
                 ),
               ),
             ),
@@ -40,7 +40,7 @@ class ResendCodeSection extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           "Request new code in 00:${secondsRemaining.toString().padLeft(2, '0')}s",
-          style: const TextStyle(fontSize: 14, color: Colors.grey),
+          style: AppTextStyles.bodyText1(context).copyWith(fontSize: 14),
         ),
       ],
     );

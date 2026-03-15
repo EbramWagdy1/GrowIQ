@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
@@ -100,8 +99,8 @@ class _ProfileViewState extends State<ProfileView> {
                         onTap: _pickImage,
                         child: Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
-                            color: AppColors.primaryColor,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
@@ -121,12 +120,12 @@ class _ProfileViewState extends State<ProfileView> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                       decoration: BoxDecoration(
-                        color: AppColors.lightMint,
+                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.person, color: AppColors.primaryColor),
+                          Icon(Icons.person, color: Theme.of(context).colorScheme.primary),
                           const SizedBox(width: 10),
                           Expanded(
                             child: TextField(
@@ -135,10 +134,13 @@ class _ProfileViewState extends State<ProfileView> {
                                 border: InputBorder.none, 
                                 hintText: AppStrings.name,
                               ),
-                              style: const TextStyle(fontSize: 16),
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                             ),
                           ),
-                          const Icon(Icons.edit, size: 18, color: AppColors.greyColor), 
+                          Icon(Icons.edit, size: 18, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)), 
                         ],
                       ),
                     ),

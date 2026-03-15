@@ -18,7 +18,7 @@ class CustomDivider extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
             text,
-            style: AppTextStyles.bodyText1,
+            style: AppTextStyles.bodyText1(context),
           ),
         ),
         Expanded(

@@ -7,7 +7,7 @@ import 'package:growiq/core/utils/app_colors.dart';
 class CustomAppLogin extends StatelessWidget {
   const CustomAppLogin({super.key});
 
-  Widget _socialIcon({required Widget icon, required VoidCallback onTap}) {
+  Widget _socialIcon({required BuildContext context, required Widget icon, required VoidCallback onTap}) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(100),
@@ -16,7 +16,11 @@ class CustomAppLogin extends StatelessWidget {
         height: 72,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: AppColors.greyShade300),
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.dark 
+                ? Colors.white24 
+                : AppColors.greyShade300,
+          ),
         ),
         child: Center(child: icon),
       ),
@@ -29,6 +33,7 @@ class CustomAppLogin extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _socialIcon(
+          context: context,
           icon: const FaIcon(
             FontAwesomeIcons.facebook,
             color: AppColors.facebookBlue,
@@ -38,6 +43,7 @@ class CustomAppLogin extends StatelessWidget {
         ),
         const SizedBox(width: 24),
         _socialIcon(
+          context: context,
           icon: const FaIcon(
             FontAwesomeIcons.google,
             color: AppColors.googleRed,
@@ -51,9 +57,10 @@ class CustomAppLogin extends StatelessWidget {
         ),
         const SizedBox(width: 24),
         _socialIcon(
-          icon: const FaIcon(
+          context: context,
+          icon: FaIcon(
             FontAwesomeIcons.apple,
-            color: AppColors.black,
+            color: Theme.of(context).colorScheme.onSurface,
             size: 32,
           ),
           onTap: () {},

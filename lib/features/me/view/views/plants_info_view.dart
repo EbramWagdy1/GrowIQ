@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/plant_types.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 
@@ -37,18 +36,18 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search plants...',
-                prefixIcon: const Icon(
+                prefixIcon: Icon(
                   Icons.search,
-                  color: AppColors.primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppColors.primaryColor),
+                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: AppColors.primaryColor,
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
                     width: 2,
                   ),
                 ),
@@ -73,7 +72,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                 final thresholds = PlantConfig.defaultThresholds[plantName]!;
 
                 return Card(
-                  margin: const EdgeInsets.only(bottom: 16.0),
+                  color: Theme.of(context).cardTheme.color,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.0),
                   ),
@@ -83,19 +82,19 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                       context,
                     ).copyWith(dividerColor: Colors.transparent),
                     child: ExpansionTile(
-                      leading: const CircleAvatar(
-                        backgroundColor: AppColors.lightMint,
+                      leading: CircleAvatar(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
                         child: Icon(
                           Icons.local_florist,
-                          color: AppColors.primaryColor,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       title: Text(
                         plantName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textColor2D,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       children: [
@@ -186,19 +185,19 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textColor2D,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),
           Text(
             '${min?.toStringAsFixed(0)} - ${max?.toStringAsFixed(0)}$unit',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: AppColors.primaryColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

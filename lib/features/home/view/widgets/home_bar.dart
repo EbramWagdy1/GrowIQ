@@ -24,8 +24,10 @@ class HomeBar extends StatelessWidget {
 
         return Container(
           width: double.infinity,
-          decoration: const BoxDecoration(
-            gradient: AppColors.backgroundGradient,
+          decoration: BoxDecoration(
+            gradient: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.darkBackgroundGradient
+                : AppColors.backgroundGradient,
           ),
           padding: const EdgeInsets.all(16),
           child: SafeArea(

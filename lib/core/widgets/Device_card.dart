@@ -27,12 +27,15 @@ class DeviceCard extends StatelessWidget {
       height: 106,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardTheme.color,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             // ignore: deprecated_member_use
-            color: Colors.grey.withOpacity(0.3),
+            color: Theme.of(context).brightness == Brightness.dark 
+                ? Colors.black26 
+                // ignore: deprecated_member_use
+                : Colors.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 15,
             offset: const Offset(0, 5),
@@ -56,10 +59,10 @@ class DeviceCard extends StatelessWidget {
                 title ??
                 Text(
                   deviceName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: Colors.black87,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
             trailing: Row(

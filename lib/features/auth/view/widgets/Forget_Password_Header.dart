@@ -14,8 +14,8 @@ class ForgetPasswordHeader extends StatelessWidget {
         const SizedBox(width: 15),
         Text(
           "Forget Password",
-          style: AppTextStyles.titleMedium.copyWith(
-            color: Colors.black,
+          style: AppTextStyles.titleMedium(context).copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.bold,
           ),
         ),

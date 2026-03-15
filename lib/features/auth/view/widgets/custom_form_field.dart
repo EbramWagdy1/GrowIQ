@@ -26,13 +26,13 @@ class CustomTextFormField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
-      style: AppTextStyles.bodyText1.copyWith(fontSize: 16),
+      style: AppTextStyles.bodyText1(context).copyWith(fontSize: 16),
       decoration: InputDecoration(
         // Label that floats when focused
         labelText: text,
-        labelStyle: AppTextStyles.bodyText1.copyWith(
+        labelStyle: AppTextStyles.bodyText1(context).copyWith(
           fontSize: 16,
-          color: Colors.grey[600],
+          color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[400] : Colors.grey[600],
         ),
         hintText: '',
         hintStyle: AppTextStyles.hintText.copyWith(
@@ -40,7 +40,7 @@ class CustomTextFormField extends StatelessWidget {
           color: Colors.grey[400],
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Theme.of(context).cardTheme.color,
         suffixIcon: onEyePressed != null
             ? IconButton(
                 icon: Icon(

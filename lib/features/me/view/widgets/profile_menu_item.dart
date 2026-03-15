@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:growiq/core/utils/app_colors.dart';
 
 class ProfileMenuItem extends StatelessWidget {
   final String text;
@@ -20,18 +19,22 @@ class ProfileMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 20),
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(50), // Pill shape
           boxShadow: [
             BoxShadow(
               // ignore: deprecated_member_use
-              color: AppColors.greyColor.withValues(alpha: 0.3),
+              color: Theme.of(context).brightness == Brightness.dark 
+                  ? Colors.black26 
+                  // ignore: deprecated_member_use
+                  : Colors.grey.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 10,
               offset: const Offset(0, 4),
@@ -41,23 +44,23 @@ class ProfileMenuItem extends StatelessWidget {
         child: Row(
           children: [
             // Using Flutter Icon to render the assets
-            Icon(icon, size: 24, color: iconColor ?? AppColors.darkGreyIcon),
+            Icon(icon, size: 24, color: iconColor ?? colorScheme.onSurface.withValues(alpha: 0.7)),
             const SizedBox(width: 20),
             Expanded(
               child: Text(
                 text,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.textColorPrimary,
+                  color: colorScheme.onSurface,
                 ),
               ),
             ),
             trailing ?? 
-                const Icon(
+                Icon(
                   Icons.arrow_forward_ios_rounded, 
                   size: 18,
-                  color: AppColors.greyColor,
+                  color: colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
           ],
         ),

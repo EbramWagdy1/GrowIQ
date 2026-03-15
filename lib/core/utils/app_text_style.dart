@@ -4,30 +4,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 
 class AppTextStyles {
-  static TextStyle get headlineLarge => GoogleFonts.inter(
+  static TextStyle headlineLarge(BuildContext context) => GoogleFonts.inter(
     fontSize: 32,
     fontWeight: FontWeight.w600,
-    color: AppColors.textColorPrimary,
+    color: Theme.of(context).colorScheme.onSurface,
     height: 1.2,
   );
 
-  static TextStyle get titleMedium => GoogleFonts.inter(
+  static TextStyle titleMedium(BuildContext context) => GoogleFonts.inter(
     fontSize: 24,
     fontWeight: FontWeight.w600,
     height: 1.2,
-    color: AppColors.textColorPrimary,
+    color: Theme.of(context).colorScheme.onSurface,
   );
 
-  static TextStyle get bodyText1 => GoogleFonts.inter(
+  static TextStyle bodyText1(BuildContext context) => GoogleFonts.inter(
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    color: AppColors.textColorPrimary,
+    color: Theme.of(context).colorScheme.onSurfaceVariant,
   );
 
-  static TextStyle get bodyText2 => GoogleFonts.inter(
+  static TextStyle bodyText2(BuildContext context) => GoogleFonts.inter(
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    color: AppColors.textColorAbout,
+    color: Theme.of(context).colorScheme.onSurfaceVariant,
   );
 
   static TextStyle get hintText => GoogleFonts.inter(

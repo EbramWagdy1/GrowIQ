@@ -30,7 +30,7 @@ class ChatIntroView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       AppStrings.hello,
-                      style: AppTextStyles.headlineLarge,
+                      style: AppTextStyles.headlineLarge(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -38,7 +38,7 @@ class ChatIntroView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       AppStrings.slogn,
-                      style: AppTextStyles.bodyText1,
+                      style: AppTextStyles.bodyText1(context),
                     ),
                   ),
                   const SizedBox(height: 20),

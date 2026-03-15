@@ -111,11 +111,13 @@ class DeviceDialogs {
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.black.withValues(alpha: 0.1),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.black.withValues(alpha: 0.3)
+                          : AppColors.black.withValues(alpha: 0.1),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -126,32 +128,32 @@ class DeviceDialogs {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(16),
-                      decoration: const BoxDecoration(
-                        color: AppColors.tealShade50,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.park_rounded,
                         size: 40,
-                        color: AppColors.tealShade700,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
+                    Text(
                       AppStrings.selectCropType,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.black87,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       AppStrings.whatAreYouGrowing,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.black54,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         height: 1.4,
                       ),
                     ),
@@ -183,13 +185,13 @@ class DeviceDialogs {
                               duration: const Duration(milliseconds: 200),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? AppColors.tealShade50
-                                    : AppColors.greyShade50,
+                                    ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
+                                    : Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: isSelected
-                                      ? AppColors.tealShade400
-                                      : AppColors.greyShade200,
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                                   width: isSelected ? 2 : 1,
                                 ),
                               ),
@@ -200,8 +202,8 @@ class DeviceDialogs {
                                     icon,
                                     size: 20,
                                     color: isSelected
-                                        ? AppColors.tealShade700
-                                        : AppColors.greyShade600,
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.onSurfaceVariant,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
@@ -211,8 +213,8 @@ class DeviceDialogs {
                                           ? FontWeight.bold
                                           : FontWeight.w500,
                                       color: isSelected
-                                          ? AppColors.tealShade800
-                                          : AppColors.greyShade700,
+                                          ? Theme.of(context).colorScheme.primary
+                                          : Theme.of(context).colorScheme.onSurface,
                                     ),
                                   ),
                                 ],
@@ -240,12 +242,12 @@ class DeviceDialogs {
                                 Navigator.pop(context);
                               }
                             },
-                            child: const Text(
+                            child: Text(
                               AppStrings.cancel,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.black54,
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ),
@@ -311,11 +313,13 @@ class DeviceDialogs {
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: AppColors.black.withValues(alpha: 0.1),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.black.withValues(alpha: 0.3)
+                    : AppColors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -328,15 +332,15 @@ class DeviceDialogs {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: isTurningOn
-                      ? AppColors.purpleShade50
-                      : AppColors.orangeShade50,
+                      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
+                      : AppColors.orangeShade50.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.2 : 1.0),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   isTurningOn ? Icons.auto_awesome : Icons.power_settings_new,
                   size: 40,
                   color: isTurningOn
-                      ? AppColors.purpleShade700
+                      ? Theme.of(context).colorScheme.primary
                       : AppColors.orangeShade700,
                 ),
               ),
@@ -344,10 +348,10 @@ class DeviceDialogs {
               Text(
                 isTurningOn ? AppStrings.enableAiModeQuestion : AppStrings.disableAiModeQuestion,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.black87,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 12),
@@ -356,9 +360,9 @@ class DeviceDialogs {
                     ? AppStrings.enableAiModeDesc
                     : AppStrings.disableAiModeDesc,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.black54,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   height: 1.5,
                 ),
               ),
@@ -374,12 +378,12 @@ class DeviceDialogs {
                         ),
                       ),
                       onPressed: () => Navigator.pop(dialogContext),
-                      child: const Text(
+                      child: Text(
                         AppStrings.cancel,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.black54,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ),

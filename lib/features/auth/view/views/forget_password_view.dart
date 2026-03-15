@@ -5,7 +5,6 @@ import 'package:growiq/features/auth/view/widgets/Forget_Password_Header.dart';
 import 'package:growiq/features/auth/view/widgets/Resend_Code_Section.dart';
 import 'package:growiq/features/auth/view/widgets/Success_Message_Section.dart';
 import 'package:growiq/core/functions/custom_toast.dart';
-import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/regexes.dart';
 import 'package:growiq/core/widgets/custom_button.dart';
@@ -62,7 +61,6 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
       FocusScope.of(context).unfocus(); 
     },
       child: Scaffold(
-        backgroundColor: AppColors.backgroundColor,
         appBar: const CustomAppBar(title: ''),
         body: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
@@ -121,7 +119,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
 
   Widget _buildResetButton(AuthState state, AuthCubit authCubit) {
     if (state is ResetPasswordLoadingState) {
-      return const CircularProgressIndicator(color: AppColors.secondaryColor);
+      return CircularProgressIndicator(color: Theme.of(context).colorScheme.primary);
     }
     return CustomButtom(
       text: "Reset",

@@ -11,17 +11,17 @@ class SuccessMessageSection extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           "Check your Email",
-          style: AppTextStyles.bodyText1.copyWith(
+          style: AppTextStyles.bodyText1(context).copyWith(
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 10),
         Text(
           "We've sent you a link to reset your password. Please check your email inbox and follow the instructions to create a new password.",
           textAlign: TextAlign.center,
-          style: AppTextStyles.bodyText1.copyWith(
-            color: Colors.grey[600],
+          style: AppTextStyles.bodyText1(context).copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
             fontSize: 14,
           ),
         ),

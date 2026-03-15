@@ -44,7 +44,7 @@ class Login extends StatelessWidget {
                   child: Center(
                     child: Text(
                       AppStrings.forgotPassword,
-                      style: AppTextStyles.bodyText1.copyWith(
+                      style: AppTextStyles.bodyText1(context).copyWith(
                         color: Colors.grey,
                         fontSize: 14,
                       ),

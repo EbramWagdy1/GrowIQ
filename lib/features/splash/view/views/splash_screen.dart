@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
 import 'package:lottie/lottie.dart';
 
@@ -53,7 +52,7 @@ class _SplashViewState extends State<SplashView> {
               width: 200,
               height: 220,
               decoration: BoxDecoration(
-                color: AppColors.primaryColor,
+                color: Theme.of(context).colorScheme.primary,
                 shape: BoxShape.circle,
               ),
             ),
@@ -67,7 +66,7 @@ class _SplashViewState extends State<SplashView> {
               width: 200,
               height: 220,
               decoration: BoxDecoration(
-                color: AppColors.primaryColor,
+                color: Theme.of(context).colorScheme.primary,
                 shape: BoxShape.circle,
               ),
             ),
@@ -90,19 +89,19 @@ class _SplashViewState extends State<SplashView> {
                 const SizedBox(height: 10),
                 Text(
                   AppStrings.appNamed,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 60,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textColorPrimary,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   AppStrings.splashSubtitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textColorPrimary,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/core/utils/app_strings.dart';
+import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:growiq/features/control/view/widgets/actuator_section.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
@@ -25,7 +26,7 @@ class DeviceDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.greyShade50,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: CustomAppBar(
         title: deviceName,
         actions: [
@@ -213,20 +214,20 @@ class DeviceDetailView extends StatelessWidget {
                           // Section Title
                           Row(
                             children: [
-                              Icon(
-                                Icons.sensors,
-                                color: AppColors.tealShade700,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                AppStrings.environmentalOverview,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColors.black87,
+                                Icon(
+                                  Icons.sensors,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  size: 24,
                                 ),
-                              ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  AppStrings.environmentalOverview,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w800,
+                                    color: Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                ),
                             ],
                           ),
                           const SizedBox(height: 16),
@@ -244,11 +245,11 @@ class DeviceDetailView extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _buildLegendItem(AppColors.blue, AppStrings.low),
+                                _buildLegendItem(context, AppColors.blue, AppStrings.low),
                                 const SizedBox(width: 15),
-                                _buildLegendItem(AppColors.successColor, AppStrings.perfect),
+                                _buildLegendItem(context, AppColors.successColor, AppStrings.perfect),
                                 const SizedBox(width: 15),
-                                _buildLegendItem(AppColors.errorColor, AppStrings.high),
+                                _buildLegendItem(context, AppColors.errorColor, AppStrings.high),
                               ],
                             ),
                           ),
@@ -257,20 +258,20 @@ class DeviceDetailView extends StatelessWidget {
                           // Smart Controls Section
                           Row(
                             children: [
-                              Icon(
-                                Icons.dashboard_customize_rounded,
-                                color: AppColors.tealShade700,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                AppStrings.smartControls,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColors.black87,
+                                Icon(
+                                  Icons.dashboard_customize_rounded,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  size: 24,
                                 ),
-                              ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  AppStrings.smartControls,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w800,
+                                    color: Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                ),
                             ],
                           ),
                           const SizedBox(height: 16),
@@ -287,7 +288,7 @@ class DeviceDetailView extends StatelessWidget {
                                         AppColors.aiModeGradientStart,
                                         AppColors.aiModeGradientEnd,
                                       ]
-                                    : [AppColors.white, AppColors.white],
+                                    : [Theme.of(context).cardTheme.color!, Theme.of(context).cardTheme.color!],
                               ),
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
@@ -352,28 +353,21 @@ class DeviceDetailView extends StatelessWidget {
                                                     currentDevice
                                                             .modes['ai_mode'] ==
                                                         '1')
-                                                ? AppColors.white
-                                                : AppColors.black87,
+                                                  ? AppColors.white
+                                                  : Theme.of(context).colorScheme.onSurface,
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          AppStrings.aiManageFarm,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color:
-                                                (currentDevice
-                                                            .modes['ai_mode'] ==
-                                                        true ||
-                                                    currentDevice
-                                                            .modes['ai_mode'] ==
-                                                        1 ||
-                                                    currentDevice
-                                                            .modes['ai_mode'] ==
-                                                        '1')
-                                                ? AppColors.white70
-                                                : AppColors.black54,
+                                          Text(
+                                            AppStrings.aiManageFarm,
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: (currentDevice.modes['ai_mode'] == true ||
+                                                      currentDevice.modes['ai_mode'] == 1 ||
+                                                      currentDevice.modes['ai_mode'] == '1')
+                                                  ? AppColors.white70
+                                                  : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ],
@@ -421,7 +415,7 @@ class DeviceDetailView extends StatelessWidget {
     );
   }
 
-  Widget _buildLegendItem(Color color, String text) {
+  Widget _buildLegendItem(BuildContext context, Color color, String text) {
     return Row(
       children: [
         Container(
@@ -432,9 +426,8 @@ class DeviceDetailView extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           text,
-          style: const TextStyle(
+          style: AppTextStyles.bodyText1(context).copyWith(
             fontSize: 16,
-            color: AppColors.black54,
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -12,9 +12,10 @@ class ControlView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: BlocBuilder<DeviceCubit, DeviceState>(
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(
+        child: BlocBuilder<DeviceCubit, DeviceState>(
           builder: (context, state) {
             if (state is DeviceLoading) {
               return const Center(child: CircularProgressIndicator());

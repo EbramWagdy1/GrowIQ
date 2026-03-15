@@ -1,6 +1,5 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:growiq/core/utils/app_colors.dart';
 
 class CustomButtom extends StatelessWidget {
   const CustomButtom({super.key, this.text, this.onPressed});
@@ -14,14 +13,19 @@ class CustomButtom extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.secondaryColor,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
         ),
         child: Text(
           text ?? "Next",
-          style: TextStyle(color: AppColors.textColorPrimary, fontSize: 24),
+          style: TextStyle(
+            color: Theme.of(context).brightness == Brightness.dark 
+                ? Colors.white 
+                : Colors.black, 
+            fontSize: 24,
+          ),
         ),
       ),
     );

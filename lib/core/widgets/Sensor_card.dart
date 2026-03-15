@@ -99,7 +99,12 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
         return Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [color.withValues(alpha: 0.3), Colors.white],
+              colors: [
+                color.withValues(alpha: 0.3),
+                Theme.of(context).brightness == Brightness.dark 
+                    ? Theme.of(context).colorScheme.surface 
+                    : Colors.white,
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -125,7 +130,9 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
                     child: CircularProgressIndicator(
                       value: percent,
                       strokeWidth: 8,
-                      backgroundColor: Colors.grey[200],
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark 
+                          ? Colors.white12 
+                          : Colors.grey[200],
                       color: color,
                     ),
                   ),
@@ -138,6 +145,7 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
                 style: GoogleFonts.roboto(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 1,

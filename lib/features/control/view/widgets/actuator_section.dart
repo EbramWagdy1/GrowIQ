@@ -47,12 +47,12 @@ class ActuatorSection extends StatelessWidget {
             curve: Curves.easeInOut,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: isOn ? Colors.teal.shade500 : Colors.white,
+              color: isOn ? Theme.of(context).colorScheme.primary : Theme.of(context).cardTheme.color,
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
                   color: isOn
-                      ? Colors.teal.withValues(alpha: 0.3)
+                      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
                       : Colors.black.withValues(alpha: 0.05),
                   blurRadius: 12,
                   offset: const Offset(0, 6),
@@ -71,12 +71,12 @@ class ActuatorSection extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isOn
                             ? Colors.white.withValues(alpha: 0.2)
-                            : Colors.grey.shade100,
+                            : Theme.of(context).colorScheme.surface,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         SensorUtils.getActuatorIcon(actuator),
-                        color: isOn ? Colors.white : Colors.teal.shade600,
+                        color: isOn ? Colors.white : Theme.of(context).colorScheme.primary,
                         size: 26,
                       ),
                     ),
@@ -98,7 +98,7 @@ class ActuatorSection extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         letterSpacing: 0.5,
-                        color: isOn ? Colors.white : Colors.black87,
+                        color: isOn ? Colors.white : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -107,7 +107,7 @@ class ActuatorSection extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: isOn ? Colors.white70 : Colors.grey.shade500,
+                        color: isOn ? Colors.white70 : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
