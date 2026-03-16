@@ -6,7 +6,7 @@ class ThemeState {
   ThemeState({required this.themeMode});
 
   factory ThemeState.initial() {
-    return ThemeState(themeMode: ThemeMode.light);
+    return ThemeState(themeMode: ThemeMode.system);
   }
 
   ThemeState copyWith({ThemeMode? themeMode}) {

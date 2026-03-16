@@ -30,11 +30,9 @@ class ProfileMenuItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(50), // Pill shape
           boxShadow: [
             BoxShadow(
-              // ignore: deprecated_member_use
               color: Theme.of(context).brightness == Brightness.dark 
-                  ? Colors.black26 
-                  // ignore: deprecated_member_use
-                  : Colors.grey.withOpacity(0.1),
+                  ? Colors.black54 
+                  : Colors.grey.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 10,
               offset: const Offset(0, 4),

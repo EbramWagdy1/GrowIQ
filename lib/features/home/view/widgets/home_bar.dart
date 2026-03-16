@@ -45,13 +45,13 @@ class HomeBar extends StatelessWidget {
                   ),
                   title: Text(
                     AppStrings.welcome,
-                    style: AppTextStyles.hintText.copyWith(
+                    style: AppTextStyles.hintText(context).copyWith(
                       color: AppColors.white70,
                     ),
                   ),
                   subtitle: Text(
                     name,
-                    style: AppTextStyles.buttonText.copyWith(
+                    style: AppTextStyles.buttonText(context).copyWith(
                       color: AppColors.white,
                     ),
                   ),

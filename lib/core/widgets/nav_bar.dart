@@ -19,46 +19,68 @@ class CustomNavBar extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colorScheme = Theme.of(context).colorScheme;
 
+    final inactiveColor = Colors.white;
+
     return GlazeNavBar(
       index: currentIndex,
       items: [
         GlazeNavBarItem(
           child: Icon(
             Icons.home,
-            color: currentIndex == 0 ? colorScheme.secondary : Colors.white70,
+            color: currentIndex == 0
+                ? colorScheme.secondary
+                : inactiveColor,
           ),
           label: 'Home',
-          labelStyle: const TextStyle(color: Colors.white70),
+          labelStyle: TextStyle(
+            color: inactiveColor,
+          ),
         ),
         GlazeNavBarItem(
           child: SvgPicture.asset(
             Assets.controlicon,
             width: 24,
             height: 24,
-            color: currentIndex == 1 ? colorScheme.secondary : Colors.white70,
+            color: currentIndex == 1
+                ? colorScheme.secondary
+                : inactiveColor,
           ),
           label: 'Control',
-          labelStyle: const TextStyle(color: Colors.white70),
+          labelStyle: TextStyle(
+            color: inactiveColor,
+          ),
         ),
         GlazeNavBarItem(
           child: Icon(
             Icons.notifications,
-            color: currentIndex == 2 ? colorScheme.secondary : Colors.white70,
+            color: currentIndex == 2
+                ? colorScheme.secondary
+                : inactiveColor,
           ),
           label: 'Notification',
-          labelStyle: const TextStyle(color: Colors.white70),
+          labelStyle: TextStyle(
+            color: inactiveColor,
+          ),
         ),
         GlazeNavBarItem(
           child: Icon(
             Icons.person,
-            color: currentIndex == 3 ? colorScheme.secondary : Colors.white70,
+            color: currentIndex == 3
+                ? colorScheme.secondary
+                : inactiveColor,
           ),
           label: 'ME',
-          labelStyle: const TextStyle(color: Colors.white70),
+          labelStyle: TextStyle(
+            color: inactiveColor,
+          ),
         ),
       ],
-      gradient: isDark ? AppColors.darkNavBarGradient : AppColors.navBarGradient,
-      buttonGradient: isDark ? AppColors.darkNavBarGradient : AppColors.navBarGradient,
+      gradient: isDark
+          ? AppColors.darkNavBarGradient
+          : AppColors.navBarGradient,
+      buttonGradient: isDark
+          ? AppColors.darkNavBarGradient
+          : AppColors.navBarGradient,
       onTap: onTap,
     );
   }

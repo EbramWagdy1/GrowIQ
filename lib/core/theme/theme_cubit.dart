@@ -21,6 +21,8 @@ class ThemeCubit extends Cubit<ThemeState> {
       } else {
         emit(state.copyWith(themeMode: ThemeMode.system));
       }
+    } else {
+      emit(state.copyWith(themeMode: ThemeMode.system));
     }
   }
 
@@ -30,6 +32,10 @@ class ThemeCubit extends Cubit<ThemeState> {
     } else {
       _setTheme(ThemeMode.light);
     }
+  }
+
+  void updateThemeMode(ThemeMode themeMode) {
+    _setTheme(themeMode);
   }
 
   void _setTheme(ThemeMode themeMode) {

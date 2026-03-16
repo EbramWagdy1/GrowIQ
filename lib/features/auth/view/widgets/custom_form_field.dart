@@ -35,7 +35,7 @@ class CustomTextFormField extends StatelessWidget {
           color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[400] : Colors.grey[600],
         ),
         hintText: '',
-        hintStyle: AppTextStyles.hintText.copyWith(
+        hintStyle: AppTextStyles.hintText(context).copyWith(
           fontSize: 16,
           color: Colors.grey[400],
         ),

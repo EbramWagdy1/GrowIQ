@@ -22,7 +22,7 @@ class WeatherInfoWidget extends StatelessWidget {
         children: [
           Text(
             condition,
-            style: AppTextStyles.hintText.copyWith(
+            style: AppTextStyles.hintText(context).copyWith(
               fontSize: 12,
               color: AppColors.white70,
             ),
@@ -30,7 +30,7 @@ class WeatherInfoWidget extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             temperature,
-            style: AppTextStyles.buttonText.copyWith(
+            style: AppTextStyles.buttonText(context).copyWith(
               fontSize: 22,
               fontWeight: FontWeight.bold,
               color: AppColors.white,

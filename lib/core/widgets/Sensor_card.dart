@@ -59,24 +59,26 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
   }
 
   Color getColor(double currentValue) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     if (widget.minLimit != null && widget.maxLimit != null) {
       final min = widget.minLimit!;
       final max = widget.maxLimit!;
 
       if (currentValue >= min && currentValue <= max) {
-        return Colors.green; // Inside perfect threshold
+        return isDark ? Colors.greenAccent : Colors.green;
       } else if (currentValue < min) {
-        return Colors.blue; // Too low (cold, dry..etc)
+        return isDark ? Colors.blueAccent : Colors.blue;
       } else {
-        return Colors.red; // Too high (hot, over-watered..etc)
+        return isDark ? Colors.redAccent : Colors.red;
       }
     }
 
-    return Colors.teal; // Fallback
+    return isDark ? Colors.tealAccent : Colors.teal;
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
@@ -89,7 +91,6 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
           if (range == 0) {
             percent = 0.5;
           } else {
-            // How much of the max limit are we at (or clamp)
             percent = (currentValue / (widget.maxLimit! * 1.5)).clamp(0.0, 1.0);
           }
         } else {
@@ -100,9 +101,9 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                color.withValues(alpha: 0.3),
-                Theme.of(context).brightness == Brightness.dark 
-                    ? Theme.of(context).colorScheme.surface 
+                color.withValues(alpha: isDark ? 0.15 : 0.3),
+                isDark 
+                    ? Theme.of(context).colorScheme.surfaceContainerHighest
                     : Colors.white,
               ],
               begin: Alignment.topLeft,
@@ -111,11 +112,12 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: color.withValues(alpha: 0.4),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
+                color: isDark ? Colors.black26 : color.withValues(alpha: 0.2),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
               ),
             ],
+            border: isDark ? Border.all(color: color.withValues(alpha: 0.1), width: 1) : null,
           ),
           padding: const EdgeInsets.all(16),
           child: Column(

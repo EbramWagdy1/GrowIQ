@@ -63,13 +63,16 @@ class DeviceDialogs {
             child: const Text(AppStrings.cancel),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorColor),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Colors.white,
+            ),
             onPressed: () {
               context.read<DeviceCubit>().removeDevice(device.id);
               Navigator.pop(dialogContext); // close dialog only
               onDeleted?.call(); // caller handles page navigation
             },
-            child: const Text(AppStrings.delete, style: TextStyle(color: AppColors.white)),
+            child: const Text(AppStrings.delete),
           ),
         ],
       ),
@@ -233,7 +236,7 @@ class DeviceDialogs {
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                side: BorderSide(color: AppColors.greyShade300),
+                                side: BorderSide(color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3)),
                               ),
                             ),
                             onPressed: () {
@@ -257,7 +260,7 @@ class DeviceDialogs {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              backgroundColor: AppColors.tealShade600,
+                              backgroundColor: Theme.of(context).colorScheme.primary,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),

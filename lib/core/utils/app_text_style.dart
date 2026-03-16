@@ -30,15 +30,17 @@ class AppTextStyles {
     color: Theme.of(context).colorScheme.onSurfaceVariant,
   );
 
-  static TextStyle get hintText => GoogleFonts.inter(
+  static TextStyle hintText(BuildContext context) => GoogleFonts.inter(
     fontSize: 14,
     fontWeight: FontWeight.normal,
-    color: AppColors.textColorSecondary,
+    color: Theme.of(context).brightness == Brightness.dark 
+        ? AppColors.darkTextColorSecondary 
+        : AppColors.textColorSecondary,
   );
 
-  static TextStyle get buttonText => GoogleFonts.inter(
+  static TextStyle buttonText(BuildContext context) => GoogleFonts.inter(
     fontSize: 16,
     fontWeight: FontWeight.w500,
-    color: AppColors.textColorWhite,
+    color: Colors.white,
   );
 }

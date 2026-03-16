@@ -53,9 +53,8 @@ Future<void> _launchURL(String url) async {
         borderRadius: BorderRadius.circular(35),
         boxShadow: [
           BoxShadow(
-            // ignore: deprecated_member_use
             color: Theme.of(context).brightness == Brightness.dark 
-                ? Colors.black54 
+                ? Colors.black87 
                 : AppColors.black.withValues(alpha: 0.1),
             blurRadius: 25,
             offset: const Offset(0, 15),
@@ -68,7 +67,7 @@ Future<void> _launchURL(String url) async {
           /// Profile Image
           CircleAvatar(
             radius: 75,
-            backgroundColor: AppColors.greyShade300,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
             backgroundImage: AssetImage(imagePath),
           ),
 

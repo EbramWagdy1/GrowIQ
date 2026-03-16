@@ -136,6 +136,7 @@ abstract class AppStrings {
   static const String darkMode = 'Dark Mode';
   static const String privacyPolicy = 'Privacy Policy';
   static const String aboutApp = 'About App';
+  static const String contactUs = 'Contact Us';
 
   /* ================= About ================= */
   static const String aboutGrowIQTitle = 'About GrowIQ';
@@ -168,17 +169,36 @@ abstract class AppStrings {
   static const String aiManageFarm = 'Let AI manage the farm';
   static const String renameDevice = 'Rename Device';
   static const String enterNewName = 'Enter new name';
-  static const String deleteDeviceConfirmPrefix = "Are you sure you want to remove '";
+  static const String deleteDeviceConfirmPrefix =
+      "Are you sure you want to remove '";
   static const String deleteDeviceConfirmSuffix = "'?";
   static const String delete = 'Delete';
   static const String selectCropType = 'Select Crop Type';
-  static const String whatAreYouGrowing = 'What are you growing in this farm?\nThis helps us set the ideal environment thresholds.';
+  static const String whatAreYouGrowing =
+      'What are you growing in this farm?\nThis helps us set the ideal environment thresholds.';
   static const String saveConfiguration = 'Save Configuration';
   static const String enableAiModeQuestion = 'Enable AI Auto Mode?';
   static const String disableAiModeQuestion = 'Disable AI Auto Mode?';
-  static const String enableAiModeDesc = "The AI will take full control of the water pump, fans, and lights based on the selected crop's ideal thresholds. Manual controls will be overridden.";
-  static const String disableAiModeDesc = 'You will regain manual control over the water pump, fans, and lights. The AI will no longer automate these for you.';
+  static const String enableAiModeDesc =
+      "The AI will take full control of the water pump, fans, and lights based on the selected crop's ideal thresholds. Manual controls will be overridden.";
+  static const String disableAiModeDesc =
+      'You will regain manual control over the water pump, fans, and lights. The AI will no longer automate these for you.';
   static const String enable = 'Enable';
   static const String disable = 'Disable';
   static const String comingSoon = ' Coming Soon';
+
+  /* ================= Contact Us ================= */
+  static const String followUs = 'Follow us on social media';
+  static const String facebook = 'Facebook';
+  static const String instagram = 'Instagram';
+  static const String linkedIn = 'LinkedIn';
+  static const String github = 'GitHub';
+  static const String website = 'Website';
+
+  // Social Links (Real links from team members or generic GrowIQ ones)
+  static const String fbLink = '';
+  static const String instaLink = 'https://www.instagram.com/growi_q/';
+  static const String linkedInLink = 'https://www.linkedin.com/company/grow-iq';
+  static const String githubLink = '';
+  static const String websiteLink = 'https://growiq.com'; // Placeholder
 }

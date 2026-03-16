@@ -26,9 +26,12 @@ class SettingsView extends StatelessWidget {
                         text: "Dark Mode",
                         icon: Icons.dark_mode_outlined,
                         trailing: Switch(
-                          value: state.themeMode == ThemeMode.dark,
+                          value:
+                              Theme.of(context).brightness == Brightness.dark,
                           onChanged: (val) {
-                            context.read<ThemeCubit>().toggleTheme();
+                            context.read<ThemeCubit>().updateThemeMode(
+                              val ? ThemeMode.dark : ThemeMode.light,
+                            );
                           },
                           // ignore: deprecated_member_use
                           activeColor: Theme.of(context).colorScheme.primary,
@@ -37,15 +40,11 @@ class SettingsView extends StatelessWidget {
                       ProfileMenuItem(
                         text: AppStrings.notifications,
                         icon: Icons.notifications_outlined,
-                        trailing: Transform.scale(
-                          scale: 1,
-                          child: Switch(
-                            value: false,
-                            onChanged: (val) {},
-                            activeThumbColor: Theme.of(context).colorScheme.onSurface,
-                            // ignore: deprecated_member_use
-                            inactiveThumbColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                          ),
+                        trailing: Switch(
+                          value: false,
+                          onChanged: (val) {},
+                          // ignore: deprecated_member_use
+                          activeColor: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ],

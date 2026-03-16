@@ -11,6 +11,8 @@ class AppTheme {
       primary: AppColors.primaryColor,
       secondary: AppColors.secondaryColor,
       surface: AppColors.surfaceColor,
+      onSurface: AppColors.textColorPrimary,
+      onSurfaceVariant: AppColors.textColorSecondary,
       error: AppColors.errorColor,
     ),
     appBarTheme: AppBarTheme(

@@ -145,6 +145,15 @@ class _MeViewState extends State<MeView> {
                         customNavigate(context, '/about');
                       },
                     ),
+
+                    // Contact Us
+                    ProfileMenuItem(
+                      text: AppStrings.contactUs,
+                      icon: Icons.contact_support,
+                      onTap: () {
+                        customNavigate(context, '/contact-us');
+                      },
+                    ),
                     // Logout
                     Builder(builder: (context) {
                       return ProfileMenuItem(

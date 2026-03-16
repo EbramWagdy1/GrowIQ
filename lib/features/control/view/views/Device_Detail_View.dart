@@ -54,7 +54,7 @@ class DeviceDetailView extends StatelessWidget {
                   );
 
               return PopupMenuButton<String>(
-                icon: const Icon(Icons.more_vert, color: Colors.white),
+                icon: Icon(Icons.more_vert, color: Theme.of(context).appBarTheme.iconTheme?.color ?? Colors.white),
                 onSelected: (value) {
                   if (value == 'rename') {
                     DeviceDialogs.showRenameDialog(
@@ -303,7 +303,7 @@ class DeviceDetailView extends StatelessWidget {
                               border: Border.all(
                                 color: currentDevice.isAiMode
                                     ? Colors.transparent
-                                    : AppColors.greyShade200,
+                                    : Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                                 width: 1.5,
                               ),
                             ),
@@ -401,12 +401,12 @@ class DeviceDetailView extends StatelessWidget {
                       ),
                     ),
                   )
-                : const Column(
+                : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.cancel, color: AppColors.errorColor, size: 80),
+                      Icon(Icons.cancel, color: Theme.of(context).colorScheme.error, size: 80),
                       SizedBox(height: 20),
-                      Text(AppStrings.deviceOffline, style: TextStyle(fontSize: 24)),
+                      Text(AppStrings.deviceOffline, style: TextStyle(fontSize: 24, color: Theme.of(context).colorScheme.onSurface)),
                     ],
                   );
           },
