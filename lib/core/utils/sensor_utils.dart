@@ -7,18 +7,19 @@ class SensorUtils {
   static IconData getSensorIcon(String sensorName) {
     switch (sensorName.toLowerCase()) {
       // 🌡️ Air Temperature
-      case 'sht31 – air temperature':
+      case 'DHT 22':
       case 'air temperature':
       case 'airtemperature':
       case 'temperature':
+      case 'Temperature':
         return Icons.thermostat;
 
       // 💧 Air Humidity
-      case 'sht31 – air humidity':
       case 'air humidity':
       case 'airhumidity':
       case 'humidity':
-        return Icons.water_drop;
+      case 'Humidity':
+      return Icons.water_drop;
 
       // 🌱 Soil Moisture
       case 'capacitive soil moisture sensor':
@@ -44,6 +45,12 @@ class SensorUtils {
       case 'co2':
       case 'air quality / co₂ indicator':
         return Icons.air;
+      
+      // 🌊 Water Level
+      case 'water level':
+      case 'waterlevel':
+      case 'liquid level':
+        return Icons.waves;
 
       default:
         return Icons.sensors;
@@ -77,6 +84,10 @@ class SensorUtils {
         name.contains('co2') ||
         name.contains('mq-135')) {
       return 'ppm';
+    }
+
+    if (name.contains('water level') || name.contains('liquid level')) {
+      return '%';
     }
 
     return '';
@@ -121,6 +132,12 @@ class SensorUtils {
 
       if (aL.contains('humidity') && !bL.contains('humidity')) return -1;
       if (!aL.contains('humidity') && bL.contains('humidity')) return 1;
+
+      // 🌊 Water Level last
+      final isAWater = aL.contains('water level') || aL.contains('liquid level');
+      final isBWater = bL.contains('water level') || bL.contains('liquid level');
+      if (isAWater && !isBWater) return 1;
+      if (!isAWater && isBWater) return -1;
 
       return a.compareTo(b);
     });

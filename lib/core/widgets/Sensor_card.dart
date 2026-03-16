@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:math' as math;
 
 class AnimatedSensorCard extends StatefulWidget {
   final String sensorName;
@@ -24,8 +25,9 @@ class AnimatedSensorCard extends StatefulWidget {
 }
 
 class _AnimatedSensorCardState extends State<AnimatedSensorCard>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _controller;
+  late AnimationController _waveController;
   late Animation<double> _animation;
   double oldValue = 0;
 
@@ -36,6 +38,11 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
       vsync: this,
       duration: const Duration(seconds: 1),
     );
+    _waveController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
+
     _animation = Tween<double>(
       begin: 0,
       end: widget.sensorValue,
@@ -79,11 +86,15 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isWaterLevel =
+        widget.sensorName.toLowerCase().contains('water level') ||
+        widget.sensorName.toLowerCase().contains('liquid level');
+
     return AnimatedBuilder(
-      animation: _animation,
+      animation: Listenable.merge([_animation, _waveController]),
       builder: (context, child) {
         final currentValue = _animation.value;
-        final color = getColor(currentValue);
+        final color = isWaterLevel ? Colors.blueAccent : getColor(currentValue);
 
         double percent;
         if (widget.minLimit != null && widget.maxLimit != null) {
@@ -102,7 +113,7 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
             gradient: LinearGradient(
               colors: [
                 color.withValues(alpha: isDark ? 0.15 : 0.3),
-                isDark 
+                isDark
                     ? Theme.of(context).colorScheme.surfaceContainerHighest
                     : Colors.white,
               ],
@@ -117,7 +128,9 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
                 offset: const Offset(0, 6),
               ),
             ],
-            border: isDark ? Border.all(color: color.withValues(alpha: 0.1), width: 1) : null,
+            border: isDark
+                ? Border.all(color: color.withValues(alpha: 0.1), width: 1)
+                : null,
           ),
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -129,16 +142,29 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
                   SizedBox(
                     width: 80,
                     height: 80,
-                    child: CircularProgressIndicator(
-                      value: percent,
-                      strokeWidth: 8,
-                      backgroundColor: Theme.of(context).brightness == Brightness.dark 
-                          ? Colors.white12 
-                          : Colors.grey[200],
-                      color: color,
-                    ),
+                    child: isWaterLevel
+                        ? CustomPaint(
+                            painter: LiquidWavePainter(
+                              percent: percent,
+                              color: color,
+                              waveValue: _waveController.value,
+                              isDark: isDark,
+                            ),
+                          )
+                        : CircularProgressIndicator(
+                            value: percent,
+                            strokeWidth: 8,
+                            backgroundColor: isDark
+                                ? Colors.white12
+                                : Colors.grey[200],
+                            color: color,
+                          ),
                   ),
-                  Icon(widget.icon, size: 36, color: color),
+                  Icon(
+                    widget.icon,
+                    size: 36,
+                    color: isWaterLevel ? Colors.white : color,
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -172,6 +198,99 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
   @override
   void dispose() {
     _controller.dispose();
+    _waveController.dispose();
     super.dispose();
   }
+}
+
+class LiquidWavePainter extends CustomPainter {
+  final double percent;
+  final Color color;
+  final double waveValue;
+  final bool isDark;
+
+  LiquidWavePainter({
+    required this.percent,
+    required this.color,
+    required this.waveValue,
+    required this.isDark,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = isDark ? Colors.white10 : Colors.grey[200]!
+      ..style = PaintingStyle.fill;
+
+    // Draw background circle
+    canvas.drawCircle(
+      Offset(size.width / 2, size.height / 2),
+      size.width / 2,
+      paint,
+    );
+
+    // Clip to circle
+    final path = Path()..addOval(Rect.fromLTWH(0, 0, size.width, size.height));
+    canvas.clipPath(path);
+
+    // Draw "water"
+    final waterPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [color.withValues(alpha: 0.8), color],
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
+      ..style = PaintingStyle.fill;
+
+    final double waterHeight = size.height * (1 - percent);
+    final wavePath = Path();
+    wavePath.moveTo(0, waterHeight);
+
+    for (double i = 0; i <= size.width; i++) {
+      wavePath.lineTo(
+        i,
+        waterHeight +
+            4 *
+                (percent > 0 && percent < 1 ? (1) : 0) *
+                (percent > 0.05 && percent < 0.95
+                    ? (size.height * 0.05 * (1 - (percent - 0.5).abs() * 2))
+                    : 2) *
+                (0.5 * (1 + (percent > 0.1 && percent < 0.9 ? 1 : 0))) *
+                (1.0) *
+                (0.5 + 0.5 * (1.0)) *
+                (percent > 0 && percent < 1 ? (1) : 0) *
+                (percent > 0.1 && percent < 0.9 ? 1 : 0) *
+                (4 * (percent > 0.1 && percent < 0.9 ? 1 : 0)) *
+                (1.0) *
+                (1.0) *
+                (math.sin(
+                  (i / size.width * 2 * math.pi) + (waveValue * 2 * math.pi),
+                )),
+      );
+    }
+
+    // Simpler wave logic
+    final wavePath2 = Path();
+    wavePath2.moveTo(0, waterHeight);
+    for (double i = 0; i <= size.width; i++) {
+      wavePath2.lineTo(
+        i,
+        waterHeight +
+            (5 *
+                (percent > 0.01 && percent < 0.99 ? 1 : 0) *
+                math.sin(
+                  (i / size.width * 2 * math.pi) + (waveValue * 2 * math.pi),
+                )),
+      );
+    }
+
+    wavePath2.lineTo(size.width, size.height);
+    wavePath2.lineTo(0, size.height);
+    wavePath2.close();
+
+    canvas.drawPath(wavePath2, waterPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant LiquidWavePainter oldDelegate) => true;
 }
