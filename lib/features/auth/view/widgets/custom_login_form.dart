@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/functions/custom_toast.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_colors.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/regexes.dart';
 import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart';
 import 'package:growiq/features/auth/view/widgets/custom_form_field.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class CustomLoginForm extends StatelessWidget {
   const CustomLoginForm({super.key});
@@ -31,7 +31,7 @@ class CustomLoginForm extends StatelessWidget {
           child: Column(
             children: [
               CustomTextFormField(
-                text: AppStrings.email,
+                text: AppLocalizations.of(context)!.email,
                 onChanged: (email) {
                   authCubit.email = email;
                 },
@@ -47,7 +47,7 @@ class CustomLoginForm extends StatelessWidget {
               ),
               SizedBox(height: 15),
               CustomTextFormField(
-                text: AppStrings.password,
+                text: AppLocalizations.of(context)!.password,
                 obscureText: !authCubit.isPasswordVisible,
                 onEyePressed: () {
                   authCubit.togglePasswordVisibility();
@@ -66,7 +66,7 @@ class CustomLoginForm extends StatelessWidget {
               state is SignInLoadingState
                   ? CircularProgressIndicator(color: AppColors.primaryColor)
                   : CustomButtom(
-                      text: AppStrings.login,
+                      text: AppLocalizations.of(context)!.login,
                       onPressed: () {
                         if (authCubit.formKey.currentState!.validate()) {
                           authCubit.signInWithEmailAndPassword();

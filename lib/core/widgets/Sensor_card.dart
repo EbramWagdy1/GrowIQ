@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class AnimatedSensorCard extends StatefulWidget {
   final String sensorName;
@@ -90,6 +91,18 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
         widget.sensorName.toLowerCase().contains('water level') ||
         widget.sensorName.toLowerCase().contains('liquid level');
 
+    String getLocalizedSensorName(BuildContext context, String sensorName) {
+      final lowerName = sensorName.toLowerCase();
+      if (lowerName == 'air temperature' || lowerName == 'temperature') return AppLocalizations.of(context)!.airTemperature;
+      if (lowerName == 'humidity') return AppLocalizations.of(context)!.humidity;
+      if (lowerName == 'soil moisture') return AppLocalizations.of(context)!.soilMoisture;
+      if (lowerName == 'soil temperature') return AppLocalizations.of(context)!.soilTemperature;
+      if (lowerName == 'light level') return AppLocalizations.of(context)!.lightLevel;
+      if (lowerName == 'air quality') return AppLocalizations.of(context)!.airQuality;
+      if (lowerName == 'water level') return AppLocalizations.of(context)!.waterLevel;
+      return sensorName;
+    }
+
     return AnimatedBuilder(
       animation: Listenable.merge([_animation, _waveController]),
       builder: (context, child) {
@@ -169,7 +182,7 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
               ),
               const SizedBox(height: 16),
               Text(
-                widget.sensorName,
+                getLocalizedSensorName(context, widget.sensorName),
                 style: GoogleFonts.roboto(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -180,12 +193,15 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 8),
-              Text(
-                '${currentValue.toStringAsFixed(1)} ${widget.unit}',
-                style: GoogleFonts.robotoMono(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: color,
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: Text(
+                  '${currentValue.toStringAsFixed(1)} ${widget.unit}',
+                  style: GoogleFonts.robotoMono(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
                 ),
               ),
             ],

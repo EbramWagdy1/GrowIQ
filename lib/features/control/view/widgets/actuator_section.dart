@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/core/utils/sensor_utils.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ActuatorSection extends StatelessWidget {
   final String deviceId;
@@ -93,6 +94,9 @@ class ActuatorSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      actuator.toLowerCase() == 'pump' ? AppLocalizations.of(context)!.pump :
+                      actuator.toLowerCase() == 'light' ? AppLocalizations.of(context)!.light :
+                      actuator.toLowerCase() == 'fan' ? AppLocalizations.of(context)!.fan :
                       actuator.toUpperCase(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -103,7 +107,7 @@ class ActuatorSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      isOn ? "Running" : "Off",
+                      isOn ? AppLocalizations.of(context)!.running : AppLocalizations.of(context)!.off,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,

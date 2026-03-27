@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/device_card.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/view_model/device_state.dart';
 import 'package:go_router/go_router.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ControlView extends StatelessWidget {
   const ControlView({super.key});
@@ -22,7 +22,7 @@ class ControlView extends StatelessWidget {
             }
             if (state is DeviceUpdated) {
               if (state.devices.isEmpty) {
-                return const Center(child: Text(AppStrings.noDevicesFound));
+                return Center(child: Text(AppLocalizations.of(context)!.noDevicesFound));
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(16),

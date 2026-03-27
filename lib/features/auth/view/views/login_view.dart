@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/functions/navigation.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/features/auth/view/views/auth_form.dart';
 import 'package:growiq/features/auth/view/widgets/custom_login_form.dart';
 import 'package:growiq/features/auth/view/widgets/logo_widget.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class Loginview extends StatelessWidget {
   const Loginview({super.key});
@@ -31,7 +31,7 @@ class Login extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             slivers: [
               SliverToBoxAdapter(
-                child: Logowidget(text: AppStrings.loginSubtitle),
+                child: Logowidget(text: AppLocalizations.of(context)!.loginSubtitle),
               ),
               SliverToBoxAdapter(child: SizedBox(height: 20)),
               SliverToBoxAdapter(child: CustomLoginForm()),
@@ -43,7 +43,7 @@ class Login extends StatelessWidget {
                   },
                   child: Center(
                     child: Text(
-                      AppStrings.forgotPassword,
+                      AppLocalizations.of(context)!.forgotPassword,
                       style: AppTextStyles.bodyText1(context).copyWith(
                         color: Colors.grey,
                         fontSize: 14,
@@ -54,9 +54,9 @@ class Login extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: Autform(
-                  text: "or login",
-                  questionText: AppStrings.dontHaveAccount,
-                  createAccountText: "Create Account",
+                  text: AppLocalizations.of(context)!.orLogin,
+                  questionText: AppLocalizations.of(context)!.dontHaveAccount,
+                  createAccountText: AppLocalizations.of(context)!.createAccount,
                   path: "/Signup",
                 ),
               ),

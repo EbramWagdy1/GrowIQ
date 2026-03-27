@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:growiq/features/me/view/widgets/team_card_widget.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class AboutView extends StatelessWidget {
   const AboutView({super.key});
@@ -11,7 +11,7 @@ class AboutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: AppStrings.aboutApp),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.aboutApp),
       body: Column(
         children: [
           Expanded(
@@ -22,18 +22,18 @@ class AboutView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppStrings.aboutGrowIQTitle,
+                    AppLocalizations.of(context)!.aboutGrowIQTitle,
                     style: AppTextStyles.titleMedium(context),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    AppStrings.aboutGrowIQDesc,
+                    AppLocalizations.of(context)!.aboutGrowIQDesc,
                     style: AppTextStyles.bodyText1(context),
                   ),
 
                   const SizedBox(height: 30),
 
-                  Text(AppStrings.ourTeam, style: AppTextStyles.titleMedium(context)),
+                  Text(AppLocalizations.of(context)!.ourTeam, style: AppTextStyles.titleMedium(context)),
 
                   const SizedBox(height: 20),
 

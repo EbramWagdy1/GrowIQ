@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:growiq/core/utils/app_colors.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/device_card.dart';
 import 'package:growiq/core/widgets/sensor_card.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
@@ -10,6 +9,7 @@ import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/view_model/device_state.dart';
 import 'package:growiq/features/control/view/widgets/device_dialogs.dart';
 import 'package:growiq/core/utils/sensor_utils.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -38,7 +38,7 @@ class HomeBodyState extends State<HomeBody> {
               content: Text(state.message),
               backgroundColor: AppColors.errorColor,
               action: SnackBarAction(
-                label: AppStrings.retry,
+                label: AppLocalizations.of(context)!.retry,
                 textColor: AppColors.white,
                 onPressed: () => context.read<DeviceCubit>().refresh(),
               ),
@@ -47,8 +47,8 @@ class HomeBodyState extends State<HomeBody> {
         }
         if (state is DeviceAddSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(AppStrings.farmAddedSuccess),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.farmAddedSuccess),
               backgroundColor: AppColors.successColor,
             ),
           );
@@ -76,7 +76,7 @@ class HomeBodyState extends State<HomeBody> {
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
             Text(
-              AppStrings.checkingDevices,
+              AppLocalizations.of(context)!.checkingDevices,
               style: AppTextStyles.bodyText1(context).copyWith(fontSize: 14),
             ),
           ],
@@ -141,8 +141,8 @@ class HomeBodyState extends State<HomeBody> {
                               (currentDevice.modes['ai_mode'] == true ||
                                       currentDevice.modes['ai_mode'] == 1 ||
                                       currentDevice.modes['ai_mode'] == '1')
-                                  ? "AI Mode Active"
-                                  : "Manual Mode",
+                                  ? AppLocalizations.of(context)!.aiModeActive
+                                  : AppLocalizations.of(context)!.manualMode,
                               style: AppTextStyles.bodyText1(context).copyWith(
                                 fontSize: 12,
                                 color: (currentDevice.modes['ai_mode'] == true ||
@@ -238,7 +238,7 @@ class HomeBodyState extends State<HomeBody> {
           const Icon(Icons.eco_outlined, size: 60, color: AppColors.greyColor),
           const SizedBox(height: 16),
           Text(
-            AppStrings.noFarmsLinked,
+            AppLocalizations.of(context)!.noFarmsLinked,
             style: AppTextStyles.titleMedium(context).copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -254,15 +254,15 @@ class HomeBodyState extends State<HomeBody> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  const Text(
-                    AppStrings.addYourDevice,
+                  Text(
+                    AppLocalizations.of(context)!.addYourDevice,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   TextField(
                     controller: _addDeviceController,
                     decoration: InputDecoration(
-                      hintText: AppStrings.enterDeviceId,
+                      hintText: AppLocalizations.of(context)!.enterDeviceId,
                       prefixIcon: const Icon(Icons.qr_code_scanner),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -290,8 +290,8 @@ class HomeBodyState extends State<HomeBody> {
                           _addDeviceController.clear();
                         }
                       },
-                      child: const Text(
-                        AppStrings.connect,
+                      child: Text(
+                        AppLocalizations.of(context)!.connect,
                         style: TextStyle(color: AppColors.white, fontSize: 16),
                       ),
                     ),
@@ -318,18 +318,18 @@ class HomeBodyState extends State<HomeBody> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(AppStrings.addNewFarm),
+        title: Text(AppLocalizations.of(context)!.addNewFarm),
         content: TextField(
           controller: _addDeviceController,
-          decoration: const InputDecoration(
-            hintText: AppStrings.enterDeviceId,
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.enterDeviceId,
             border: OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(AppStrings.cancel),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary),
@@ -341,7 +341,7 @@ class HomeBodyState extends State<HomeBody> {
                 Navigator.pop(context);
               }
             },
-            child: const Text(AppStrings.connect, style: TextStyle(color: AppColors.white)),
+            child: Text(AppLocalizations.of(context)!.connect, style: TextStyle(color: AppColors.white)),
           ),
         ],
       ),

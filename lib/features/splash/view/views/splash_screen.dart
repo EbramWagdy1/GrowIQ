@@ -5,8 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_strings.dart';
+
 import 'package:lottie/lottie.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -88,7 +89,7 @@ class _SplashViewState extends State<SplashView> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  AppStrings.appNamed,
+                  AppLocalizations.of(context)!.appNamed,
                   style: TextStyle(
                     fontSize: 60,
                     fontWeight: FontWeight.bold,
@@ -97,7 +98,7 @@ class _SplashViewState extends State<SplashView> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  AppStrings.splashSubtitle,
+                  AppLocalizations.of(context)!.splashSubtitle,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/sensor_utils.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class DeviceModel extends Equatable {
   final String id;
@@ -26,13 +28,13 @@ class DeviceModel extends Equatable {
 
   bool get isHealthy => ai['disease']?.toString().toLowerCase() == 'healthy';
   
-  String get aiDiseaseMessage => isHealthy 
-      ? 'Farm is Healthy' 
-      : 'Issue Detected: ${ai['disease'] ?? 'Unknown'}';
+  String getAiDiseaseMessage(BuildContext context) => isHealthy 
+      ? AppLocalizations.of(context)!.farmIsHealthy 
+      : '${AppLocalizations.of(context)!.issueDetected}: ${ai['disease'] ?? 'Unknown'}';
       
-  String get aiConfidenceMessage => isHealthy 
-      ? 'All systems are running optimally.' 
-      : 'AI Confidence: ${(double.tryParse(ai['confidence']?.toString() ?? '0.0') ?? 0.0).toStringAsFixed(1)}%';
+  String getAiConfidenceMessage(BuildContext context) => isHealthy 
+      ? AppLocalizations.of(context)!.systemsRunningOptimally 
+      : '${AppLocalizations.of(context)!.aiConfidence}: ${(double.tryParse(ai['confidence']?.toString() ?? '0.0') ?? 0.0).toStringAsFixed(1)}%';
       
   bool get isAiMode => modes['ai_mode'] == true || modes['ai_mode'] == 1 || modes['ai_mode'] == '1';
   

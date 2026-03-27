@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ChatIntroView extends StatelessWidget {
   const ChatIntroView({super.key});
@@ -29,7 +29,7 @@ class ChatIntroView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      AppStrings.hello,
+                      AppLocalizations.of(context)!.hello,
                       style: AppTextStyles.headlineLarge(context),
                     ),
                   ),
@@ -37,7 +37,7 @@ class ChatIntroView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      AppStrings.slogn,
+                      AppLocalizations.of(context)!.slogn,
                       style: AppTextStyles.bodyText1(context),
                     ),
                   ),
@@ -45,7 +45,7 @@ class ChatIntroView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CustomButtom(
-                      text: AppStrings.chatbt,
+                      text: AppLocalizations.of(context)!.chatbt,
                       onPressed: () => {
                         customNavigate(context, '/start-chat'),
                       },

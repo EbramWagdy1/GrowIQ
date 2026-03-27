@@ -4,10 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/features/home/view/widgets/weather_section.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class HomeBar extends StatelessWidget {
   final VoidCallback? onAddDevice;
@@ -19,7 +19,7 @@ class HomeBar extends StatelessWidget {
       stream: FirebaseAuth.instance.userChanges(),
       builder: (context, snapshot) {
         final user = snapshot.data;
-        final name = user?.displayName ?? AppStrings.guestUser;
+        final name = user?.displayName ?? AppLocalizations.of(context)!.guestUser;
         final photoUrl = user?.photoURL;
 
         return Container(
@@ -44,7 +44,7 @@ class HomeBar extends StatelessWidget {
                     backgroundColor: AppColors.white12,
                   ),
                   title: Text(
-                    AppStrings.welcome,
+                    AppLocalizations.of(context)!.welcome,
                     style: AppTextStyles.hintText(context).copyWith(
                       color: AppColors.white70,
                     ),

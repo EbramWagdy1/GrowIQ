@@ -4,8 +4,7 @@ import 'package:growiq/core/utils/app_colors.dart';
 import 'package:growiq/features/chat/view_model/chat_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-
-import 'package:growiq/core/utils/app_strings.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ChatInputArea extends StatelessWidget {
   final TextEditingController controller;
@@ -40,8 +39,8 @@ class ChatInputArea extends StatelessWidget {
             Expanded(
               child: TextField(
                 controller: controller,
-                decoration: const InputDecoration(
-                  hintText: AppStrings.typeMessage,
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.typeMessage,
                   hintStyle: TextStyle(color: Colors.black54, fontSize: 14),
                   border: InputBorder.none,
                 ),
@@ -55,7 +54,7 @@ class ChatInputArea extends StatelessWidget {
             _buildSmallIconButton(Icons.attach_file, iconColor, _pickFile),
             _buildSmallIconButton(Icons.send_rounded, iconColor, () {
               if (controller.text.trim().isNotEmpty) {
-                context.read<ChatCubit>().sendMessage(controller.text);
+                context.read<ChatCubit>().sendMessage(controller.text, context: context);
                 controller.clear();
               }
             }),

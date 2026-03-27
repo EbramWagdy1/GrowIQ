@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:lottie/lottie.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class Logowidget extends StatelessWidget {
   const Logowidget({super.key, required this.text});
@@ -15,7 +15,7 @@ class Logowidget extends StatelessWidget {
         children: [
           Lottie.asset(Assets.lottieLogo, width: 150, height: 150),
           Text(
-            AppStrings.appNamed,
+            AppLocalizations.of(context)!.appNamed,
             style: TextStyle(
               fontSize: 60,
               fontWeight: FontWeight.bold,

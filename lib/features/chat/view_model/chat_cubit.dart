@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/services/groq_service.dart';
-import 'package:growiq/core/utils/app_strings.dart';
+
 import 'package:growiq/features/chat/model/chat_message.dart';
 import 'chat_state.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final GroqService service;
@@ -19,15 +21,17 @@ class ChatCubit extends Cubit<ChatState> {
         ),
       );
 
-  Future<void> sendMessage(String text) async {
+  Future<void> sendMessage(String text, {BuildContext? context}) async {
     if (text.trim().isEmpty) return;
 
     String apiInstruction = text;
 
-    if (text == AppStrings.arabic) {
-      apiInstruction = AppStrings.arabicPrompt;
-    } else if (text == AppStrings.english) {
-      apiInstruction = AppStrings.englishPrompt;
+    if (context != null) {
+      if (text == AppLocalizations.of(context)!.arabic) {
+        apiInstruction = AppLocalizations.of(context)!.arabicPrompt;
+      } else if (text == AppLocalizations.of(context)!.english) {
+        apiInstruction = AppLocalizations.of(context)!.englishPrompt;
+      }
     }
 
     final updatedMessages = List<ChatMessage>.from(state.messages)

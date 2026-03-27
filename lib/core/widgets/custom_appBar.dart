@@ -29,8 +29,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             /// Back Button
             if (showBack)
-              Positioned(
-                left: 20,
+              PositionedDirectional(
+                start: 20,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(30),
                   onTap: onBack ?? () => Navigator.pop(context),
@@ -41,10 +41,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       color: Theme.of(context).colorScheme.primary,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
-                      Icons.arrow_back_ios_new,
+                    child: Icon(
+                      Directionality.of(context) == TextDirection.rtl
+                          ? Icons.arrow_forward_ios
+                          : Icons.arrow_back_ios_new,
                       color: Colors.white,
                       size: 20,
+                      textDirection: TextDirection.ltr,
                     ),
                   ),
                 ),
@@ -54,8 +57,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
             /// Actions
             if (actions != null)
-              Positioned(
-                right: 20,
+              PositionedDirectional(
+                end: 20,
                 child: Row(mainAxisSize: MainAxisSize.min, children: actions!),
               ),
           ],

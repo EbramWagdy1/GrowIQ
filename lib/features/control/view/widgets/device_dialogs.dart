@@ -4,7 +4,7 @@ import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/model/device_model.dart';
 import 'package:growiq/core/utils/plant_types.dart';
 import 'package:growiq/core/utils/app_colors.dart';
-import 'package:growiq/core/utils/app_strings.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class DeviceDialogs {
   static void showRenameDialog({
@@ -16,18 +16,18 @@ class DeviceDialogs {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text(AppStrings.renameDevice),
+        title: Text(AppLocalizations.of(context)!.renameDevice),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(
-            hintText: AppStrings.enterNewName,
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.enterNewName,
             border: OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text(AppStrings.cancel),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -39,7 +39,7 @@ class DeviceDialogs {
                 Navigator.pop(dialogContext);
               }
             },
-            child: const Text(AppStrings.save),
+            child: Text(AppLocalizations.of(context)!.save),
           ),
         ],
       ),
@@ -55,12 +55,12 @@ class DeviceDialogs {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text(AppStrings.deleteDevice),
-        content: Text("${AppStrings.deleteDeviceConfirmPrefix}${device.name}${AppStrings.deleteDeviceConfirmSuffix}"),
+        title: Text(AppLocalizations.of(context)!.deleteDevice),
+        content: Text("${AppLocalizations.of(context)!.deleteDeviceConfirmPrefix}${device.name}${AppLocalizations.of(context)!.deleteDeviceConfirmSuffix}"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text(AppStrings.cancel),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -72,11 +72,25 @@ class DeviceDialogs {
               Navigator.pop(dialogContext); // close dialog only
               onDeleted?.call(); // caller handles page navigation
             },
-            child: const Text(AppStrings.delete),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),
     );
+  }
+
+  static String _getLocalizedPlantName(BuildContext context, String plantKey) {
+    switch (plantKey.toLowerCase()) {
+      case 'tomato': return AppLocalizations.of(context)!.tomato;
+      case 'mint': return AppLocalizations.of(context)!.mint;
+      case 'lettuce': return AppLocalizations.of(context)!.lettuce;
+      case 'basil': return AppLocalizations.of(context)!.basil;
+      case 'pepper': return AppLocalizations.of(context)!.pepper;
+      case 'cucumber': return AppLocalizations.of(context)!.cucumber;
+      case 'strawberry': return AppLocalizations.of(context)!.strawberry;
+      case 'spinach': return AppLocalizations.of(context)!.spinach;
+      default: return plantKey;
+    }
   }
 
   static void showPlantSelectionDialog({
@@ -143,7 +157,7 @@ class DeviceDialogs {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      AppStrings.selectCropType,
+                      AppLocalizations.of(context)!.selectCropType,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -152,7 +166,7 @@ class DeviceDialogs {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      AppStrings.whatAreYouGrowing,
+                      AppLocalizations.of(context)!.whatAreYouGrowing,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
@@ -210,7 +224,7 @@ class DeviceDialogs {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    crop,
+                                    _getLocalizedPlantName(context, crop),
                                     style: TextStyle(
                                       fontWeight: isSelected
                                           ? FontWeight.bold
@@ -246,7 +260,7 @@ class DeviceDialogs {
                               }
                             },
                             child: Text(
-                              AppStrings.cancel,
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -281,8 +295,8 @@ class DeviceDialogs {
                                 Navigator.pop(context);
                               }
                             },
-                            child: const Text(
-                              AppStrings.save,
+                            child: Text(
+                              AppLocalizations.of(context)!.save,
                               style: TextStyle(
                                 color: AppColors.white,
                                 fontSize: 16,
@@ -349,7 +363,7 @@ class DeviceDialogs {
               ),
               const SizedBox(height: 16),
               Text(
-                isTurningOn ? AppStrings.enableAiModeQuestion : AppStrings.disableAiModeQuestion,
+                isTurningOn ? AppLocalizations.of(context)!.enableAiModeQuestion : AppLocalizations.of(context)!.disableAiModeQuestion,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 22,
@@ -360,8 +374,8 @@ class DeviceDialogs {
               const SizedBox(height: 12),
               Text(
                 isTurningOn
-                    ? AppStrings.enableAiModeDesc
-                    : AppStrings.disableAiModeDesc,
+                    ? AppLocalizations.of(context)!.enableAiModeDesc
+                    : AppLocalizations.of(context)!.disableAiModeDesc,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
@@ -382,7 +396,7 @@ class DeviceDialogs {
                       ),
                       onPressed: () => Navigator.pop(dialogContext),
                       child: Text(
-                        AppStrings.cancel,
+                        AppLocalizations.of(context)!.cancel,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -409,7 +423,7 @@ class DeviceDialogs {
                         onConfirm();
                       },
                       child: Text(
-                        isTurningOn ? AppStrings.enable : AppStrings.disable,
+                        isTurningOn ? AppLocalizations.of(context)!.enable : AppLocalizations.of(context)!.disable,
                         style: const TextStyle(
                           color: AppColors.white,
                           fontSize: 16,

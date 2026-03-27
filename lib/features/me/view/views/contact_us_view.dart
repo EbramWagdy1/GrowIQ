@@ -4,6 +4,7 @@ import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ContactUsView extends StatelessWidget {
   const ContactUsView({super.key});
@@ -18,14 +19,14 @@ class ContactUsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: AppStrings.contactUs),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.contactUs),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.followUs,
+              AppLocalizations.of(context)!.followUs,
               style: AppTextStyles.titleMedium(context),
             ),
             const SizedBox(height: 30),
@@ -34,7 +35,7 @@ class ContactUsView extends StatelessWidget {
               _buildContactItem(
                 context,
                 icon: FontAwesomeIcons.facebook,
-                label: AppStrings.facebook,
+                label: AppLocalizations.of(context)!.facebook,
                 color: const Color(0xFF1877F2),
                 onTap: () => _launchUrl(AppStrings.fbLink),
               ),
@@ -45,7 +46,7 @@ class ContactUsView extends StatelessWidget {
               _buildContactItem(
                 context,
                 icon: FontAwesomeIcons.instagram,
-                label: AppStrings.instagram,
+                label: AppLocalizations.of(context)!.instagram,
                 color: const Color(0xFFE4405F),
                 onTap: () => _launchUrl(AppStrings.instaLink),
               ),
@@ -56,7 +57,7 @@ class ContactUsView extends StatelessWidget {
               _buildContactItem(
                 context,
                 icon: FontAwesomeIcons.linkedin,
-                label: AppStrings.linkedIn,
+                label: AppLocalizations.of(context)!.linkedIn,
                 color: const Color(0xFF0077B5),
                 onTap: () => _launchUrl(AppStrings.linkedInLink),
               ),
@@ -67,7 +68,7 @@ class ContactUsView extends StatelessWidget {
               _buildContactItem(
                 context,
                 icon: FontAwesomeIcons.github,
-                label: AppStrings.github,
+                label: AppLocalizations.of(context)!.github,
                 color: Theme.of(context).brightness == Brightness.dark 
                     ? Colors.white 
                     : Colors.black,
@@ -80,7 +81,7 @@ class ContactUsView extends StatelessWidget {
               _buildContactItem(
                 context,
                 icon: FontAwesomeIcons.globe,
-                label: AppStrings.website,
+                label: AppLocalizations.of(context)!.website,
                 color: Colors.teal,
                 onTap: () => _launchUrl(AppStrings.websiteLink),
               ),

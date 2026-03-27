@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 import 'package:lottie/lottie.dart';
 
 class DeviceCard extends StatelessWidget {
@@ -87,14 +88,14 @@ class DeviceCard extends StatelessWidget {
                       onDelete?.call();
                     }
                   },
-                  itemBuilder: (context) => const [
+                  itemBuilder: (context) => [
                     PopupMenuItem(
                       value: 'rename',
                       child: Row(
                         children: [
                           Icon(Icons.edit, size: 20, color: Colors.blue),
                           SizedBox(width: 8),
-                          Text('Edit Name'),
+                          Text(AppLocalizations.of(context)!.editName),
                         ],
                       ),
                     ),
@@ -104,7 +105,7 @@ class DeviceCard extends StatelessWidget {
                         children: [
                           Icon(Icons.local_florist, size: 20, color: Colors.green),
                           SizedBox(width: 8),
-                          Text('Change Plant'),
+                          Text(AppLocalizations.of(context)!.changePlant),
                         ],
                       ),
                     ),
@@ -114,7 +115,7 @@ class DeviceCard extends StatelessWidget {
                         children: [
                           Icon(Icons.delete, size: 20, color: Colors.red),
                           SizedBox(width: 8),
-                          Text('Delete Device'),
+                          Text(AppLocalizations.of(context)!.deleteDevice),
                         ],
                       ),
                     ),

@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/functions/navigation.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/utils/app_colors.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/features/me/view/widgets/profile_menu_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/services/auth_service.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class MeView extends StatefulWidget {
   const MeView({super.key});
@@ -39,7 +39,7 @@ class _MeViewState extends State<MeView> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            '${AppStrings.errorPrefix}${state.errMessage}'),
+                            '${AppLocalizations.of(context)!.errorPrefix}${state.errMessage}'),
                       ),
                     );
                   }
@@ -51,8 +51,8 @@ class _MeViewState extends State<MeView> {
                     // --- User Info section ---
                     Builder(builder: (context) {
                       final user = getIt<AuthService>().currentUser;
-                      final name = user?.displayName ?? AppStrings.guestUser;
-                      final email = user?.email ?? AppStrings.noEmail;
+                      final name = user?.displayName ?? AppLocalizations.of(context)!.guestUser;
+                      final email = user?.email ?? AppLocalizations.of(context)!.noEmail;
                       final photoUrl = user?.photoURL;
 
                       return Column(
@@ -108,7 +108,7 @@ class _MeViewState extends State<MeView> {
                     // Profile
                     Builder(builder: (context) {
                       return ProfileMenuItem(
-                        text: AppStrings.profile,
+                        text: AppLocalizations.of(context)!.profile,
                         icon: Icons.person_outline,
                         onTap: () async {
                           final result =
@@ -123,7 +123,7 @@ class _MeViewState extends State<MeView> {
 
                     // Settings
                     ProfileMenuItem(
-                      text: AppStrings.settings,
+                      text: AppLocalizations.of(context)!.settings,
                       icon: Icons.settings_outlined,
                       onTap: () {
                         customNavigate(context, '/settings');
@@ -131,7 +131,7 @@ class _MeViewState extends State<MeView> {
                     ),
                     // Plants Info
                     ProfileMenuItem(
-                      text: 'Plants Information',
+                      text: AppLocalizations.of(context)!.plantsInformation,
                       icon: Icons.local_florist_outlined,
                       onTap: () {
                         customNavigate(context, '/plants-info');
@@ -139,7 +139,7 @@ class _MeViewState extends State<MeView> {
                     ),
                     // About
                     ProfileMenuItem(
-                      text: AppStrings.aboutApp,
+                      text: AppLocalizations.of(context)!.aboutApp,
                       icon: Icons.info_outline,
                       onTap: () {
                         customNavigate(context, '/about');
@@ -148,7 +148,7 @@ class _MeViewState extends State<MeView> {
 
                     // Contact Us
                     ProfileMenuItem(
-                      text: AppStrings.contactUs,
+                      text: AppLocalizations.of(context)!.contactUs,
                       icon: Icons.contact_support,
                       onTap: () {
                         customNavigate(context, '/contact-us');
@@ -157,7 +157,7 @@ class _MeViewState extends State<MeView> {
                     // Logout
                     Builder(builder: (context) {
                       return ProfileMenuItem(
-                        text: AppStrings.logout,
+                        text: AppLocalizations.of(context)!.logout,
                         icon: Icons.logout,
                         onTap: () {
                           context.read<AuthCubit>().signOut();

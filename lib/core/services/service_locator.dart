@@ -12,11 +12,13 @@ import 'package:growiq/core/services/auth_service.dart';
 import 'package:growiq/core/services/cloudinary_service.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/core/theme/theme_cubit.dart';
+import 'package:growiq/core/l10n/locale_cubit.dart';
 
 final getIt = GetIt.instance;
 void setupServiceLocator() {
   getIt.registerSingleton<CacheHelper>(CacheHelper());
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit(getIt<CacheHelper>()));
+  getIt.registerLazySingleton<LocaleCubit>(() => LocaleCubit(getIt<CacheHelper>()));
   getIt.registerLazySingleton<Connectivity>(() => Connectivity());
 
   getIt.registerLazySingleton<ConnectivityService>(

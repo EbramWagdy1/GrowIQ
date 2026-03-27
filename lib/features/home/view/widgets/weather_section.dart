@@ -8,6 +8,7 @@ import 'package:growiq/features/home/view_model/weather_cubit.dart';
 import 'package:growiq/features/home/view_model/weather_state.dart';
 import 'package:lottie/lottie.dart';
 import 'weather_info_widget.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class WeatherSection extends StatelessWidget {
   const WeatherSection({super.key});
@@ -25,13 +26,13 @@ class WeatherSection extends StatelessWidget {
           if (state is WeatherSuccess) {
             currentWeather = state.weather;
           }
-          return _buildWeatherCard(currentWeather);
+          return _buildWeatherCard(context, currentWeather);
         },
       ),
     );
   }
 
-  Widget _buildWeatherCard(Weather? weather) {
+  Widget _buildWeatherCard(BuildContext context, Weather? weather) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -59,14 +60,14 @@ class WeatherSection extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: WeatherInfoWidget(
-              condition: "Humidity",
+              condition: AppLocalizations.of(context)!.humidity,
               temperature: weather != null ? "${weather.humidity}%" : "--",
             ),
           ),
           const SizedBox(width: 5),
           Expanded(
             child: WeatherInfoWidget(
-              condition: "Wind Speed",
+              condition: AppLocalizations.of(context)!.windSpeed,
               temperature: weather != null ? "${weather.windSpeed} km/h" : "--",
             ),
           ),

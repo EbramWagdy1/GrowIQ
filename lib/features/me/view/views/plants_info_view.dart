@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/plant_types.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class PlantsInfoView extends StatefulWidget {
   const PlantsInfoView({super.key});
@@ -19,15 +20,30 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
     super.dispose();
   }
 
+  String getLocalizedPlantName(BuildContext context, String plantKey) {
+    switch (plantKey.toLowerCase()) {
+      case 'tomato': return AppLocalizations.of(context)!.tomato;
+      case 'mint': return AppLocalizations.of(context)!.mint;
+      case 'lettuce': return AppLocalizations.of(context)!.lettuce;
+      case 'basil': return AppLocalizations.of(context)!.basil;
+      case 'pepper': return AppLocalizations.of(context)!.pepper;
+      case 'cucumber': return AppLocalizations.of(context)!.cucumber;
+      case 'strawberry': return AppLocalizations.of(context)!.strawberry;
+      case 'spinach': return AppLocalizations.of(context)!.spinach;
+      default: return plantKey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final allPlants = PlantConfig.defaultThresholds.keys.toList();
     final displayedPlants = allPlants.where((plant) {
-      return plant.toLowerCase().contains(_searchQuery.toLowerCase());
+      final localized = getLocalizedPlantName(context, plant);
+      return localized.toLowerCase().contains(_searchQuery.toLowerCase());
     }).toList();
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Plants Information'),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.plantsInformation),
       body: Column(
         children: [
           Padding(
@@ -35,7 +51,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search plants...',
+                hintText: AppLocalizations.of(context)!.searchPlants,
                 prefixIcon: Icon(
                   Icons.search,
                   color: Theme.of(context).colorScheme.primary,
@@ -90,7 +106,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                         ),
                       ),
                       title: Text(
-                        plantName,
+                        getLocalizedPlantName(context, plantName),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -107,7 +123,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                             children: [
                               _buildThresholdRow(
                                 icon: Icons.thermostat,
-                                label: 'Air Temperature',
+                                label: AppLocalizations.of(context)!.airTemperature,
                                 min: thresholds['air temperature']?['min'],
                                 max: thresholds['air temperature']?['max'],
                                 unit: '°C',
@@ -115,7 +131,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                               ),
                               _buildThresholdRow(
                                 icon: Icons.water_drop,
-                                label: 'Humidity',
+                                label: AppLocalizations.of(context)!.humidity,
                                 min: thresholds['humidity']?['min'],
                                 max: thresholds['humidity']?['max'],
                                 unit: '%',
@@ -123,7 +139,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                               ),
                               _buildThresholdRow(
                                 icon: Icons.grass,
-                                label: 'Soil Moisture',
+                                label: AppLocalizations.of(context)!.soilMoisture,
                                 min: thresholds['soil moisture']?['min'],
                                 max: thresholds['soil moisture']?['max'],
                                 unit: '%',
@@ -131,7 +147,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                               ),
                               _buildThresholdRow(
                                 icon: Icons.thermostat_auto,
-                                label: 'Soil Temperature',
+                                label: AppLocalizations.of(context)!.soilTemperature,
                                 min: thresholds['soil temperature']?['min'],
                                 max: thresholds['soil temperature']?['max'],
                                 unit: '°C',
@@ -139,7 +155,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                               ),
                               _buildThresholdRow(
                                 icon: Icons.wb_sunny,
-                                label: 'Light Level',
+                                label: AppLocalizations.of(context)!.lightLevel,
                                 min: thresholds['light level']?['min'],
                                 max: thresholds['light level']?['max'],
                                 unit: ' lux',
@@ -147,7 +163,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                               ),
                               _buildThresholdRow(
                                 icon: Icons.air,
-                                label: 'Air Quality (CO2)',
+                                label: AppLocalizations.of(context)!.airQuality,
                                 min: thresholds['air quality']?['min'],
                                 max: thresholds['air quality']?['max'],
                                 unit: ' ppm',

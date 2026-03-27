@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:growiq/core/services/service_locator.dart';
@@ -12,6 +11,7 @@ import 'package:growiq/core/services/auth_service.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart'; 
 import 'package:growiq/core/functions/navigation.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -62,18 +62,18 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     final photoURL = getIt<AuthService>().currentUser?.photoURL;
     return Scaffold(
-      appBar: CustomAppBar(title: AppStrings.profile),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.profile),
       body: BlocConsumer<AuthCubit, AuthState>(
         bloc: _authCubit,
         listener: (context, state) {
           if (state is ProfileUpdateSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text(AppStrings.profileUpdatedSuccess)),
+              SnackBar(content: Text(AppLocalizations.of(context)!.profileUpdatedSuccess)),
             );
             customPop(context, result: true);
           } else if (state is ProfileUpdateFailureState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('${AppStrings.errorPrefix}${state.errMessage}')),
+              SnackBar(content: Text('${AppLocalizations.of(context)!.errorPrefix}${state.errMessage}')),
             );
           }
         },
@@ -130,9 +130,9 @@ class _ProfileViewState extends State<ProfileView> {
                           Expanded(
                             child: TextField(
                               controller: _nameController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 border: InputBorder.none, 
-                                hintText: AppStrings.name,
+                                hintText: AppLocalizations.of(context)!.name,
                               ),
                               style: TextStyle(
                                 fontSize: 16,
@@ -151,7 +151,7 @@ class _ProfileViewState extends State<ProfileView> {
                   state is ProfileUpdateLoadingState
                       ? const CircularProgressIndicator()
                       : CustomButtom(
-                          text: AppStrings.save,
+                          text: AppLocalizations.of(context)!.save,
                           onPressed: _saveProfile,
                         ),
                 ],

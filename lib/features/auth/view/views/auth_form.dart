@@ -26,7 +26,7 @@ class Autform extends StatelessWidget {
         CustomAppLogin(),
         SizedBox(height: 20),
         Center(child: Text(questionText, style: AppTextStyles.bodyText1(context))),
-        SizedBox(height: 15),
+        const SizedBox(height: 5),
         Center(
           child: GestureDetector(
             onTap: () {
@@ -41,6 +41,7 @@ class Autform extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(height: 30),
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ResendCodeSection extends StatelessWidget {
   final bool canResend;
@@ -21,13 +22,13 @@ class ResendCodeSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Didn't receive any code? ",
+              AppLocalizations.of(context)!.didNotReceiveEmail,
               style: AppTextStyles.bodyText1(context).copyWith(fontSize: 14),
             ),
             GestureDetector(
               onTap: canResend ? onResend : null,
               child: Text(
-                "Resend Again",
+                AppLocalizations.of(context)!.resendAgain,
                 style: AppTextStyles.bodyText1(context).copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -39,7 +40,7 @@ class ResendCodeSection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          "Request new code in 00:${secondsRemaining.toString().padLeft(2, '0')}s",
+          "${AppLocalizations.of(context)!.requestCodeIn} 00:${secondsRemaining.toString().padLeft(2, '0')}s",
           style: AppTextStyles.bodyText1(context).copyWith(fontSize: 14),
         ),
       ],

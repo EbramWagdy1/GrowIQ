@@ -15,7 +15,7 @@ class WeatherInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FittedBox(
       fit: BoxFit.scaleDown,
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -28,12 +28,15 @@ class WeatherInfoWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Text(
-            temperature,
-            style: AppTextStyles.buttonText(context).copyWith(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: AppColors.white,
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Text(
+              temperature,
+              style: AppTextStyles.buttonText(context).copyWith(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: AppColors.white,
+              ),
             ),
           ),
         ],

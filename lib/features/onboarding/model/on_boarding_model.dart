@@ -1,5 +1,6 @@
 import 'package:growiq/core/utils/app_assets.dart';
-import 'package:growiq/core/utils/app_strings.dart';
+import 'package:flutter/material.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class OnBoardingModel {
   final String image;
@@ -13,20 +14,22 @@ class OnBoardingModel {
   });
 }
 
-List<OnBoardingModel> onBoardingData = [
+List<OnBoardingModel> getOnBoardingData(BuildContext context) {
+  return [
   OnBoardingModel(
     image:Assets.imagesOnboarding1,
-    title: AppStrings.onboardingTitle1,
-    desc: AppStrings.onboardingDesc1,
+    title: AppLocalizations.of(context)!.onboardingTitle1,
+    desc: AppLocalizations.of(context)!.onboardingDesc1,
   ),
   OnBoardingModel(
     image: Assets.imagesOnboarding2,
-    title: AppStrings.onboardingTitle2,
-    desc: AppStrings.onboardingDesc2,
+    title: AppLocalizations.of(context)!.onboardingTitle2,
+    desc: AppLocalizations.of(context)!.onboardingDesc2,
   ),
   OnBoardingModel(
     image: Assets.imagesOnboarding3,
-    title: AppStrings.onboardingTitle3,
-    desc: AppStrings.onboardingDesc3,
+    title: AppLocalizations.of(context)!.onboardingTitle3,
+    desc: AppLocalizations.of(context)!.onboardingDesc3,
   ),
-];
+  ];
+}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:growiq/core/utils/app_strings.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class NotificationView extends StatelessWidget {
   const NotificationView({super.key});
@@ -8,7 +8,7 @@ class NotificationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-       child: Text(AppStrings.comingSoon),
+       child: Text(AppLocalizations.of(context)!.comingSoon),
       ),
     );
   }

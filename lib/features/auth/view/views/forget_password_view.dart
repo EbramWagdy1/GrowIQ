@@ -5,13 +5,13 @@ import 'package:growiq/features/auth/view/widgets/Forget_Password_Header.dart';
 import 'package:growiq/features/auth/view/widgets/Resend_Code_Section.dart';
 import 'package:growiq/features/auth/view/widgets/Success_Message_Section.dart';
 import 'package:growiq/core/functions/custom_toast.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/regexes.dart';
 import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart';
 import 'package:growiq/features/auth/view/widgets/custom_form_field.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ForgetPasswordView extends StatefulWidget {
   const ForgetPasswordView({super.key});
@@ -82,7 +82,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                     const ForgetPasswordHeader(),
                     const SizedBox(height: 20),
                     CustomTextFormField(
-                      text: AppStrings.email,
+                      text: AppLocalizations.of(context)!.email,
                       onChanged: (email) => authCubit.email = email,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -122,7 +122,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
       return CircularProgressIndicator(color: Theme.of(context).colorScheme.primary);
     }
     return CustomButtom(
-      text: "Reset",
+      text: AppLocalizations.of(context)!.resetPasswordButton,
       onPressed: () {
         if (authCubit.formKey.currentState!.validate()) {
           authCubit.resetPasswordWithEmail();

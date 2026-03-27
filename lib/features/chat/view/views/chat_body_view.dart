@@ -7,7 +7,7 @@ import 'package:growiq/features/chat/view_model/chat_cubit.dart';
 import 'package:growiq/features/chat/view_model/chat_state.dart';
 import 'package:growiq/core/utils/app_colors.dart';
 
-import 'package:growiq/core/utils/app_strings.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: AppStrings.chat),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.chat),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: BlocConsumer<ChatCubit, ChatState>(

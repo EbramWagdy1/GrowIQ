@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/core/utils/app_colors.dart';
-import 'package:growiq/core/utils/app_strings.dart';
 import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
 import 'package:growiq/features/control/view/widgets/actuator_section.dart';
@@ -10,6 +9,7 @@ import 'package:growiq/features/control/view/widgets/sensor_grid_view.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/view_model/device_state.dart';
 import 'package:growiq/features/control/model/device_model.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class DeviceDetailView extends StatelessWidget {
   final String deviceId;
@@ -70,9 +70,9 @@ class DeviceDetailView extends StatelessWidget {
                     );
                   }
                 },
-                itemBuilder: (context) => const [
-                  PopupMenuItem(value: 'rename', child: Text(AppStrings.editName)),
-                  PopupMenuItem(value: 'delete', child: Text(AppStrings.deleteDevice)),
+                itemBuilder: (context) => [
+                  PopupMenuItem(value: 'rename', child: Text(AppLocalizations.of(context)!.editName)),
+                  PopupMenuItem(value: 'delete', child: Text(AppLocalizations.of(context)!.deleteDevice)),
                 ],
               );
             },
@@ -172,7 +172,7 @@ class DeviceDetailView extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          currentDevice.aiDiseaseMessage,
+                                          currentDevice.getAiDiseaseMessage(context),
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -184,7 +184,7 @@ class DeviceDetailView extends StatelessWidget {
                                         if (currentDevice.ai['confidence'] != null &&
                                             !currentDevice.isHealthy)
                                           Text(
-                                            currentDevice.aiConfidenceMessage,
+                                            currentDevice.getAiConfidenceMessage(context),
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.white.withValues(
@@ -195,7 +195,7 @@ class DeviceDetailView extends StatelessWidget {
                                           )
                                         else
                                           Text(
-                                            currentDevice.aiConfidenceMessage,
+                                            currentDevice.getAiConfidenceMessage(context),
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.white.withValues(
@@ -221,7 +221,7 @@ class DeviceDetailView extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  AppStrings.environmentalOverview,
+                                  AppLocalizations.of(context)!.environmentalOverview,
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800,
@@ -245,11 +245,11 @@ class DeviceDetailView extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _buildLegendItem(context, AppColors.blue, AppStrings.low),
+                                _buildLegendItem(context, AppColors.blue, AppLocalizations.of(context)!.low),
                                 const SizedBox(width: 15),
-                                _buildLegendItem(context, AppColors.successColor, AppStrings.perfect),
+                                _buildLegendItem(context, AppColors.successColor, AppLocalizations.of(context)!.perfect),
                                 const SizedBox(width: 15),
-                                _buildLegendItem(context, AppColors.errorColor, AppStrings.high),
+                                _buildLegendItem(context, AppColors.errorColor, AppLocalizations.of(context)!.high),
                               ],
                             ),
                           ),
@@ -265,7 +265,7 @@ class DeviceDetailView extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  AppStrings.smartControls,
+                                  AppLocalizations.of(context)!.smartControls,
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800,
@@ -338,7 +338,7 @@ class DeviceDetailView extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          AppStrings.aiAutoMode,
+                                          AppLocalizations.of(context)!.aiAutoMode,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
@@ -358,7 +358,7 @@ class DeviceDetailView extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            AppStrings.aiManageFarm,
+                                            AppLocalizations.of(context)!.aiManageFarm,
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: (currentDevice.modes['ai_mode'] == true ||
@@ -406,7 +406,7 @@ class DeviceDetailView extends StatelessWidget {
                     children: [
                       Icon(Icons.cancel, color: Theme.of(context).colorScheme.error, size: 80),
                       SizedBox(height: 20),
-                      Text(AppStrings.deviceOffline, style: TextStyle(fontSize: 24, color: Theme.of(context).colorScheme.onSurface)),
+                      Text(AppLocalizations.of(context)!.deviceOffline, style: TextStyle(fontSize: 24, color: Theme.of(context).colorScheme.onSurface)),
                     ],
                   );
           },
