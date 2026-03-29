@@ -158,7 +158,7 @@ class _PlantsInfoViewState extends State<PlantsInfoView> {
                                 label: AppLocalizations.of(context)!.lightLevel,
                                 min: thresholds['light level']?['min'],
                                 max: thresholds['light level']?['max'],
-                                unit: ' lux',
+                                unit: '%',
                                 color: Colors.amber,
                               ),
                               _buildThresholdRow(

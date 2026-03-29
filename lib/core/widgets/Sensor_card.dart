@@ -110,7 +110,12 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
         final color = isWaterLevel ? Colors.blueAccent : getColor(currentValue);
 
         double percent;
-        if (widget.minLimit != null && widget.maxLimit != null) {
+        final isLight = widget.sensorName.toLowerCase().contains('light') ||
+            widget.sensorName.toLowerCase().contains('ldr');
+
+        if (isLight) {
+          percent = (currentValue / 100).clamp(0.0, 1.0);
+        } else if (widget.minLimit != null && widget.maxLimit != null) {
           final range = widget.maxLimit! - widget.minLimit!;
           if (range == 0) {
             percent = 0.5;
@@ -195,13 +200,17 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
               const SizedBox(height: 8),
               Directionality(
                 textDirection: TextDirection.ltr,
-                child: Text(
-                  '${currentValue.toStringAsFixed(1)} ${widget.unit}',
-                  style: GoogleFonts.robotoMono(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
+                child: Column(
+                  children: [
+                    Text(
+                      '${currentValue.toStringAsFixed(1)} ${widget.unit}',
+                      style: GoogleFonts.robotoMono(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -76,8 +76,8 @@ class SensorUtils {
       return '%';
     }
 
-    if (name.contains('light')) {
-      return 'Lux';
+    if (name.contains('light') || name.contains('ldr')) {
+      return '%';
     }
 
     if (name.contains('quality') ||
@@ -143,5 +143,15 @@ class SensorUtils {
     });
 
     return keys;
+  }
+  // =========================
+  // Value Formatting
+  // =========================
+  /// Returns a descriptive string based on the light level percentage
+  static String getLightDescription(double value) {
+    if (value < 20) return 'Dark';
+    if (value < 50) return 'Dim';
+    if (value < 80) return 'Bright';
+    return 'Very Bright';
   }
 }
