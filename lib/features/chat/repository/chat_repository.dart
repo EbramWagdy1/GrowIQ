@@ -1,14 +1,20 @@
+import 'package:growiq/core/errors/app_result.dart';
+import 'package:growiq/core/errors/error_mapper.dart';
+import 'package:growiq/core/errors/exceptions.dart';
+import 'package:growiq/core/errors/failures.dart';
 import '../../../core/services/groq_service.dart';
 import '../model/chat_message.dart';
 
 class ChatRepository {
   final GroqService _service;
-  static const String _apiKey = "YOUR_GROQ_API_KEY_HERE"; // Ideally from a secure env config
+  
+  // NOTE: In a real project, this should be moved to a secure config or env variable
+  static const String _apiKey = "gsk_vCq7eW8sL1mF9xN2p3R5dJ0Kz6Q4w2B8sV1gM7lP9xN2p3R5kJ"; 
 
   ChatRepository(this._service);
 
   /// Get AI reply with context and localized persona
-  Future<String> getChatReply({
+  Future<AppResult<String>> getChatReply({
     required List<ChatMessage> chatHistory,
     String? systemInstruction,
   }) async {
@@ -18,16 +24,19 @@ class ChatRepository {
         "role": "system",
         "content": systemInstruction ?? _defaultSystemPrompt,
       },
-      ...chatHistory.map((m) => m.toJson()),
+      ...chatHistory.where((m) => m.content != "welcome_trigger").map((m) => m.toJson()),
     ];
 
     try {
-      return await _service.sendMessage(
+      final reply = await _service.sendMessage(
         messages: messagesForApi,
         apiKey: _apiKey,
       );
+      return Success(reply);
+    } on AppException catch (e) {
+      return FailureResult(ErrorMapper.mapToFailure(e));
     } catch (e) {
-      rethrow;
+      return const FailureResult(ServerFailure("Unable to get AI response"));
     }
   }
 

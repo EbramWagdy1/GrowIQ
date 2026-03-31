@@ -36,7 +36,7 @@ void setupServiceLocator() {
   );
   getIt.registerLazySingleton<GroqService>(() => GroqService());
   getIt.registerLazySingleton<ChatRepository>(() => ChatRepository(getIt<GroqService>()));
-  getIt.registerLazySingleton<ChatCubit>(() => ChatCubit(getIt<ChatRepository>()));
+  getIt.registerFactory<ChatCubit>(() => ChatCubit(getIt<ChatRepository>()));
 
   getIt.registerLazySingleton<WeatherService>(() => WeatherService());
   getIt.registerLazySingleton<WeatherRepository>(

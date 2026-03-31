@@ -50,6 +50,19 @@ class _ChatPageState extends State<ChatPage> {
         child: BlocConsumer<ChatCubit, ChatState>(
           listener: (context, state) {
             _scrollToBottom();
+
+            if (state.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errorMessage!),
+                  backgroundColor: Colors.redAccent,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              );
+            }
           },
           builder: (context, state) {
             return Column(

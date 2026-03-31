@@ -12,7 +12,7 @@ class GroqService {
     final response = await http.post(
       Uri.parse(_url),
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $apiKey',
       },
       body: jsonEncode({
@@ -21,6 +21,7 @@ class GroqService {
         "temperature": 0.7,
         "max_tokens": 1024
       }),
+      encoding: utf8,
     );
 
     if (response.statusCode != 200) {

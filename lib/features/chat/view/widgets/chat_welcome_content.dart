@@ -9,42 +9,67 @@ class ChatWelcomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       children: [
         Center(
           child: Text(
             AppLocalizations.of(context)!.welcomeMessage,
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.primaryColor, fontSize: 18),
+            style: TextStyle(
+              color: isDarkMode ? Colors.white : AppColors.primaryColor,
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         const SizedBox(height: 18),
-        _buildLangButton(context, AppLocalizations.of(context)!.arabic, true),
+        _buildLangButton(
+            context, AppLocalizations.of(context)!.arabic, true, isDarkMode),
         const SizedBox(height: 10),
-        _buildLangButton(context, AppLocalizations.of(context)!.english, false),
+        _buildLangButton(
+            context, AppLocalizations.of(context)!.english, false, isDarkMode),
       ],
     );
   }
 
-  Widget _buildLangButton(BuildContext context, String label, bool primary) {
-    const Color primaryTeal = AppColors.primaryColor;
+  Widget _buildLangButton(
+      BuildContext context, String label, bool primary, bool isDarkMode) {
+    final Color primaryTeal = AppColors.primaryColor;
+
+    // Adaptive configuration for buttons
+    final Color backgroundColor = primary
+        ? (isDarkMode ? Colors.teal[700]! : primaryTeal)
+        : (isDarkMode ? Colors.grey[800]! : Colors.white);
+
+    final Color textColor = primary
+        ? Colors.white
+        : (isDarkMode ? Colors.white : primaryTeal);
+
     return GestureDetector(
-      onTap: () => context.read<ChatCubit>().sendMessage(label, context: context),
+      onTap: () =>
+          context.read<ChatCubit>().sendMessage(label, context: context),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: primary ? primaryTeal : Colors.white,
+          color: backgroundColor,
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: primaryTeal.withAlpha(40)),
+          border: Border.all(
+            color: isDarkMode
+                // ignore: deprecated_member_use
+                ? Colors.teal.withOpacity(0.3)
+                : primaryTeal.withAlpha(40),
+          ),
         ),
         child: Text(
           label,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: primary ? Colors.white : primaryTeal,
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
+            color: textColor,
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

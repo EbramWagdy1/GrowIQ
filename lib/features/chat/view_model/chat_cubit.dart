@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:growiq/core/errors/app_result.dart';
 import 'package:growiq/features/chat/repository/chat_repository.dart';
 import 'package:growiq/features/chat/model/chat_message.dart';
 import 'chat_state.dart';
@@ -9,27 +10,31 @@ import 'package:growiq/core/l10n/arb/app_localizations.dart';
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository _repository;
   Timer? _typewriterTimer;
+  String? _currentSystemInstruction;
 
   ChatCubit(this._repository)
-    : super(
-        ChatState(
-          messages: [
-            ChatMessage(role: "assistant", content: "welcome_trigger"),
-          ],
-          isSending: false,
-        ),
-      );
+      : super(
+          const ChatState(
+            messages: [
+              ChatMessage(role: "assistant", content: "welcome_trigger"),
+            ],
+            isSending: false,
+          ),
+        );
 
   Future<void> sendMessage(String text, {BuildContext? context}) async {
     if (text.trim().isEmpty || isClosed) return;
 
-    String? customInstruction;
+    // 🛡️ Prepare state
+    emit(state.copyWith(isSending: true, clearError: true));
+
+    // 🧠 Language Selector Logic (Internal mapping to avoid context issues)
     if (context != null) {
       final l10n = AppLocalizations.of(context)!;
-      if (text == l10n.arabic) {
-        customInstruction = l10n.arabicPrompt;
-      } else if (text == l10n.english) {
-        customInstruction = l10n.englishPrompt;
+      if (text == l10n.arabic || text == "العربية") {
+        _currentSystemInstruction = l10n.arabicPrompt;
+      } else if (text == l10n.english || text == "English") {
+        _currentSystemInstruction = l10n.englishPrompt;
       }
     }
 
@@ -41,46 +46,61 @@ class ChatCubit extends Cubit<ChatState> {
     }
 
     try {
-      final reply = await _repository.getChatReply(
+      // 🚀 Call repository with a timeout safety check if possible
+      final result = await _repository.getChatReply(
         chatHistory: updatedMessages,
-        systemInstruction: customInstruction,
-      );
+        systemInstruction: _currentSystemInstruction,
+      ).timeout(const Duration(seconds: 30), onTimeout: () {
+        throw TimeoutException("Check your internet connection");
+      });
 
-      if (!isClosed) {
-        _typeWriter(reply);
+      switch (result) {
+        case Success(data: var reply):
+          if (!isClosed) {
+            _typeWriter(reply);
+          }
+        case FailureResult(failure: var failure):
+          if (!isClosed) {
+            emit(state.copyWith(
+              isSending: false,
+              errorMessage: failure.message,
+            ));
+          }
       }
     } catch (e) {
       if (!isClosed) {
-        emit(state.copyWith(isSending: false));
+        String msg = "Unable to reach AI assistant";
+        if (e is TimeoutException) msg = "Request timed out. Try again.";
+        
+        emit(state.copyWith(
+          isSending: false,
+          errorMessage: msg,
+        ));
       }
     }
   }
 
   void stopGeneration() {
-    if (_typewriterTimer != null && _typewriterTimer!.isActive) {
-      _typewriterTimer!.cancel();
-      _typewriterTimer = null;
-      if (!isClosed) {
-        emit(state.copyWith(isSending: false));
-      }
-      debugPrint("Generation stopped by user");
+    _typewriterTimer?.cancel();
+    _typewriterTimer = null;
+    if (!isClosed) {
+      emit(state.copyWith(isSending: false));
     }
   }
 
   void _typeWriter(String fullText) {
     if (isClosed) return;
-    
     _typewriterTimer?.cancel();
-    
+
     final messages = List<ChatMessage>.from(state.messages)
       ..add(ChatMessage(role: "assistant", content: ""));
 
-    // Ensure we don't emit if closed during async gap before this call
     if (isClosed) return;
     emit(state.copyWith(messages: messages, isSending: true));
 
     int index = 0;
-    _typewriterTimer = Timer.periodic(const Duration(milliseconds: 25), (timer) {
+    _typewriterTimer =
+        Timer.periodic(const Duration(milliseconds: 15), (timer) {
       if (isClosed || index >= fullText.length) {
         timer.cancel();
         _typewriterTimer = null;
@@ -90,14 +110,17 @@ class ChatCubit extends Cubit<ChatState> {
         return;
       }
 
-      final last = messages.last.copyWith(
-        content: messages.last.content + fullText[index],
+      final currentMessages = List<ChatMessage>.from(state.messages);
+      if (currentMessages.isEmpty) return;
+
+      final last = currentMessages.last.copyWith(
+        content: currentMessages.last.content + fullText[index],
       );
 
-      messages[messages.length - 1] = last;
+      currentMessages[currentMessages.length - 1] = last;
 
       if (!isClosed) {
-        emit(state.copyWith(messages: List.from(messages)));
+        emit(state.copyWith(messages: currentMessages));
       }
       index++;
     });

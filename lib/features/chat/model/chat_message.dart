@@ -2,7 +2,7 @@ class ChatMessage {
   final String role;
   final String content;
 
-  ChatMessage({required this.role, required this.content});
+  const ChatMessage({required this.role, required this.content});
 
   ChatMessage copyWith({String? role, String? content}) =>
       ChatMessage(role: role ?? this.role, content: content ?? this.content);
