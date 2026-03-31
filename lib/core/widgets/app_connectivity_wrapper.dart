@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/services/connectivity_service.dart';
-import 'package:growiq/core/utils/app_colors.dart';
 import 'dart:async';
 import 'package:growiq/core/widgets/custom_button.dart';
 
@@ -46,34 +45,40 @@ class _AppConnectivityWrapperState extends State<AppConnectivityWrapper> {
     super.dispose();
   }
 
-  Widget _buildNoInternet() {
+  Widget _buildNoInternet(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.cloud_off_rounded,
               size: 100,
-              color: AppColors.textColorPrimary,
+              color: theme.colorScheme.primary,
             ),
             const SizedBox(height: 32),
-            const Text(
+            Text(
               "Oops, No Internet Connection",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: theme.textTheme.titleLarge?.color,
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               "Make sure wifi or cellular data is turned on and then try again.",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
+              style: TextStyle(
+                fontSize: 16, 
+                // ignore: deprecated_member_use
+                color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6), 
+                height: 1.5
+              ),
             ),
             const SizedBox(height: 48),
             SizedBox(
@@ -96,14 +101,11 @@ class _AppConnectivityWrapperState extends State<AppConnectivityWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Stack(
-        children: [
-          widget.child,
-          if (!_isConnected) Positioned.fill(child: _buildNoInternet()),
-        ],
-      ),
+    return Stack(
+      children: [
+        widget.child,
+        if (!_isConnected) Positioned.fill(child: _buildNoInternet(context)),
+      ],
     );
   }
 }

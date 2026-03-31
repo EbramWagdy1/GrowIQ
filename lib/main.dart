@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:growiq/app/growiq_app.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/services/service_locator.dart';
-import 'package:growiq/core/widgets/app_connectivity_wrapper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:growiq/core/services/notification_service.dart';
 import 'package:growiq/firebase_options.dart';
@@ -32,5 +31,5 @@ Future<void> main() async {
   await getIt<NotificationService>().init();
 
   // 🔹 Run App with Connectivity Wrapper
-  runApp(AppConnectivityWrapper(child: const GrowIQ()));
+  runApp(const GrowIQ());
 }

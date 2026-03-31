@@ -12,6 +12,7 @@ import 'package:growiq/core/theme/app_theme.dart';
 import 'package:growiq/core/theme/theme_cubit.dart';
 import 'package:growiq/core/theme/theme_state.dart';
 import 'package:growiq/features/notification/view_model/notification_cubit.dart';
+import 'package:growiq/core/widgets/app_connectivity_wrapper.dart';
 
 class GrowIQ extends StatelessWidget {
   const GrowIQ({super.key});
@@ -39,6 +40,9 @@ class GrowIQ extends StatelessWidget {
                 themeMode: themeState.themeMode,
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
+                builder: (context, child) {
+                  return AppConnectivityWrapper(child: child!);
+                },
               );
             },
           );
