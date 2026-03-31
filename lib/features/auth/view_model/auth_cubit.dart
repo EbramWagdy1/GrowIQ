@@ -1,18 +1,19 @@
-//all logic related to Auth Cubit
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:growiq/core/services/auth_service.dart';
+import 'package:growiq/features/auth/repository/auth_repository.dart';
 import 'package:growiq/core/services/cloudinary_service.dart';
 import 'dart:io';
 
 class AuthCubit extends Cubit<AuthState> {
-  final AuthService _authService;
+  final AuthRepository _repository;
   final CloudinaryService _cloudinaryService;
 
-  AuthCubit(this._authService, this._cloudinaryService) : super(AuthInitial());
+  AuthCubit(this._repository, this._cloudinaryService) : super(AuthInitial());
+  
+  User? get currentUser => _repository.currentUser;
+  
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
   String? name = '';
@@ -21,7 +22,8 @@ class AuthCubit extends Cubit<AuthState> {
   String? confirmPassword;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  Stream<User?> get authStateChanges => _authService.authStateChanges;
+  Stream<User?> get authStateChanges => _repository.authStateChanges;
+  Stream<User?> get userChanges => _repository.userChanges;
 
   void togglePasswordVisibility() {
     isPasswordVisible = !isPasswordVisible;
@@ -33,16 +35,13 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ConfirmPasswordVisibilityChangedState());
   }
 
-  // ignore: strict_top_level_inference
-  signUpWithEmailAndPassword() async {
+  Future<void> signUpWithEmailAndPassword() async {
     try {
       emit(SignupLoadingState());
-      final credential = await _authService.signUpWithEmailAndPassword(
-          email: email!, password: password!);
+      final credential = await _repository.signUp(email!, password!);
 
       if (credential.user != null) {
-        await credential.user!.updateDisplayName(name);
-        await credential.user!.reload();
+        await _repository.updateProfile(name: name);
       }
       emit(SignupSuccessState());
     } on FirebaseAuthException catch (e) {
@@ -56,14 +55,10 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // ignore: strict_top_level_inference
-  signInWithEmailAndPassword() async {
+  Future<void> signInWithEmailAndPassword() async {
     try {
       emit(SignInLoadingState());
-      await _authService.signInWithEmailAndPassword(
-        email: email!,
-        password: password!,
-      );
+      await _repository.signIn(email!, password!);
       emit(SignInSuccessState());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -80,7 +75,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signInWithGoogle() async {
     try {
       emit(SignInLoadingState());
-      final credential = await _authService.signInWithGoogle();
+      final credential = await _repository.signInWithGoogle();
       if (credential == null) {
         emit(SignInFailureState('Google sign-in aborted'));
         return;
@@ -100,7 +95,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ResetPasswordLoadingState());
 
     try {
-      await _authService.sendPasswordResetEmail(email: email!);
+      await _repository.resetPassword(email!);
       emit(ResetPasswordSuccessState());
     } on FirebaseAuthException catch (e) {
       String errorMessage;
@@ -125,17 +120,12 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(ProfileUpdateLoadingState());
       
-      if (newName != null && newName.isNotEmpty) {
-        await _authService.updateDisplayName(newName);
-      }
-
+      String? imageUrl;
       if (newImage != null) {
-        final imageUrl = await _cloudinaryService.uploadImage(newImage);
-        if (imageUrl != null) {
-          await _authService.updatePhotoURL(imageUrl);
-        }
+        imageUrl = await _cloudinaryService.uploadImage(newImage);
       }
 
+      await _repository.updateProfile(name: newName, photoUrl: imageUrl);
       emit(ProfileUpdateSuccessState());
     } catch (e) {
       emit(ProfileUpdateFailureState(e.toString()));
@@ -144,7 +134,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signOut() async {
     try {
-      await _authService.signOut();
+      await _repository.signOut();
       emit(SignOutSuccessState());
     } catch (e) {
       emit(SignOutFailureState(e.toString()));

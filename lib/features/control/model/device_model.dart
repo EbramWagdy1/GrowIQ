@@ -38,6 +38,16 @@ class DeviceModel extends Equatable {
       
   bool get isAiMode => modes['ai_mode'] == true || modes['ai_mode'] == 1 || modes['ai_mode'] == '1';
   
+  Color get statusColor => isOnline ? Colors.green : Colors.red;
+
+  String getModeName(BuildContext context) => isAiMode 
+      ? AppLocalizations.of(context)!.aiModeActive 
+      : AppLocalizations.of(context)!.manualMode;
+
+  String getOnlineStatusString(BuildContext context) => isOnline 
+      ? 'Online' 
+      : AppLocalizations.of(context)!.deviceOffline;
+
   List<String> get displaySensorKeys => SensorUtils.getSortedSensorKeys(sensors);
   factory DeviceModel.fromMap(String id, Map<dynamic, dynamic> map) {
     final String name = map['name'] ?? map['deviceId'] ?? 'Farm $id';

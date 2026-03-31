@@ -6,8 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:growiq/core/utils/app_assets.dart';
 import 'package:growiq/core/widgets/custom_button.dart';
 import 'package:growiq/core/widgets/custom_appBar.dart';
-import 'package:growiq/core/services/service_locator.dart';
-import 'package:growiq/core/services/auth_service.dart';
 import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart'; 
 import 'package:growiq/core/functions/navigation.dart';
@@ -31,9 +29,8 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    _authCubit = getIt<AuthCubit>();
-    final currentUser = getIt<AuthService>().currentUser;
-    _nameController = TextEditingController(text: currentUser?.displayName ?? "");
+    _authCubit = context.read<AuthCubit>();
+    _nameController = TextEditingController(text: _authCubit.currentUser?.displayName ?? "");
   }
 
   @override
@@ -60,7 +57,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final photoURL = getIt<AuthService>().currentUser?.photoURL;
+    final photoURL = _authCubit.currentUser?.photoURL;
     return Scaffold(
       appBar: CustomAppBar(title: AppLocalizations.of(context)!.profile),
       body: BlocConsumer<AuthCubit, AuthState>(

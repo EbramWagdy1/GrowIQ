@@ -8,6 +8,8 @@ import 'package:growiq/core/utils/app_text_style.dart';
 import 'package:growiq/features/home/view/widgets/weather_section.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:growiq/core/l10n/arb/app_localizations.dart';
+import 'package:growiq/core/services/auth_service.dart';
+import 'package:growiq/core/services/service_locator.dart';
 
 class HomeBar extends StatelessWidget {
   final VoidCallback? onAddDevice;
@@ -16,7 +18,7 @@ class HomeBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.userChanges(),
+      stream: getIt<AuthService>().userChanges,
       builder: (context, snapshot) {
         final user = snapshot.data;
         final name = user?.displayName ?? AppLocalizations.of(context)!.guestUser;

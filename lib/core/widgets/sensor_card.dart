@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
-import 'package:growiq/core/l10n/arb/app_localizations.dart';
+import 'package:growiq/core/utils/sensor_utils.dart';
 
 class AnimatedSensorCard extends StatefulWidget {
   final String sensorName;
@@ -91,18 +91,6 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
         widget.sensorName.toLowerCase().contains('water level') ||
         widget.sensorName.toLowerCase().contains('liquid level');
 
-    String getLocalizedSensorName(BuildContext context, String sensorName) {
-      final lowerName = sensorName.toLowerCase();
-      if (lowerName == 'air temperature' || lowerName == 'temperature') return AppLocalizations.of(context)!.airTemperature;
-      if (lowerName == 'humidity') return AppLocalizations.of(context)!.humidity;
-      if (lowerName == 'soil moisture') return AppLocalizations.of(context)!.soilMoisture;
-      if (lowerName == 'soil temperature') return AppLocalizations.of(context)!.soilTemperature;
-      if (lowerName == 'light level') return AppLocalizations.of(context)!.lightLevel;
-      if (lowerName == 'air quality') return AppLocalizations.of(context)!.airQuality;
-      if (lowerName == 'water level') return AppLocalizations.of(context)!.waterLevel;
-      return sensorName;
-    }
-
     return AnimatedBuilder(
       animation: Listenable.merge([_animation, _waveController]),
       builder: (context, child) {
@@ -130,7 +118,7 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                color.withValues(alpha: isDark ? 0.15 : 0.3),
+                color.withAlpha(isDark ? 38 : 77), // equivalent to 0.15 and 0.3
                 isDark
                     ? Theme.of(context).colorScheme.surfaceContainerHighest
                     : Colors.white,
@@ -141,13 +129,13 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: isDark ? Colors.black26 : color.withValues(alpha: 0.2),
+                color: isDark ? Colors.black26 : color.withAlpha(51), // 0.2
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
             ],
             border: isDark
-                ? Border.all(color: color.withValues(alpha: 0.1), width: 1)
+                ? Border.all(color: color.withAlpha(25), width: 1) // 0.1
                 : null,
           ),
           padding: const EdgeInsets.all(16),
@@ -187,7 +175,7 @@ class _AnimatedSensorCardState extends State<AnimatedSensorCard>
               ),
               const SizedBox(height: 16),
               Text(
-                getLocalizedSensorName(context, widget.sensorName),
+                SensorUtils.getLocalizedName(context, widget.sensorName),
                 style: GoogleFonts.roboto(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -263,7 +251,7 @@ class LiquidWavePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [color.withValues(alpha: 0.8), color],
+        colors: [color.withAlpha(204), color], // 0.8
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
       ..style = PaintingStyle.fill;
 
@@ -271,34 +259,9 @@ class LiquidWavePainter extends CustomPainter {
     final wavePath = Path();
     wavePath.moveTo(0, waterHeight);
 
+    // Simpler wave logic for performance
     for (double i = 0; i <= size.width; i++) {
       wavePath.lineTo(
-        i,
-        waterHeight +
-            4 *
-                (percent > 0 && percent < 1 ? (1) : 0) *
-                (percent > 0.05 && percent < 0.95
-                    ? (size.height * 0.05 * (1 - (percent - 0.5).abs() * 2))
-                    : 2) *
-                (0.5 * (1 + (percent > 0.1 && percent < 0.9 ? 1 : 0))) *
-                (1.0) *
-                (0.5 + 0.5 * (1.0)) *
-                (percent > 0 && percent < 1 ? (1) : 0) *
-                (percent > 0.1 && percent < 0.9 ? 1 : 0) *
-                (4 * (percent > 0.1 && percent < 0.9 ? 1 : 0)) *
-                (1.0) *
-                (1.0) *
-                (math.sin(
-                  (i / size.width * 2 * math.pi) + (waveValue * 2 * math.pi),
-                )),
-      );
-    }
-
-    // Simpler wave logic
-    final wavePath2 = Path();
-    wavePath2.moveTo(0, waterHeight);
-    for (double i = 0; i <= size.width; i++) {
-      wavePath2.lineTo(
         i,
         waterHeight +
             (5 *
@@ -309,11 +272,11 @@ class LiquidWavePainter extends CustomPainter {
       );
     }
 
-    wavePath2.lineTo(size.width, size.height);
-    wavePath2.lineTo(0, size.height);
-    wavePath2.close();
+    wavePath.lineTo(size.width, size.height);
+    wavePath.lineTo(0, size.height);
+    wavePath.close();
 
-    canvas.drawPath(wavePath2, waterPaint);
+    canvas.drawPath(wavePath, waterPaint);
   }
 
   @override

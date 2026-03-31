@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
-import '../../features/control/model/device_model.dart';
 
 class DeviceService {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
@@ -12,13 +11,9 @@ class DeviceService {
     });
   }
 
-  Stream<DeviceModel?> getDeviceStream(String deviceId) {
+  Stream<Map<dynamic, dynamic>?> getDeviceRawStream(String deviceId) {
     return _database.ref('farms/$deviceId').onValue.map((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
-      if (data != null) {
-        return DeviceModel.fromMap(deviceId, data);
-      }
-      return null;
+      return event.snapshot.value as Map<dynamic, dynamic>?;
     });
   }
 

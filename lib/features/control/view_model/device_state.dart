@@ -14,11 +14,12 @@ class DeviceLoading extends DeviceState {}
 
 class DeviceUpdated extends DeviceState {
   final List<DeviceModel> devices;
+  final int selectedDeviceIndex;
 
-  const DeviceUpdated(this.devices);
+  const DeviceUpdated(this.devices, {this.selectedDeviceIndex = 0});
 
   @override
-  List<Object?> get props => [devices];
+  List<Object?> get props => [devices, selectedDeviceIndex];
 }
 
 class DeviceError extends DeviceState {

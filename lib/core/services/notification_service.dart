@@ -15,6 +15,7 @@ import '../../features/notification/model/notification_model.dart';
 import '../../features/notification/view_model/notification_cubit.dart';
 import '../../features/control/view_model/device_cubit.dart';
 import '../../features/control/view_model/device_state.dart';
+import '../utils/notification_mapper.dart';
 
 class NotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
@@ -198,8 +199,8 @@ class NotificationService {
     }
 
     // 4. Determine Title and Body (using translations or falling back to notification title/body)
-    String title = message.notification?.title ?? _getTranslatedTitle(type, l10n);
-    String body = message.notification?.body ?? _getTranslatedBody(id, l10n);
+    String title = message.notification?.title ?? NotificationMapper.getTranslatedTitle(type, l10n);
+    String body = message.notification?.body ?? NotificationMapper.getTranslatedBody(id, l10n);
 
     // 5. Select Channel
     String channelId = _generalChannel.id;
@@ -268,67 +269,6 @@ class NotificationService {
     return l10n.notificationInformational;
   }
 
-  static String _getTranslatedTitle(String type, AppLocalizations l10n) {
-    switch (type) {
-      case 'Critical':
-        return l10n.notificationCritical;
-      case 'Environmental':
-        return l10n.notificationEnvironmental;
-      case 'Automation':
-        return l10n.notificationAutomation;
-      case 'AI':
-        return l10n.notificationAI;
-      default:
-        return l10n.notificationInformational;
-    }
-  }
-
-  static String _getTranslatedBody(String id, AppLocalizations l10n) {
-    switch (id) {
-      // Critical
-      case 'device_offline':
-        return l10n.deviceOffline;
-      case 'water_tank_empty':
-        return l10n.waterTankEmpty;
-      case 'power_failure':
-        return l10n.powerFailure;
-      case 'sensor_failure':
-        return l10n.sensorFailure;
-      // Environmental
-      case 'low_soil_moisture':
-        return l10n.lowSoilMoisture;
-      case 'high_temperature':
-        return l10n.highTemperature;
-      case 'low_temperature':
-        return l10n.lowTemperature;
-      case 'high_humidity':
-        return l10n.highHumidity;
-      // Automation
-      case 'auto_irrigation_started':
-        return l10n.autoIrrigationStarted;
-      case 'auto_irrigation_stopped':
-        return l10n.autoIrrigationStopped;
-      case 'fan_activated':
-        return l10n.fanActivated;
-      case 'grow_light_activated':
-        return l10n.growLightActivated;
-      // AI
-      case 'disease_detected':
-        return l10n.diseaseDetected;
-      case 'ai_action_taken':
-        return l10n.aiActionTaken;
-      case 'ai_prediction_alert':
-        return l10n.aiPredictionAlert;
-      // Informational
-      case 'weather_alert':
-        return l10n.weatherAlert;
-      case 'plant_care_tip':
-        return l10n.plantCareTip;
-      default:
-        return id;
-    }
-  }
-
   void _handleNotificationClick(String? id) {
     if (id != null) {
       debugPrint("Notification clicked with ID: $id");
@@ -360,31 +300,22 @@ class NotificationService {
       final String? deviceId = message.data['deviceId'] ?? message.data['farmId'];
       final String? deviceName = message.data['deviceName'] ?? message.data['farmName'];
 
-      String title = message.notification?.title ?? _getTranslatedTitle(type, l10n);
-      String body = message.notification?.body ?? _getTranslatedBody(id, l10n);
+      String title = message.notification?.title ?? NotificationMapper.getTranslatedTitle(type, l10n);
+      String body = message.notification?.body ?? NotificationMapper.getTranslatedBody(id, l10n);
 
       // 🔹 SAVE TO FIREBASE DB IN BACKGROUND
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        final ref = FirebaseDatabase.instance
-            .ref()
-            .child('users')
-            .child(user.uid)
-            .child('notifications')
-            .push();
-        
-        await ref.set({
-          'id': ref.key,
-          'title': title,
-          'body': body,
-          'timestamp': DateTime.now().millisecondsSinceEpoch,
-          'isRead': false,
-          'type': type,
-          'deviceId': deviceId ?? "",
-          'deviceName': deviceName ?? "",
-        });
-        debugPrint("Background notification saved to Firebase DB");
-      }
+      await NotificationCubit.saveToFirebase(
+        NotificationModel(
+          id: id,
+          title: title,
+          body: body,
+          timestamp: DateTime.now(),
+          isRead: false,
+          type: type,
+          deviceId: deviceId,
+          deviceName: deviceName,
+        ),
+      );
 
       // ONLY SHOW NOTIFICATION IF NOT ALREADY SHOWN BY OS
       if (message.notification == null) {

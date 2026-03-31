@@ -10,6 +10,7 @@ class AuthService {
         _googleSignIn = googleSignIn ?? GoogleSignIn();
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get userChanges => _firebaseAuth.userChanges();
 
   User? get currentUser => _firebaseAuth.currentUser;
 

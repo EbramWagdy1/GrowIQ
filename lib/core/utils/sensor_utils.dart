@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
 class SensorUtils {
   // =========================
@@ -55,6 +56,21 @@ class SensorUtils {
       default:
         return Icons.sensors;
     }
+  }
+
+  static String getLocalizedName(BuildContext context, String sensorName) {
+    final l10n = AppLocalizations.of(context)!;
+    final lowerName = sensorName.toLowerCase();
+    
+    if (lowerName.contains('air temperature') || lowerName == 'temperature') return l10n.airTemperature;
+    if (lowerName.contains('humidity')) return l10n.humidity;
+    if (lowerName.contains('soil moisture')) return l10n.soilMoisture;
+    if (lowerName.contains('soil temperature')) return l10n.soilTemperature;
+    if (lowerName.contains('light')) return l10n.lightLevel;
+    if (lowerName.contains('air quality')) return l10n.airQuality;
+    if (lowerName.contains('water level')) return l10n.waterLevel;
+    
+    return sensorName;
   }
 
   // =========================

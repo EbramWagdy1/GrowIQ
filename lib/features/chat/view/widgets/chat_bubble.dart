@@ -36,20 +36,31 @@ class ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isWelcome = !isUser && index == 0;
     final currentUser = FirebaseAuth.instance.currentUser;
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    // Adaptive Colors
+    final Color bubbleColor = isUser
+        ? (isDarkMode ? AppColors.primaryColor : lightMint)
+        : (isDarkMode ? Colors.grey[850]! : lightMint.withAlpha(200));
+        
+    final Color textColor = isUser
+        ? (isDarkMode ? Colors.white : primaryTeal)
+        : (isDarkMode ? Colors.white : primaryTeal);
+
+    final Color secondaryTextColor = isDarkMode ? Colors.tealAccent : AppColors.secondaryColor;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
-        mainAxisAlignment: isUser
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isUser) ...[
-            const CircleAvatar(
+            CircleAvatar(
               radius: 18,
-              backgroundColor: AppColors.secondaryColor,
-              child: Icon(
+              backgroundColor: isDarkMode ? Colors.grey[800] : AppColors.secondaryColor,
+              child: const Icon(
                 Icons.smart_toy_outlined,
                 color: Colors.white,
                 size: 20,
@@ -61,16 +72,16 @@ class ChatBubble extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: isUser ? lightMint : lightMint.withAlpha(150),
+                color: bubbleColor,
                 borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(25),
-                  topRight: const Radius.circular(25),
-                  bottomLeft: Radius.circular(isUser ? 25 : 0),
-                  bottomRight: Radius.circular(isUser ? 0 : 25),
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
+                  bottomLeft: Radius.circular(isUser ? 20 : 0),
+                  bottomRight: Radius.circular(isUser ? 0 : 20),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: Colors.black.withValues(alpha: isDarkMode ? 0.2 : 0.05),
                     blurRadius: 5,
                     offset: const Offset(0, 2),
                   ),
@@ -84,17 +95,16 @@ class ChatBubble extends StatelessWidget {
                         data: _formatMarkdown(content),
                         styleSheet: MarkdownStyleSheet(
                           p: GoogleFonts.cairo(
-                            color: primaryTeal,
+                            color: textColor,
                             fontSize: 15,
                             height: 1.7,
-                            fontWeight: FontWeight
-                                .w500, 
+                            fontWeight: FontWeight.w500,
                           ),
-                          strong: const TextStyle(
+                          strong: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.secondaryColor,
+                            color: secondaryTextColor,
                           ),
-                          listBullet: const TextStyle(color: primaryTeal),
+                          listBullet: TextStyle(color: textColor),
                           listIndent: 24,
                           listBulletPadding: const EdgeInsets.only(top: 4),
                         ),

@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/device_model.dart';
-import '../../../core/services/device_service.dart';
+import '../repository/device_repository.dart';
 import '../../../core/services/auth_service.dart';
 import 'device_state.dart';
 
 class DeviceCubit extends Cubit<DeviceState> {
-  final DeviceService _service;
+  final DeviceRepository _repository;
   final AuthService _authService;
 
   // Real-time subscriptions management
@@ -18,8 +18,9 @@ class DeviceCubit extends Cubit<DeviceState> {
 
   // Current state data
   final Map<String, DeviceModel> _devicesMap = {};
+  int _selectedDeviceIndex = 0;
 
-  DeviceCubit(this._service, this._authService) : super(DeviceInitial()) {
+  DeviceCubit(this._repository, this._authService) : super(DeviceInitial()) {
     _listenToAuthChanges();
   }
 
@@ -45,7 +46,7 @@ class DeviceCubit extends Cubit<DeviceState> {
     });
 
     _deviceIdsSubscription?.cancel();
-    _deviceIdsSubscription = _service
+    _deviceIdsSubscription = _repository
         .getDeviceIdsStream(userId)
         .listen(
           (deviceIds) {
@@ -89,7 +90,7 @@ class DeviceCubit extends Cubit<DeviceState> {
   }
 
   void _listenToDevice(String deviceId) {
-    _deviceSubscriptions[deviceId] = _service.getDeviceStream(deviceId).listen((
+    _deviceSubscriptions[deviceId] = _repository.getDeviceStream(deviceId).listen((
       device,
     ) {
       _deviceOfflineTimers[deviceId]?.cancel();
@@ -99,7 +100,7 @@ class DeviceCubit extends Cubit<DeviceState> {
           final oldDevice = _devicesMap[deviceId]!;
           if (!oldDevice.isOnline && !device.isOnline) {
              if (oldDevice.sensors.toString() != device.sensors.toString()) {
-               _service.updateDeviceOnlineStatus(deviceId, true);
+               _repository.updateOnlineStatus(deviceId, true);
              }
           }
         }
@@ -112,7 +113,7 @@ class DeviceCubit extends Cubit<DeviceState> {
               final currentDevice = _devicesMap[deviceId]!;
               if (currentDevice.isOnline) {
                 // Update Firebase; this will trigger the stream and update our local state
-                _service.updateDeviceOnlineStatus(deviceId, false);
+                _repository.updateOnlineStatus(deviceId, false);
               }
             }
           });
@@ -128,7 +129,18 @@ class DeviceCubit extends Cubit<DeviceState> {
   void _emitUpdatedState() {
     final sortedDevices = _devicesMap.values.toList()
       ..sort((a, b) => a.name.compareTo(b.name));
-    emit(DeviceUpdated(sortedDevices));
+    
+    // Ensure index is valid after list updates
+    if (_selectedDeviceIndex >= sortedDevices.length) {
+      _selectedDeviceIndex = 0;
+    }
+    
+    emit(DeviceUpdated(sortedDevices, selectedDeviceIndex: _selectedDeviceIndex));
+  }
+
+  void selectDevice(int index) {
+    _selectedDeviceIndex = index;
+    _emitUpdatedState();
   }
 
   Future<void> addDevice(String deviceId) async {
@@ -151,7 +163,7 @@ class DeviceCubit extends Cubit<DeviceState> {
     try {
       emit(DeviceLoading());
 
-      final deviceData = await _service.getDeviceData(deviceId);
+      final deviceData = await _repository.getDeviceData(deviceId);
       if (deviceData == null) {
         emit(const DeviceError("Device not found"));
         _emitUpdatedState();
@@ -165,7 +177,7 @@ class DeviceCubit extends Cubit<DeviceState> {
         return;
       }
 
-      await _service.claimDevice(deviceId, user.uid);
+      await _repository.claimDevice(deviceId, user.uid);
       emit(DeviceAddSuccess(deviceId));
     } catch (e) {
       emit(DeviceError(e.toString()));
@@ -178,7 +190,7 @@ class DeviceCubit extends Cubit<DeviceState> {
     Map<String, Map<String, double>> thresholds,
   ) async {
     try {
-      await _service.updateCropType(deviceId, thresholds);
+      await _repository.updateCropType(deviceId, thresholds);
       _emitUpdatedState(); // Refresh UI after saving crop thresholds
     } catch (e) {
       emit(DeviceError("Failed to set crop type: ${e.toString()}"));
@@ -197,7 +209,7 @@ class DeviceCubit extends Cubit<DeviceState> {
 
   Future<void> renameDevice(String deviceId, String newName) async {
     try {
-      await _service.renameDevice(deviceId, newName);
+      await _repository.renameDevice(deviceId, newName);
     } catch (e) {
       emit(DeviceError("Failed to rename: ${e.toString()}"));
       _emitUpdatedState();
@@ -210,7 +222,7 @@ class DeviceCubit extends Cubit<DeviceState> {
     bool value,
   ) async {
     try {
-      await _service.updateActuator(deviceId, actuator, value);
+      await _repository.updateActuator(deviceId, actuator, value);
     } catch (e) {
       emit(DeviceError("Failed to toggle $actuator: ${e.toString()}"));
       _emitUpdatedState();
@@ -219,7 +231,7 @@ class DeviceCubit extends Cubit<DeviceState> {
 
   Future<void> toggleMode(String deviceId, String modeName, bool value) async {
     try {
-      await _service.updateMode(deviceId, modeName, value);
+      await _repository.updateMode(deviceId, modeName, value);
     } catch (e) {
       emit(DeviceError("Failed to toggle $modeName: ${e.toString()}"));
       _emitUpdatedState();
@@ -232,7 +244,7 @@ class DeviceCubit extends Cubit<DeviceState> {
 
     try {
       emit(DeviceLoading());
-      await _service.unclaimDevice(deviceId, user.uid);
+      await _repository.unclaimDevice(deviceId, user.uid);
     } catch (e) {
       emit(DeviceError("Failed to remove device: ${e.toString()}"));
       _emitUpdatedState();

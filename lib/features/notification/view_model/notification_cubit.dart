@@ -3,16 +3,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import '../model/notification_model.dart';
+import '../repository/notification_repository.dart';
 
 part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
+  final NotificationRepository _repository;
   StreamSubscription? _notificationsSubscription;
   StreamSubscription? _authSubscription;
 
-  NotificationCubit() : super(NotificationInitial()) {
+  NotificationCubit(this._repository) : super(NotificationInitial()) {
     _init();
   }
 
@@ -29,53 +30,42 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   void startListening(String uid) {
     _notificationsSubscription?.cancel();
-    
-    _notificationsSubscription = FirebaseDatabase.instance
-        .ref()
-        .child('users')
-        .child(uid)
-        .child('notifications')
-        .orderByChild('timestamp')
-        .onValue
-        .listen((event) {
+    _notificationsSubscription = _repository.getNotificationsStream(uid).listen((notifications) {
       if (!isClosed) {
-        if (event.snapshot.value == null) {
-          emit(const NotificationLoaded([]));
-          return;
-        }
-
-        try {
-          final Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-          final List<NotificationModel> notifications = [];
-          
-          data.forEach((key, value) {
-            notifications.add(NotificationModel.fromJson(Map<String, dynamic>.from(value)));
-          });
-
-          notifications.sort((a, b) => b.timestamp.compareTo(a.timestamp));
-          emit(NotificationLoaded(notifications));
-        } catch (e) {
-          emit(NotificationError(e.toString()));
-        }
+        emit(NotificationLoaded(notifications));
       }
+    }, onError: (e) {
+      if (!isClosed) emit(NotificationError(e.toString()));
     });
   }
 
   Future<void> addNotification(NotificationModel notification) async {
+    await saveToFirebase(notification);
+  }
+
+  /// Centralized static method to save notifications, safe for background isolates.
+  static Future<void> saveToFirebase(NotificationModel notification) async {
+    try {
+      // In background handlers, we can't always rely on getIt,
+      // so we use a fresh instance if needed, or better, the Repository handles its own instance
+      await NotificationRepository().saveNotification(notification);
+      debugPrint("Notification saved via Repository");
+    } catch (e) {
+      debugPrint("Error saving notification: $e");
+    }
+  }
+
+  Future<void> markAsRead(String notificationId) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      try {
-        final ref = FirebaseDatabase.instance
-            .ref()
-            .child('users')
-            .child(user.uid)
-            .child('notifications')
-            .push();
-        
-        await ref.set(notification.copyWith(id: ref.key).toJson());
-      } catch (e) {
-        debugPrint("Error saving notification to Firebase: $e");
-      }
+      await _repository.markAsRead(user.uid, notificationId);
+    }
+  }
+
+  Future<void> clearAll() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await _repository.clearAll(user.uid);
     }
   }
 
@@ -84,30 +74,5 @@ class NotificationCubit extends Cubit<NotificationState> {
     _authSubscription?.cancel();
     _notificationsSubscription?.cancel();
     return super.close();
-  }
-
-  Future<void> markAsRead(String notificationId) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      await FirebaseDatabase.instance
-          .ref()
-          .child('users')
-          .child(user.uid)
-          .child('notifications')
-          .child(notificationId)
-          .update({'isRead': true});
-    }
-  }
-
-  Future<void> clearAll() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      await FirebaseDatabase.instance
-          .ref()
-          .child('users')
-          .child(user.uid)
-          .child('notifications')
-          .remove();
-    }
   }
 }
