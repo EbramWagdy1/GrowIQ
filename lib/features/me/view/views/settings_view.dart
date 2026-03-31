@@ -7,6 +7,8 @@ import 'package:growiq/core/theme/theme_cubit.dart';
 import 'package:growiq/core/theme/theme_state.dart';
 import 'package:growiq/core/l10n/locale_cubit.dart';
 import 'package:growiq/core/l10n/locale_state.dart';
+import 'package:growiq/core/services/service_locator.dart';
+import 'package:growiq/core/database/cache/cache_helper.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -28,22 +30,34 @@ class SettingsView extends StatelessWidget {
                         text: AppLocalizations.of(context)!.darkMode,
                         icon: Icons.dark_mode_outlined,
                         trailing: Switch(
-                          value: Theme.of(context).brightness == Brightness.dark,
+                          value:
+                              Theme.of(context).brightness == Brightness.dark,
                           onChanged: (val) {
                             context.read<ThemeCubit>().updateThemeMode(
                               val ? ThemeMode.dark : ThemeMode.light,
                             );
                           },
-                          activeThumbColor: Theme.of(context).colorScheme.primary,
+                          activeThumbColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                         ),
                       ),
                       ProfileMenuItem(
                         text: AppLocalizations.of(context)!.notifications,
                         icon: Icons.notifications_outlined,
-                        trailing: Switch(
-                          value: false,
-                          onChanged: (val) {},
-                          activeThumbColor: Theme.of(context).colorScheme.primary,
+                        trailing: StatefulBuilder(
+                          builder: (context, setState) {
+                            final cacheHelper = getIt<CacheHelper>();
+                            bool isEnabled = cacheHelper.getData(key: 'notifications_enabled') ?? true;
+                            return Switch(
+                              value: isEnabled,
+                              onChanged: (val) {
+                                cacheHelper.saveData(key: 'notifications_enabled', value: val);
+                                setState(() {});
+                              },
+                              activeThumbColor: Theme.of(context).colorScheme.primary,
+                            );
+                          },
                         ),
                       ),
                       // Language selector
@@ -52,7 +66,9 @@ class SettingsView extends StatelessWidget {
                         icon: Icons.language,
                         trailing: BlocBuilder<LocaleCubit, LocaleState>(
                           builder: (context, localeState) {
-                            final langCode = localeState.locale?.languageCode ?? Localizations.localeOf(context).languageCode;
+                            final langCode =
+                                localeState.locale?.languageCode ??
+                                Localizations.localeOf(context).languageCode;
                             final langText = langCode == 'ar'
                                 ? AppLocalizations.of(context)!.arabic
                                 : AppLocalizations.of(context)!.english;
@@ -63,15 +79,21 @@ class SettingsView extends StatelessWidget {
                           final selected = await showDialog<String>(
                             context: context,
                             builder: (context) => SimpleDialog(
-                              title: Text(AppLocalizations.of(context)!.language),
+                              title: Text(
+                                AppLocalizations.of(context)!.language,
+                              ),
                               children: [
                                 SimpleDialogOption(
                                   onPressed: () => Navigator.pop(context, 'en'),
-                                  child: Text(AppLocalizations.of(context)!.english),
+                                  child: Text(
+                                    AppLocalizations.of(context)!.english,
+                                  ),
                                 ),
                                 SimpleDialogOption(
                                   onPressed: () => Navigator.pop(context, 'ar'),
-                                  child: Text(AppLocalizations.of(context)!.arabic),
+                                  child: Text(
+                                    AppLocalizations.of(context)!.arabic,
+                                  ),
                                 ),
                               ],
                             ),

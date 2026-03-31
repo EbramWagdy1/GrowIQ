@@ -1,0 +1,92 @@
+# نظام الإشعارات (Notification System Plan)
+
+يحتوي النظام على 17 نوع من الإشعارات مقسمة إلى 5 فئات أساسية. لتنفيذ هذا النظام المتكامل في تطبيق **GrowIQ** باستخدام Flutter و Firebase، سنتبع الخطوات التالية:
+
+## الفئات وأنواع الإشعارات (Notification Types & Categories)
+1. **🚨 Critical Notifications (طوارئ)**
+   - Device Offline: فقدان الاتصال بالجهاز.
+   - Water Tank Empty: خزان المياه فارغ أو منخفض جداً.
+   - Power Failure: توقف الجهاز عن إرسال البيانات.
+   - Sensor Failure: مستشعر لا يعمل أو يرسل قيم غير طبيعية.
+2. **🌱 Environmental Notifications (بيئة)**
+   - Low Soil Moisture: رطوبة التربة أقل من المطلوب.
+   - High Temperature: درجة الحرارة أعلى من الحد المناسب للمحصول.
+   - Low Temperature: درجة الحرارة أقل من الحد المناسب.
+   - High Humidity: الرطوبة عالية وقد تسبب أمراض للنبات.
+3. **⚙️ Automation Notifications (أتمتة)**
+   - Auto Irrigation Started: تشغيل المضخة تلقائياً.
+   - Auto Irrigation Stopped: إيقاف المضخة بعد الوصول للرطوبة المطلوبة.
+   - Fan Activated: تشغيل المروحة تلقائياً.
+   - Grow Light Activated: تشغيل الإضاءة تلقائياً.
+4. **🤖 AI Notifications (ذكاء اصطناعي)**
+   - Disease Detected: اكتشاف مرض في النبات.
+   - AI Action Taken: الـ AI قام بتشغيل جهاز (Pump / Fan / Light).
+   - AI Prediction Alert: الـ AI يتوقع مشكلة قادمة (مثل جفاف التربة).
+5. **📊 Informational Notifications (معلوماتية)**
+   - Weather Alert: توقع طقس قد يؤثر على المحصول.
+   - Plant Care Tip: نصائح للعناية بالمحصول.
+
+## المتطلبات التقنية (Tech Stack)
+1. **Firebase Cloud Messaging (FCM):** لإرسال الإشعارات من السيرفر (Backend) إلى الهاتف.
+2. **flutter_local_notifications:** لعرض الإشعارات محلياً (Local Notifications) وتخصيص شكلها (أيقونات، أصوات مخصصة لحالات الطوارئ).
+3. **Firebase Realtime Database / Firestore:** للاستماع لتغيرات حالة الأجهزة والحساسات.
+
+## خطوات التنفيذ (Implementation Steps)
+
+### الخطوة الأولى: إعداد الحزم (Dependencies Setup)
+نحتاج إلى إضافة الحزم التالية لملف [pubspec.yaml](file:///d:/Gradution%20Project/growiq/pubspec.yaml) (حالياً غير موجودة):
+```yaml
+dependencies:
+  firebase_messaging: ^14.7.10
+  flutter_local_notifications: ^17.1.0
+```
+
+### الخطوة الثانية: إعداد المنصات المختلفة (Android, Web, iOS)
+
+**لأجهزة Android:**
+يجب تقسيم الإشعارات إلى قنوات (Channels) لتمييز إشعارات الطوارئ (Critical) عن الإشعارات العادية.
+* **Critical Channel:** صوت عالي (High Priority)، لا يمكن تجاهلها بسهولة.
+* **Environmental & AI Channel:** أهمية متوسطة (Default Priority).
+* **Informational Channel:** أهمية منخفضة (Low Priority)، بدون صوت مزعج.
+
+**لأجهزة iOS:**
+سيتم تجهيز كافة الأكواد والإعدادات الخاصة بـ iOS (مثل طلب الصلاحيات `requestPermission` وتهيئة `FirebaseMessaging`) بحيث يعمل النظام بشكل كامل.
+* *ملاحظة:* يتبقى فقط إضافة **APNs auth key (Development & Production)** لاحقاً في لوحة تحكم Firebase حين توفر حساب Apple Developer.
+
+**لأجهزة Web (المتصفح):**
+سنقوم بإعداد `FirebaseMessaging.instance.getToken` باستخدام الـ VAPID Key الخاص بـ Web Push Certificate ليتمكن المتصفح من استقبال الـ Push Notifications:
+```dart
+String? token = await FirebaseMessaging.instance.getToken(
+  vapidKey: "WG8QUoz_UwSqd-cMLOaYQRyB-TQyLTiXLWpvyLJQZV8",
+);
+```
+
+### الخطوة الثالثة: طبقة إدارة الإشعارات (Notification Management Layer)
+إنشاء ملف `notification_service.dart` لإدارة كل ما يخص الإشعارات:
+1. **تهيئة الخدمة (Initialization):** طلب الصلاحيات من المستخدم.
+2. **استقبال الإشعارات (Handling Messages):** عندما يكون التطبيق مفتوحاً، في الخلفية، أو مغلقاً.
+3. **عرض الإشعارات المخصصة:** دالة `showNotification(title, body, type)` تحدد شكل الإشعار بناءً على الفئة (Category).
+
+### الخطوة الرابعة: تصنيف الإشعارات ودعم تعدد اللغات (Localization & Payload Structure)
+لضمان ظهور الإشعار بلغة التطبيق (عربي/إنجليزي)، سنعتمد على إرسال **Data-Only Messages** من السيرفر، أو الاعتماد على مفاتيح الترجمة. عندما يستقبل التطبيق الـ Payload، سيتحقق من لغة التطبيق الحالية (Settings -> Language) ويعرض الإشعار باللغة المناسبة:
+
+**شكل الـ Payload القادم من السيرفر:**
+```json
+{
+  "data": {
+    "type": "Critical",
+    "id": "disease_detected",
+    "device_id": "device_123"
+  }
+}
+```
+
+**معالجة التطبيق (App Handling):**
+بناءً على `id` ("disease_detected")، سيقوم التطبيق محلياً بتوليد الإشعار:
+*   **عربي:** ⚠️ تم اكتشاف مرض في النبات
+*   **English:** ⚠️ Disease Detected
+إنشاء صفحة `NotificationsView` في التطبيق لحفظ وعرض سجل الإشعارات للمستخدم مقسمة بالفلاتر (الكل، طوارئ، بيئة، ذكاء اصطناعي).
+
+## User Review Required
+> [!IMPORTANT]
+> يرجى مراجعة الخطة في هذا الملف وإخباري: هل نبدأ بتنفيذ **الخطوة الأولى والثالثة** (إعداد الخدمات والـ Packages لـ Notifications) أم تفضل البدء بـ **تصميم واجهة الإشعارات للمستخدم (الخطوة الخامسة)** أولاً؟

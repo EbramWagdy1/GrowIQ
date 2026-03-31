@@ -1,0 +1,16 @@
+# Notification System Implementation
+
+- [/] Plan and outline notification architecture
+- [ ] Add necessary packages (`firebase_messaging`, `flutter_local_notifications`)
+- [ ] Implement `NotificationService`
+  - [ ] Request permissions (iOS & Android)
+  - [ ] Setup channels (Android)
+  - [ ] Setup iOS configuration (Pending Apple APNs Auth Keys later)
+  - [ ] Configure Web Push VAPID key (`WG8QUoz_UwSqd-cMLOaYQRyB-TQyLTiXLWpvyLJQZV8`)
+  - [ ] Handle foreground, background, and terminated states
+  - [ ] Implement custom notification display
+  - [ ] Add Localization Logic (Arabic/English translation based on notification `id` payload)
+- [ ] Build Notifications Center / History UI
+  - [ ] Notifications List View
+  - [ ] Category Filters (Critical, Environmental, etc.)
+  - [ ] Local storage or Firebase fetching for history

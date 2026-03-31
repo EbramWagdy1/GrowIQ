@@ -11,6 +11,7 @@ import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/theme/app_theme.dart';
 import 'package:growiq/core/theme/theme_cubit.dart';
 import 'package:growiq/core/theme/theme_state.dart';
+import 'package:growiq/features/notification/view_model/notification_cubit.dart';
 
 class GrowIQ extends StatelessWidget {
   const GrowIQ({super.key});
@@ -22,6 +23,7 @@ class GrowIQ extends StatelessWidget {
         BlocProvider(create: (context) => getIt<DeviceCubit>()),
         BlocProvider(create: (context) => getIt<ThemeCubit>()),
         BlocProvider(create: (context) => getIt<LocaleCubit>()),
+        BlocProvider(create: (context) => getIt<NotificationCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeState) {

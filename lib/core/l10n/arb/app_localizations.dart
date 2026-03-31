@@ -1069,6 +1069,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Request new code in'**
   String get requestCodeIn;
+
+  /// No description provided for @notificationCritical.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical Alert'**
+  String get notificationCritical;
+
+  /// No description provided for @waterTankEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Water Tank is Empty'**
+  String get waterTankEmpty;
+
+  /// No description provided for @powerFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Power Failure Detected'**
+  String get powerFailure;
+
+  /// No description provided for @sensorFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensor Malfunction'**
+  String get sensorFailure;
+
+  /// No description provided for @notificationEnvironmental.
+  ///
+  /// In en, this message translates to:
+  /// **'Environmental Alert'**
+  String get notificationEnvironmental;
+
+  /// No description provided for @lowSoilMoisture.
+  ///
+  /// In en, this message translates to:
+  /// **'Low Soil Moisture'**
+  String get lowSoilMoisture;
+
+  /// No description provided for @highTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'High Temperature Warning'**
+  String get highTemperature;
+
+  /// No description provided for @lowTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Low Temperature Warning'**
+  String get lowTemperature;
+
+  /// No description provided for @highHumidity.
+  ///
+  /// In en, this message translates to:
+  /// **'High Humidity Warning'**
+  String get highHumidity;
+
+  /// No description provided for @notificationAutomation.
+  ///
+  /// In en, this message translates to:
+  /// **'Automation Update'**
+  String get notificationAutomation;
+
+  /// No description provided for @autoIrrigationStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Irrigation Started'**
+  String get autoIrrigationStarted;
+
+  /// No description provided for @autoIrrigationStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Irrigation Stopped'**
+  String get autoIrrigationStopped;
+
+  /// No description provided for @fanActivated.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan Activated'**
+  String get fanActivated;
+
+  /// No description provided for @growLightActivated.
+  ///
+  /// In en, this message translates to:
+  /// **'Grow Light Activated'**
+  String get growLightActivated;
+
+  /// No description provided for @notificationAI.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Intelligence'**
+  String get notificationAI;
+
+  /// No description provided for @diseaseDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Potential Disease Detected'**
+  String get diseaseDetected;
+
+  /// No description provided for @aiActionTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Auto-Adjustment Made'**
+  String get aiActionTaken;
+
+  /// No description provided for @aiPredictionAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Trend Alert'**
+  String get aiPredictionAlert;
+
+  /// No description provided for @notificationInformational.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification'**
+  String get notificationInformational;
+
+  /// No description provided for @weatherAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather Update'**
+  String get weatherAlert;
+
+  /// No description provided for @plantCareTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Plant Care Tip'**
+  String get plantCareTip;
+
+  /// No description provided for @notificationHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification History'**
+  String get notificationHistory;
+
+  /// No description provided for @noNewNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'No new notifications'**
+  String get noNewNotifications;
+
+  /// No description provided for @noNewNotificationsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll let you know when something happens.'**
+  String get noNewNotificationsDesc;
 }
 
 class _AppLocalizationsDelegate

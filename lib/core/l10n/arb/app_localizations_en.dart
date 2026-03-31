@@ -501,4 +501,77 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get requestCodeIn => 'Request new code in';
+
+  @override
+  String get notificationCritical => 'Critical Alert';
+
+  @override
+  String get waterTankEmpty => 'Water Tank is Empty';
+
+  @override
+  String get powerFailure => 'Power Failure Detected';
+
+  @override
+  String get sensorFailure => 'Sensor Malfunction';
+
+  @override
+  String get notificationEnvironmental => 'Environmental Alert';
+
+  @override
+  String get lowSoilMoisture => 'Low Soil Moisture';
+
+  @override
+  String get highTemperature => 'High Temperature Warning';
+
+  @override
+  String get lowTemperature => 'Low Temperature Warning';
+
+  @override
+  String get highHumidity => 'High Humidity Warning';
+
+  @override
+  String get notificationAutomation => 'Automation Update';
+
+  @override
+  String get autoIrrigationStarted => 'Auto Irrigation Started';
+
+  @override
+  String get autoIrrigationStopped => 'Auto Irrigation Stopped';
+
+  @override
+  String get fanActivated => 'Fan Activated';
+
+  @override
+  String get growLightActivated => 'Grow Light Activated';
+
+  @override
+  String get notificationAI => 'AI Intelligence';
+
+  @override
+  String get diseaseDetected => 'Potential Disease Detected';
+
+  @override
+  String get aiActionTaken => 'AI Auto-Adjustment Made';
+
+  @override
+  String get aiPredictionAlert => 'AI Trend Alert';
+
+  @override
+  String get notificationInformational => 'Notification';
+
+  @override
+  String get weatherAlert => 'Weather Update';
+
+  @override
+  String get plantCareTip => 'Plant Care Tip';
+
+  @override
+  String get notificationHistory => 'Notification History';
+
+  @override
+  String get noNewNotifications => 'No new notifications';
+
+  @override
+  String get noNewNotificationsDesc =>
+      'We\'ll let you know when something happens.';
 }

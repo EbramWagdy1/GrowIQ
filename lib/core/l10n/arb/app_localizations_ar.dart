@@ -502,4 +502,76 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get requestCodeIn => 'طلب رمز جديد خلال';
+
+  @override
+  String get notificationCritical => 'تنبيه طوارئ';
+
+  @override
+  String get waterTankEmpty => 'خزان المياه فارغ';
+
+  @override
+  String get powerFailure => 'فقدان اتصال الطاقة';
+
+  @override
+  String get sensorFailure => 'عطل في المستشعر';
+
+  @override
+  String get notificationEnvironmental => 'تنبيه بيئي';
+
+  @override
+  String get lowSoilMoisture => 'رطوبة التربة منخفضة';
+
+  @override
+  String get highTemperature => 'تحذير: درجة حرارة عالية';
+
+  @override
+  String get lowTemperature => 'تحذير: درجة حرارة منخفضة';
+
+  @override
+  String get highHumidity => 'تحذير: رطوبة عالية';
+
+  @override
+  String get notificationAutomation => 'تحديث الأتمتة';
+
+  @override
+  String get autoIrrigationStarted => 'بدء الري التلقائي';
+
+  @override
+  String get autoIrrigationStopped => 'توقف الري التلقائي';
+
+  @override
+  String get fanActivated => 'تم تشغيل المروحة';
+
+  @override
+  String get growLightActivated => 'تم تشغيل الإضاءة';
+
+  @override
+  String get notificationAI => 'ذكاء اصطناعي';
+
+  @override
+  String get diseaseDetected => 'اكتشاف مرض محتمل';
+
+  @override
+  String get aiActionTaken => 'تعديل تلقائي من الذكاء الاصطناعي';
+
+  @override
+  String get aiPredictionAlert => 'تنبيه توقعات الذكاء الاصطناعي';
+
+  @override
+  String get notificationInformational => 'إشعار';
+
+  @override
+  String get weatherAlert => 'تحديث الطقس';
+
+  @override
+  String get plantCareTip => 'نصيحة العناية بالنبات';
+
+  @override
+  String get notificationHistory => 'سجل الإشعارات';
+
+  @override
+  String get noNewNotifications => 'لا توجد إشعارات جديدة';
+
+  @override
+  String get noNewNotificationsDesc => 'سنخبرك عندما يحدث شيء يخص مزرعتك.';
 }

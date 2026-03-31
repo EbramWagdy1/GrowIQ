@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'locale_state.dart';
 
@@ -18,8 +20,22 @@ class LocaleCubit extends Cubit<LocaleState> {
     }
   }
 
-  void changeLocale(String localeCode) {
+  void changeLocale(String localeCode) async {
     _cacheHelper.saveData(key: _localeKey, value: localeCode);
     emit(state.copyWith(locale: Locale(localeCode)));
+
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        await FirebaseDatabase.instance
+            .ref()
+            .child('users')
+            .child(user.uid)
+            .child('language')
+            .set(localeCode);
+      } catch (e) {
+        debugPrint("Error syncing language to Firebase: $e");
+      }
+    }
   }
 }
