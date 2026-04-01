@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../features/notification/model/notification_model.dart';
-import '../../features/notification/view_model/notification_cubit.dart';
 import '../../features/control/view_model/device_cubit.dart';
 import '../../features/control/view_model/device_state.dart';
 import '../utils/notification_mapper.dart';
@@ -178,8 +176,7 @@ class NotificationService {
     // 3. Extract data from message
     final String type = message.data['type'] ?? 'Informational';
     final String id = message.data['id'] ?? 'notification';
-    final String? deviceId = message.data['deviceId'] ?? message.data['farmId']; // Check farmId just in case
-    final String? deviceName = message.data['deviceName'] ?? message.data['farmName'];
+    final String? deviceId = message.data['deviceId'] ?? message.data['farmId'];
 
     // 🔹 GHOST DEVICE FILTER
     if (deviceId != null && deviceId.isNotEmpty) {
@@ -212,19 +209,8 @@ class NotificationService {
     title = _formatTitle(title);
     body = _formatBody(body);
 
-    // 6. Save to History (Using Cubit to push directly to Firebase DB)
-    getIt<NotificationCubit>().addNotification(
-      NotificationModel(
-        id: id,
-        title: title,
-        body: body,
-        timestamp: DateTime.now(),
-        isRead: false,
-        type: type,
-        deviceId: deviceId,
-        deviceName: deviceName,
-      ),
-    );
+    // 🔹 HISTORICAL PERSISTENCE is now handled SERVER-SIDE (Notification server/lib/notificationAudit.js)
+    // This simplifies the client and prevents race conditions/authentications issues in background isolates.
 
     _localNotifications.show(
       message.hashCode,
@@ -297,25 +283,12 @@ class NotificationService {
 
       final String type = message.data['type'] ?? 'Informational';
       final String id = message.data['id'] ?? 'notification';
-      final String? deviceId = message.data['deviceId'] ?? message.data['farmId'];
-      final String? deviceName = message.data['deviceName'] ?? message.data['farmName'];
 
       String title = message.notification?.title ?? NotificationMapper.getTranslatedTitle(type, l10n);
       String body = message.notification?.body ?? NotificationMapper.getTranslatedBody(id, l10n);
 
-      // 🔹 SAVE TO FIREBASE DB IN BACKGROUND
-      await NotificationCubit.saveToFirebase(
-        NotificationModel(
-          id: id,
-          title: title,
-          body: body,
-          timestamp: DateTime.now(),
-          isRead: false,
-          type: type,
-          deviceId: deviceId,
-          deviceName: deviceName,
-        ),
-      );
+      // 🔹 HISTORICAL PERSISTENCE is now handled SERVER-SIDE (Notification server/lib/notificationAudit.js)
+      // This ensures that even if this background isolate fails, the history is still recorded.
 
       // ONLY SHOW NOTIFICATION IF NOT ALREADY SHOWN BY OS
       if (message.notification == null) {

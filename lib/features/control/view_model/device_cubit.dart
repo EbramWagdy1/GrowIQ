@@ -14,7 +14,6 @@ class DeviceCubit extends Cubit<DeviceState> {
   StreamSubscription<List<String>>? _deviceIdsSubscription;
   StreamSubscription<User?>? _authSubscription;
   final Map<String, StreamSubscription<DeviceModel?>> _deviceSubscriptions = {};
-  final Map<String, Timer> _deviceOfflineTimers = {};
 
   // Current state data
   final Map<String, DeviceModel> _devicesMap = {};
@@ -75,9 +74,6 @@ class DeviceCubit extends Cubit<DeviceState> {
       _deviceSubscriptions[id]?.cancel();
       _deviceSubscriptions.remove(id);
       
-      _deviceOfflineTimers[id]?.cancel();
-      _deviceOfflineTimers.remove(id);
-
       _devicesMap.remove(id);
     }
 
@@ -93,34 +89,10 @@ class DeviceCubit extends Cubit<DeviceState> {
     _deviceSubscriptions[deviceId] = _repository.getDeviceStream(deviceId).listen((
       device,
     ) {
-      _deviceOfflineTimers[deviceId]?.cancel();
-
       if (device != null) {
-        if (_devicesMap.containsKey(deviceId)) {
-          final oldDevice = _devicesMap[deviceId]!;
-          if (!oldDevice.isOnline && !device.isOnline) {
-             if (oldDevice.sensors.toString() != device.sensors.toString()) {
-               _repository.updateOnlineStatus(deviceId, true);
-             }
-          }
-        }
-        
         _devicesMap[deviceId] = device;
-         // Start 15s timer for offline detection, only if it is currently online
-        if (device.isOnline) {
-          _deviceOfflineTimers[deviceId] = Timer(const Duration(seconds: 15), () {
-            if (_devicesMap.containsKey(deviceId)) {
-              final currentDevice = _devicesMap[deviceId]!;
-              if (currentDevice.isOnline) {
-                // Update Firebase; this will trigger the stream and update our local state
-                _repository.updateOnlineStatus(deviceId, false);
-              }
-            }
-          });
-        }
       } else {
         _devicesMap.remove(deviceId);
-        _deviceOfflineTimers.remove(deviceId);
       }
       _emitUpdatedState();
     });
@@ -263,11 +235,6 @@ class DeviceCubit extends Cubit<DeviceState> {
       sub.cancel();
     }
     _deviceSubscriptions.clear();
-
-    for (var timer in _deviceOfflineTimers.values) {
-      timer.cancel();
-    }
-    _deviceOfflineTimers.clear();
 
     _devicesMap.clear();
   }
