@@ -11,6 +11,7 @@ class NotificationRepository {
     return _database
         .ref('users/$userId/notifications')
         .orderByChild('timestamp')
+        .limitToLast(50)
         .onValue
         .map((event) {
       if (event.snapshot.value == null) return [];
