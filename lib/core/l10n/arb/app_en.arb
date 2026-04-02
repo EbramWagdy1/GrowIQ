@@ -184,5 +184,16 @@
   "plantCareTip": "Plant Care Tip",
   "notificationHistory": "Notification History",
   "noNewNotifications": "No new notifications",
-  "noNewNotificationsDesc": "We'll let you know when something happens."
+  "noNewNotificationsDesc": "We'll let you know when something happens.",
+  "alexaSupport": "Alexa Support",
+  "alexaAnnouncement": "Now supporting Amazon Alexa! Control your farm with your voice.",
+  "alexaLink": "Learn how to connect",
+  "integrations": "Smart Skills",
+  "smartSkills": "Smart Skills",
+  "integrationDesc": "Connect your farm to external smart home services and voice assistants.",
+  "alexaStep1": "Install the Alexa App and ensure your Echo device is setup.",
+  "alexaStep2": "Search for 'GrowIQ' skill in the Alexa Skill Store.",
+  "alexaStep3": "Enable the skill and link it with your GrowIQ account email.",
+  "alexaStep4": "Discover devices and try saying:\n\"Alexa, open grow i. q.\"\nor\n\"Alexa, ask grow i. q. to turn on the pump.\"",
+  "openAlexaApp": "Open Alexa App"
 }

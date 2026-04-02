@@ -1213,6 +1213,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We\'ll let you know when something happens.'**
   String get noNewNotificationsDesc;
+
+  /// No description provided for @alexaSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Alexa Support'**
+  String get alexaSupport;
+
+  /// No description provided for @alexaAnnouncement.
+  ///
+  /// In en, this message translates to:
+  /// **'Now supporting Amazon Alexa! Control your farm with your voice.'**
+  String get alexaAnnouncement;
+
+  /// No description provided for @alexaLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn how to connect'**
+  String get alexaLink;
+
+  /// No description provided for @integrations.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Skills'**
+  String get integrations;
+
+  /// No description provided for @smartSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Skills'**
+  String get smartSkills;
+
+  /// No description provided for @integrationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your farm to external smart home services and voice assistants.'**
+  String get integrationDesc;
+
+  /// No description provided for @alexaStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Install the Alexa App and ensure your Echo device is setup.'**
+  String get alexaStep1;
+
+  /// No description provided for @alexaStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for \'GrowIQ\' skill in the Alexa Skill Store.'**
+  String get alexaStep2;
+
+  /// No description provided for @alexaStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable the skill and link it with your GrowIQ account email.'**
+  String get alexaStep3;
+
+  /// No description provided for @alexaStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover devices and try saying:\n\"Alexa, open grow i. q.\"\nor\n\"Alexa, ask grow i. q. to turn on the pump.\"'**
+  String get alexaStep4;
+
+  /// No description provided for @openAlexaApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Alexa App'**
+  String get openAlexaApp;
 }
 
 class _AppLocalizationsDelegate

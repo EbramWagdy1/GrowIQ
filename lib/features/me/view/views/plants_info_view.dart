@@ -90,6 +90,8 @@ class _PlantCard extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ExpansionTile(
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).colorScheme.surface,
           child: Icon(Icons.local_florist, color: Theme.of(context).colorScheme.primary),

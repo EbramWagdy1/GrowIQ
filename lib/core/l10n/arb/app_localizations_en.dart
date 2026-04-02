@@ -574,4 +574,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noNewNotificationsDesc =>
       'We\'ll let you know when something happens.';
+
+  @override
+  String get alexaSupport => 'Alexa Support';
+
+  @override
+  String get alexaAnnouncement =>
+      'Now supporting Amazon Alexa! Control your farm with your voice.';
+
+  @override
+  String get alexaLink => 'Learn how to connect';
+
+  @override
+  String get integrations => 'Smart Skills';
+
+  @override
+  String get smartSkills => 'Smart Skills';
+
+  @override
+  String get integrationDesc =>
+      'Connect your farm to external smart home services and voice assistants.';
+
+  @override
+  String get alexaStep1 =>
+      'Install the Alexa App and ensure your Echo device is setup.';
+
+  @override
+  String get alexaStep2 =>
+      'Search for \'GrowIQ\' skill in the Alexa Skill Store.';
+
+  @override
+  String get alexaStep3 =>
+      'Enable the skill and link it with your GrowIQ account email.';
+
+  @override
+  String get alexaStep4 =>
+      'Discover devices and try saying:\n\"Alexa, open grow i. q.\"\nor\n\"Alexa, ask grow i. q. to turn on the pump.\"';
+
+  @override
+  String get openAlexaApp => 'Open Alexa App';
 }

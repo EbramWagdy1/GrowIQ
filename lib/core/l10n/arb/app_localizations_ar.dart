@@ -574,4 +574,42 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noNewNotificationsDesc => 'سنخبرك عندما يحدث شيء يخص مزرعتك.';
+
+  @override
+  String get alexaSupport => 'دعم أليكسا';
+
+  @override
+  String get alexaAnnouncement =>
+      'الآن ندعم أمازون أليكسا! تحكم في مزرعتك بصوتك.';
+
+  @override
+  String get alexaLink => 'تعرف على كيفية الربط';
+
+  @override
+  String get integrations => 'المهارات الذكية';
+
+  @override
+  String get smartSkills => 'المهارات الذكية';
+
+  @override
+  String get integrationDesc =>
+      'اربط مزرعتك بخدمات المنزل الذكي والمساعدين الصوتيين.';
+
+  @override
+  String get alexaStep1 =>
+      'قم بتثبيت تطبيق أليكسا وتأكد من إعداد جهاز Echo الخاص بك.';
+
+  @override
+  String get alexaStep2 => 'ابحث عن مهارة \'GrowIQ\' في متجر مهارات أليكسا.';
+
+  @override
+  String get alexaStep3 =>
+      'قم بتفعيل المهارة واربطها ببريدك الإلكتروني المستخدم في GrowIQ.';
+
+  @override
+  String get alexaStep4 =>
+      'اكتشف الأجهزة وحاول قول:\n\"أليكسا، افتحي grow i. q.\"\nأو\n\"أليكسا، اطلبي من grow i. q. تشغيل المضخة.\"';
+
+  @override
+  String get openAlexaApp => 'افتح تطبيق أليكسا';
 }

@@ -102,7 +102,7 @@ class _MeViewState extends State<MeView> {
                       );
                     }),
 
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 30),
 
                     // --- 3. Menu Items ---
                     // Profile
@@ -119,8 +119,14 @@ class _MeViewState extends State<MeView> {
                         },
                       );
                     }),
-                    // Notifications
-
+                    // Integrations
+                    ProfileMenuItem(
+                      text: AppLocalizations.of(context)!.integrations,
+                      icon: Icons.extension_outlined,
+                      onTap: () {
+                        customNavigate(context, '/integrations');
+                      },
+                    ),
                     // Settings
                     ProfileMenuItem(
                       text: AppLocalizations.of(context)!.settings,

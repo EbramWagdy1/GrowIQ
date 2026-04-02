@@ -20,6 +20,7 @@ import 'package:growiq/features/me/view/views/profile_view.dart';
 import 'package:growiq/features/me/view/views/settings_view.dart';
 import 'package:growiq/features/me/view/views/plants_info_view.dart';
 import 'package:growiq/features/me/view/views/contact_us_view.dart';
+import 'package:growiq/features/me/view/views/integrations_view.dart';
 import 'package:growiq/features/onboarding/view/views/on_boarding_view.dart';
 import 'package:growiq/features/me/view_model/plants_cubit.dart';
 import 'package:growiq/features/splash/view/views/splash_screen.dart';
@@ -95,6 +96,10 @@ class AppRouter {
       GoRoute(
         path: '/contact-us',
         builder: (context, state) => const ContactUsView(),
+      ),
+      GoRoute(
+        path: '/integrations',
+        builder: (context, state) => const IntegrationsView(),
       ),
 
       /// -------- Standalone --------
