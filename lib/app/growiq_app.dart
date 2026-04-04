@@ -13,6 +13,7 @@ import 'package:growiq/core/theme/theme_cubit.dart';
 import 'package:growiq/core/theme/theme_state.dart';
 import 'package:growiq/features/notification/view_model/notification_cubit.dart';
 import 'package:growiq/core/widgets/app_connectivity_wrapper.dart';
+import 'package:growiq/features/auth/view_model/auth_cubit.dart';
 
 class GrowIQ extends StatelessWidget {
   const GrowIQ({super.key});
@@ -21,6 +22,7 @@ class GrowIQ extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => getIt<AuthCubit>()),
         BlocProvider(create: (context) => getIt<DeviceCubit>()),
         BlocProvider(create: (context) => getIt<ThemeCubit>()),
         BlocProvider(create: (context) => getIt<LocaleCubit>()),

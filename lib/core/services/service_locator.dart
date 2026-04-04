@@ -64,7 +64,7 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<NotificationCubit>(
     () => NotificationCubit(getIt<NotificationRepository>()),
   );
-  getIt.registerFactory<AuthCubit>(
+  getIt.registerLazySingleton<AuthCubit>(
     () => AuthCubit(getIt<AuthRepository>(), getIt<CloudinaryService>()),
   );
 

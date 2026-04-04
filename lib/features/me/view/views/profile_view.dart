@@ -21,7 +21,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   late final AuthCubit _authCubit;
   
-  late TextEditingController _nameController;
+  late final TextEditingController _nameController;
   
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
@@ -57,11 +57,9 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final photoURL = _authCubit.currentUser?.photoURL;
     return Scaffold(
       appBar: CustomAppBar(title: AppLocalizations.of(context)!.profile),
       body: BlocConsumer<AuthCubit, AuthState>(
-        bloc: _authCubit,
         listener: (context, state) {
           if (state is ProfileUpdateSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -75,6 +73,7 @@ class _ProfileViewState extends State<ProfileView> {
           }
         },
         builder: (context, state) {
+          final photoURL = _authCubit.currentUser?.photoURL;
           return SingleChildScrollView(
             child: Center(
               child: Column(
