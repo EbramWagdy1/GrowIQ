@@ -20,26 +20,30 @@ class Autform extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         CustomDivider(text: text),
-        SizedBox(height: 20),
-        CustomAppLogin(),
-        SizedBox(height: 20),
-        Center(child: Text(questionText, style: AppTextStyles.bodyText1(context))),
-        const SizedBox(height: 5),
-        Center(
-          child: GestureDetector(
-            onTap: () {
-              customReplacementNavigate(context, path);
-            },
-            child: Text(
-              createAccountText,
-              style: AppTextStyles.bodyText1(context).copyWith(
-                color: Colors.grey,
-                fontSize: 14,
+        const SizedBox(height: 20),
+        const CustomAppLogin(),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(questionText, style: AppTextStyles.bodyText1(context)),
+            const SizedBox(width: 5),
+            GestureDetector(
+              onTap: () {
+                customReplacementNavigate(context, path);
+              },
+              child: Text(
+                createAccountText,
+                style: AppTextStyles.bodyText1(context).copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
+          ],
         ),
         const SizedBox(height: 30),
       ],
