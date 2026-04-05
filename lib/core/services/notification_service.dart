@@ -87,6 +87,7 @@ class NotificationService {
     FirebaseAuth.instance.authStateChanges().listen((user) async {
       if (user != null) {
         await uploadFcmToken();
+        await updateTopicSubscriptions();
       }
     });
   }
@@ -98,6 +99,7 @@ class NotificationService {
       if (token != null) {
         final cacheHelper = getIt<CacheHelper>();
         final String langCode = cacheHelper.getData(key: 'locale') ?? 'en';
+        final bool isEnabled = cacheHelper.getData(key: 'notifications_enabled') ?? true;
         
         await FirebaseDatabase.instance
             .ref()
@@ -106,9 +108,23 @@ class NotificationService {
             .update({
               'fcmToken': token,
               'language': langCode,
+              'notificationsEnabled': isEnabled,
             });
-        debugPrint("Token and Language uploaded to DB for user ${user.uid}");
+        debugPrint("Token, Language and Preference uploaded to DB for user ${user.uid}");
       }
+    }
+  }
+
+  Future<void> updateTopicSubscriptions() async {
+    final cacheHelper = getIt<CacheHelper>();
+    final bool isEnabled = cacheHelper.getData(key: 'notifications_enabled') ?? true;
+    
+    if (isEnabled) {
+      await subscribeToTopic('all_users');
+      await subscribeToTopic('weather_alerts');
+    } else {
+      await unsubscribeFromTopic('all_users');
+      await unsubscribeFromTopic('weather_alerts');
     }
   }
 

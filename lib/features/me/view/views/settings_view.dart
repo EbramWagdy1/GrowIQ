@@ -9,6 +9,7 @@ import 'package:growiq/core/l10n/locale_cubit.dart';
 import 'package:growiq/core/l10n/locale_state.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
+import 'package:growiq/core/services/notification_service.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -51,8 +52,11 @@ class SettingsView extends StatelessWidget {
                             bool isEnabled = cacheHelper.getData(key: 'notifications_enabled') ?? true;
                             return Switch(
                               value: isEnabled,
-                              onChanged: (val) {
-                                cacheHelper.saveData(key: 'notifications_enabled', value: val);
+                              onChanged: (val) async {
+                                await cacheHelper.saveData(key: 'notifications_enabled', value: val);
+                                final notificationService = getIt<NotificationService>();
+                                await notificationService.uploadFcmToken();
+                                await notificationService.updateTopicSubscriptions();
                                 setState(() {});
                               },
                               activeThumbColor: Theme.of(context).colorScheme.primary,
