@@ -10,8 +10,15 @@ import 'package:growiq/features/auth/view_model/auth_state.dart';
 import 'package:growiq/features/auth/view/widgets/custom_form_field.dart';
 import 'package:growiq/core/l10n/arb/app_localizations.dart';
 
-class CustomLoginForm extends StatelessWidget {
+class CustomLoginForm extends StatefulWidget {
   const CustomLoginForm({super.key});
+
+  @override
+  State<CustomLoginForm> createState() => _CustomLoginFormState();
+}
+
+class _CustomLoginFormState extends State<CustomLoginForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +34,7 @@ class CustomLoginForm extends StatelessWidget {
       builder: (context, state) {
         AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
         return Form(
-          key: authCubit.formKey,
+          key: _formKey,
           child: Column(
             children: [
               CustomTextFormField(
@@ -68,7 +75,7 @@ class CustomLoginForm extends StatelessWidget {
                   : CustomButtom(
                       text: AppLocalizations.of(context)!.login,
                       onPressed: () {
-                        if (authCubit.formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           authCubit.signInWithEmailAndPassword();
                         }
                       },

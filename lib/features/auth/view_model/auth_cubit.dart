@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:growiq/features/auth/view_model/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:growiq/features/auth/repository/auth_repository.dart';
@@ -20,7 +19,6 @@ class AuthCubit extends Cubit<AuthState> {
   String? email;
   String? password;
   String? confirmPassword;
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Stream<User?> get authStateChanges => _repository.authStateChanges;
   Stream<User?> get userChanges => _repository.userChanges;

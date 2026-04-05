@@ -21,6 +21,7 @@ class ForgetPasswordView extends StatefulWidget {
 }
 
 class _ForgetPasswordViewState extends State<ForgetPasswordView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   int _secondsRemaining = 30;
   Timer? _timer;
   bool _canResend = false;
@@ -76,7 +77,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Form(
-                key: authCubit.formKey,
+                key: _formKey,
                 child: Column(
                   children: [
                     const ForgetPasswordHeader(),
@@ -124,7 +125,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
     return CustomButtom(
       text: AppLocalizations.of(context)!.resetPasswordButton,
       onPressed: () {
-        if (authCubit.formKey.currentState!.validate()) {
+        if (_formKey.currentState!.validate()) {
           authCubit.resetPasswordWithEmail();
         }
       },
