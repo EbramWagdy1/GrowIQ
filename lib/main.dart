@@ -5,6 +5,7 @@ import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/services/service_locator.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:growiq/core/services/notification_service.dart';
+import 'package:growiq/core/services/notification_local_storage.dart';
 import 'package:growiq/firebase_options.dart';
 
 @pragma('vm:entry-point')
@@ -25,6 +26,9 @@ Future<void> main() async {
 
   // 🔹 Initialize Cache
   await getIt<CacheHelper>().init();
+
+  // 🔹 Initialize Hive (local notification storage)
+  await NotificationLocalStorage.init();
 
   // 🔹 Initialize Notification Service
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

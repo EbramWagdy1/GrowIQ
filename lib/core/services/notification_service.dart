@@ -14,6 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/control/view_model/device_cubit.dart';
 import '../../features/control/view_model/device_state.dart';
 import '../utils/notification_mapper.dart';
+import '../services/notification_local_storage.dart';
+import '../../features/notification/model/notification_model.dart';
 
 class NotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
@@ -58,12 +60,11 @@ class NotificationService {
     await _localNotifications.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (details) {
-        // Handle when notification is clicked
         _handleNotificationClick(details.payload);
       },
     );
 
-    // 4. Handle FCM messages
+    // 4. Handle FCM messages (foreground)
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       _showLocalNotification(message);
     });
@@ -72,15 +73,20 @@ class NotificationService {
       _handleNotificationClick(message.data['id']);
     });
 
-    // 6. Subscribe to global topics
+    // 5. Subscribe to global topics
     await subscribeToTopic('all_users');
     await subscribeToTopic('weather_alerts');
 
-    // 7. Save FCM Token to Realtime Database
+    // 6. Save FCM Token to Realtime Database (token only — no notification history)
     _fcm.onTokenRefresh.listen((newToken) async {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        await FirebaseDatabase.instance.ref().child('users').child(user.uid).child('fcmToken').set(newToken);
+        await FirebaseDatabase.instance
+            .ref()
+            .child('users')
+            .child(user.uid)
+            .child('fcmToken')
+            .set(newToken);
       }
     });
 
@@ -179,20 +185,21 @@ class NotificationService {
     final String langCode = cacheHelper.getData(key: 'locale') ?? 'en';
     final locale = Locale(langCode);
 
-    // Check if notifications are enabled
+    // 2. Check if notifications are enabled
     final bool isEnabled = cacheHelper.getData(key: 'notifications_enabled') ?? true;
     if (!isEnabled) {
-      debugPrint("Notifications are disabled by user. Skipping.");
+      debugPrint("[NotificationService] Notifications disabled by user. Skipping.");
       return;
     }
 
-    // 2. Load translations
+    // 3. Load translations
     final l10n = await AppLocalizations.delegate.load(locale);
 
-    // 3. Extract data from message
+    // 4. Extract data from FCM payload
     final String type = message.data['type'] ?? 'Informational';
     final String id = message.data['id'] ?? 'notification';
     final String? deviceId = message.data['deviceId'] ?? message.data['farmId'];
+    final String deviceName = message.data['deviceName'] ?? '';
 
     // 🔹 GHOST DEVICE FILTER
     if (deviceId != null && deviceId.isNotEmpty) {
@@ -202,32 +209,40 @@ class NotificationService {
         if (state is DeviceUpdated) {
           final ownsDevice = state.devices.any((d) => d.id == deviceId);
           if (!ownsDevice) {
-            debugPrint("🚨 Blocked Ghost Notification for unowned device: $deviceId");
-            return; // EXIT EARLY! Do not save to DB and do not show native notification
+            debugPrint("[NotificationService] Blocked ghost notification for unowned device: $deviceId");
+            return;
           }
         }
       } catch (e) {
-        debugPrint("Error validating device ownership: $e");
+        debugPrint("[NotificationService] Error validating device ownership: $e");
       }
     }
 
-    // 4. Determine Title and Body (using translations or falling back to notification title/body)
+    // 5. Build title & body
     String title = message.notification?.title ?? NotificationMapper.getTranslatedTitle(type, l10n);
     String body = message.notification?.body ?? NotificationMapper.getTranslatedBody(id, l10n);
 
-    // 5. Select Channel
+    // 6. Select Channel
     String channelId = _generalChannel.id;
-    if (type == 'Critical') {
-      channelId = _criticalChannel.id;
-    }
+    if (type == 'Critical') channelId = _criticalChannel.id;
 
-    // Format title and body for better UI
     title = _formatTitle(title);
     body = _formatBody(body);
 
-    // 🔹 HISTORICAL PERSISTENCE is now handled SERVER-SIDE (Notification server/lib/notificationAudit.js)
-    // This simplifies the client and prevents race conditions/authentications issues in background isolates.
+    // ✅ PERSIST LOCALLY (Hive) — no Firebase write!
+    final notif = NotificationModel(
+      id: id,
+      title: title,
+      body: body,
+      timestamp: DateTime.now(),
+      type: type,
+      isRead: false,
+      deviceId: deviceId,
+      deviceName: deviceName.isNotEmpty ? deviceName : null,
+    );
+    await NotificationLocalStorage.add(notif);
 
+    // 7. Show the visual notification
     _localNotifications.show(
       message.hashCode,
       title,
@@ -282,37 +297,49 @@ class NotificationService {
   static Future<void> showBackgroundNotification(RemoteMessage message) async {
     // 🔹 PREVENT DUPLICATE NOTIFICATION
     if (message.notification != null) {
-      debugPrint("Message already contains a notification block. OS will handle it. Skipping manual pop.");
-      // We still want to save it to history even if we don't show a manual notification
+      debugPrint("[BG] Message has notification block — OS will display it. Persisting locally.");
     }
 
     try {
-      await Firebase.initializeApp(); // Ensure Firebase is ready in background
+      await Firebase.initializeApp();
       final prefs = await SharedPreferences.getInstance();
-      
+
       final bool isEnabled = prefs.getBool('notifications_enabled') ?? true;
       if (!isEnabled) return;
-      
+
+      final String type = message.data['type'] ?? 'Informational';
+      final String id = message.data['id'] ?? 'notification';
+      final String? deviceId = message.data['deviceId'];
+      final String deviceName = message.data['deviceName'] ?? '';
+
       final String langCode = prefs.getString('locale') ?? 'en';
       final locale = Locale(langCode);
       final l10n = await AppLocalizations.delegate.load(locale);
 
-      final String type = message.data['type'] ?? 'Informational';
-      final String id = message.data['id'] ?? 'notification';
-
       String title = message.notification?.title ?? NotificationMapper.getTranslatedTitle(type, l10n);
       String body = message.notification?.body ?? NotificationMapper.getTranslatedBody(id, l10n);
+      title = _formatTitle(title);
+      body = _formatBody(body);
 
-      // 🔹 HISTORICAL PERSISTENCE is now handled SERVER-SIDE (Notification server/lib/notificationAudit.js)
-      // This ensures that even if this background isolate fails, the history is still recorded.
+      // ✅ PERSIST LOCALLY (Hive) — safe in background isolate
+      await NotificationLocalStorage.init(); // Ensure Hive is open in background isolate
+      final notif = NotificationModel(
+        id: id,
+        title: title,
+        body: body,
+        timestamp: DateTime.now(),
+        type: type,
+        isRead: false,
+        deviceId: deviceId,
+        deviceName: deviceName.isNotEmpty ? deviceName : null,
+      );
+      await NotificationLocalStorage.add(notif);
+      debugPrint('[BG] Notification persisted locally: $type');
 
-      // ONLY SHOW NOTIFICATION IF NOT ALREADY SHOWN BY OS
+      // Only show OS notification if FCM didn't carry a notification block
       if (message.notification == null) {
         String channelId = _generalChannel.id;
         if (type == 'Critical') channelId = _criticalChannel.id;
-
-        title = _formatTitle(title);
-        body = _formatBody(body);
 
         final localNotifications = FlutterLocalNotificationsPlugin();
         await localNotifications.show(
@@ -322,7 +349,7 @@ class NotificationService {
           NotificationDetails(
             android: AndroidNotificationDetails(
               channelId,
-              _getChannelName(channelId, l10n),
+              channelId == _criticalChannel.id ? 'Critical Tasks' : 'General Updates',
               importance: channelId == _criticalChannel.id ? Importance.max : Importance.defaultImportance,
               priority: channelId == _criticalChannel.id ? Priority.max : Priority.defaultPriority,
               icon: '@mipmap/ic_launcher',
@@ -336,7 +363,7 @@ class NotificationService {
         );
       }
     } catch (e) {
-      debugPrint("Error in background notification handler: $e");
+      debugPrint("[BG] Error in background notification handler: $e");
     }
   }
 }

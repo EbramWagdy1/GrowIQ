@@ -1,0 +1,206 @@
+[33mcommit 140a47e944d6f401a2075c561d7215f142ae1f4a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Mon Apr 27 21:18:04 2026 +0300
+
+    Update file
+
+[33mcommit 85d2d0182f5233b555dab013fd8fdbec5a6d9892[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sun Apr 5 17:04:28 2026 +0200
+
+    feat: implement notification service and add settings view for user preferences
+
+[33mcommit 8a65f28586a142daa89c021bb069c7109f705c21[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sun Apr 5 16:50:57 2026 +0200
+
+    feat: add reusable Autform widget for authentication screens
+
+[33mcommit a857def4e57332d9c2370a61b1afe5c33c2f1c36[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sun Apr 5 16:47:29 2026 +0200
+
+    feat: implement authentication cubit and UI components for login and password recovery
+
+[33mcommit 7ecbbb5acc2a347abf88ab31b0b2dc2568bd9f26[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sun Apr 5 00:55:59 2026 +0200
+
+    feat: implement service locator and add Me and Profile views to the application structure
+
+[33mcommit a85e64057fdb69b0d75d7c64cf7775b69954d7e6[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Thu Apr 2 23:44:25 2026 +0200
+
+    feat: implement app router and localization support for me-feature views
+
+[33mcommit 1ebc984ca0ce88c426375eb4b48df33a9a5c3022[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Wed Apr 1 15:14:37 2026 +0200
+
+    feat: implement NotificationRepository for Firebase Realtime Database CRUD operations
+
+[33mcommit 8999ab6cdf7e462b1d9ad524232261b61d388203[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Wed Apr 1 15:09:37 2026 +0200
+
+    feat: implement Firebase Cloud Messaging service for push notifications and device-specific filtering
+
+[33mcommit cc57d5214e17faa4dc679e2f280422a0f2fdcfff[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Tue Mar 31 22:07:57 2026 +0200
+
+    feat: implement AI chat feature with Groq integration and agricultural persona support
+
+[33mcommit 368bc303d43fa50848275279aae7120a3b6201ff[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Tue Mar 31 21:29:01 2026 +0200
+
+    feat: implement global error handling architecture and connectivity monitoring wrapper
+
+[33mcommit d99055efab23a1e8246c1a0e43606dfe1ab3f05a[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Tue Mar 31 21:02:42 2026 +0200
+
+    chore: remove obsolete notification system implementation files and task list
+
+[33mcommit 93a3f8456a3b69ea27e1fa31f1c87d19dc5a3317[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Tue Mar 31 21:00:56 2026 +0200
+
+    feat: implement core architecture, feature modules, and services for home, chat, plants, and notifications
+
+[33mcommit 7cf4965ce52201b5661ad58f433a0a8616142f56[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Tue Mar 31 19:09:34 2026 +0200
+
+    chore: initialize firebase project configuration with default target
+
+[33mcommit d6fdaeb4b213757c5888ede781e1835d79b07b1c[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Tue Mar 31 04:17:49 2026 +0200
+
+    chore: update features, fix notification logic and cleanup project artifacts
+
+[33mcommit dbf1a7c4e9811cb52cfa442d15ecef34f6511f4c[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sun Mar 29 17:24:31 2026 +0200
+
+    feat: add animated sensor card widget and utility classes for plant and sensor data management
+
+[33mcommit c795a16006b1cc8fdbf98e34fac66a278a71011b[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Fri Mar 27 22:05:20 2026 +0200
+
+    feat: Establish initial application structure and implement core features for authentication, onboarding, home, chat, and user management.
+
+[33mcommit 36242c78aa5f0861ea8a769515a0cbe875bb6ed7[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Mon Mar 16 18:29:52 2026 +0200
+
+    feat: Introduce `SensorUtils` for sensor and actuator data handling and `AnimatedSensorCard` for animated sensor value display.
+
+[33mcommit 578dd7036c0a22ad61f134da51a6296e33dc7daa[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Mon Mar 16 16:06:05 2026 +0200
+
+    feat: Introduce user profile, settings, device control, and home screen UI components, along with core theming and routing.
+
+[33mcommit 2eed9ea7e864ce6f356735f69e05c455954218a8[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sun Mar 15 22:07:53 2026 +0200
+
+    feat: Establish initial application structure, core widgets, and main feature views for authentication, home, control, chat, and user profile.
+
+[33mcommit d655c1f45d9ee45e03457b6302b05c36027fe18c[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sat Mar 14 00:53:23 2026 +0200
+
+    feat: add DeviceModel class for representing and managing control device data.
+
+[33mcommit b531c457101bdfc6b1c45b696cdac3e8da295c50[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sat Mar 14 00:41:13 2026 +0200
+
+    feat: Implement the forget password view with email input, validation, reset button, and resend timer.
+
+[33mcommit 551908abbe2f75eb72ab401d8ad4155f38f93994[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Sat Mar 14 00:23:17 2026 +0200
+
+    feat: Add device management cubit and service, and a plant information view.
+
+[33mcommit 9d41e483939201de003802c39932d510d7e9fd1a[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Fri Mar 13 22:08:42 2026 +0200
+
+    feat: Add plant types utility definitions.
+
+[33mcommit 338ac5adf5d890295a52e0d9c2822605f660ac1d[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Fri Mar 13 21:52:50 2026 +0200
+
+    feat: Add home screen device management with device cards, sensor displays, and device control dialogs.
+
+[33mcommit 414272b555b55e882d8ae97784c0ea9a975211e1[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Fri Mar 13 21:01:24 2026 +0200
+
+    feat: add 'Me' section with profile, settings, and plants information views, along with their routing.
+
+[33mcommit 6611efb4e733dac39338c7c788a30bbff122704c[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Fri Mar 13 20:52:12 2026 +0200
+
+    feat: Introduce user profile view, 'Me' section, and navigation helper functions.
+
+[33mcommit 8f6cf936b6d26cda04b334e7a3a8f678c8a54b27[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Fri Mar 13 20:38:10 2026 +0200
+
+    feat: Implement initial authentication forms, application routing, and service locator setup.
+
+[33mcommit 9614e54afb691f1e1fa959f2ac5167dc55daf2b9[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Thu Mar 12 21:35:53 2026 +0200
+
+    feat: Add core UI components including color palette, asset paths, custom navigation bar, and home screen bar.
+
+[33mcommit 96d590be950826359e061fce5ed73ee10b069f04[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Thu Mar 12 20:11:35 2026 +0200
+
+    feat: Add new application icons for Android and iOS, and update asset references.
+
+[33mcommit 904b75b523e648b5c9e606a6fe3d8f36487e4809[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Thu Mar 12 01:33:44 2026 +0200
+
+    chore: Update `firebase_auth` and other dependencies, and clean up comments in `pubspec.yaml`.
+
+[33mcommit 42590f1ec80cb6b3899e5bce71af0dd014ace99b[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Thu Mar 12 01:20:06 2026 +0200
+
+    feat: Introduce initial UI components and views for home, profile, control, onboarding, auth, and notification features, alongside core utilities.
+
+[33mcommit ddfc40420f949ba22805c45c49dcf07511571b01[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Wed Mar 11 13:52:34 2026 +0200
+
+    feat: Introduce core application features including authentication, device management with detailed views, and user profiles.
+
+[33mcommit c9d75ab9d0ee4c610eb485d1ebf5c3e204866a37[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Mon Mar 9 21:16:15 2026 +0200
+
+    ...
+
+[33mcommit ab7638c6a5971e96c5e4976927a98e228035ef40[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>
+Date:   Mon Mar 9 20:55:04 2026 +0200
+
+    ....
+
+[33mcommit 577539997fa8bb1af8dbd96f90db008222306de6[m
+Author: Ebram Wagdy <wagdyebram891@gmail.com>

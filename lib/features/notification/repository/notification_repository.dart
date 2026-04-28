@@ -1,53 +1,44 @@
-import 'dart:async';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:growiq/core/services/notification_local_storage.dart';
 import '../model/notification_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
+/// 📬 Notification Repository — Local-first (Hive) implementation.
+///
+/// All reads/writes go to on-device Hive storage.
+/// Firebase RTDB is no longer used for notifications — this eliminates
+/// the 21GB/month download usage caused by onValue real-time streams.
+///
+/// Notifications arrive via FCM push (server → device).
+/// The app persists them here when received.
 class NotificationRepository {
-  final FirebaseDatabase _database = FirebaseDatabase.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Stream<List<NotificationModel>> getNotificationsStream(String userId) {
-    return _database
-        .ref('users/$userId/notifications')
-        .orderByChild('timestamp')
-        .limitToLast(50)
-        .onValue
-        .map((event) {
-      if (event.snapshot.value == null) return [];
-      
-      final Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-      final List<NotificationModel> notifications = [];
-      
-      data.forEach((key, value) {
-        notifications.add(NotificationModel.fromJson(Map<String, dynamic>.from(value)));
-      });
-
-      notifications.sort((a, b) => b.timestamp.compareTo(a.timestamp));
-      return notifications;
-    });
+  /// Reads all locally stored notifications (newest first).
+  /// Auto-purges entries older than 7 days.
+  List<NotificationModel> getNotifications() {
+    return NotificationLocalStorage.getAll();
   }
 
+  /// Saves a new notification to local Hive storage.
+  /// Deduplicates within a 1-minute window per type+device.
   Future<void> saveNotification(NotificationModel notification) async {
-    final user = _auth.currentUser;
-    if (user != null) {
-      final ref = _database
-          .ref('users/${user.uid}/notifications')
-          .push();
-      
-      await ref.set(notification.copyWith(id: ref.key).toJson());
-    }
+    await NotificationLocalStorage.add(notification);
   }
 
-  Future<void> markAsRead(String userId, String notificationId) async {
-    await _database
-        .ref('users/$userId/notifications/$notificationId')
-        .update({'isRead': true});
+  /// Marks a single notification as read.
+  Future<void> markAsRead(String notificationId) async {
+    await NotificationLocalStorage.markAsRead(notificationId);
   }
 
-  Future<void> clearAll(String userId) async {
-    await _database
-        .ref('users/$userId/notifications')
-        .remove();
+  /// Marks all notifications as read.
+  Future<void> markAllAsRead() async {
+    await NotificationLocalStorage.markAllAsRead();
+  }
+
+  /// Deletes all local notifications.
+  Future<void> clearAll() async {
+    await NotificationLocalStorage.clearAll();
+  }
+
+  /// Returns count of unread notifications (useful for badge).
+  int getUnreadCount() {
+    return NotificationLocalStorage.getUnreadCount();
   }
 }

@@ -9,8 +9,22 @@ import 'package:go_router/go_router.dart';
 import 'package:growiq/features/control/view_model/device_cubit.dart';
 import 'package:growiq/features/control/view_model/device_state.dart';
 
-class NotificationView extends StatelessWidget {
+class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
+
+  @override
+  State<NotificationView> createState() => _NotificationViewState();
+}
+
+class _NotificationViewState extends State<NotificationView> {
+  @override
+  void initState() {
+    super.initState();
+    // Refresh from local Hive storage whenever the screen opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<NotificationCubit>().refresh();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +54,29 @@ class NotificationView extends StatelessWidget {
               color: isDark ? AppColors.darkTextColorPrimary : const Color(0xFF111827),
             ),
             actions: [
+              // Mark all as read
               IconButton(
                 onPressed: () {
-                   context.read<NotificationCubit>().clearAll();
+                  context.read<NotificationCubit>().markAllAsRead();
                 },
                 icon: Icon(
-                  Icons.mark_email_read_outlined, 
+                  Icons.mark_email_read_outlined,
                   color: isDark ? AppColors.primaryColor : const Color(0xFF2E7D32),
                 ),
-                tooltip: 'Clear All',
+                tooltip: 'Mark all as read',
               ),
-              const SizedBox(width: 8),
+              // Clear all
+              IconButton(
+                onPressed: () {
+                  context.read<NotificationCubit>().clearAll();
+                },
+                icon: Icon(
+                  Icons.delete_sweep_outlined,
+                  color: isDark ? Colors.redAccent : Colors.red,
+                ),
+                tooltip: 'Clear all',
+              ),
+              const SizedBox(width: 4),
             ],
           );
 
