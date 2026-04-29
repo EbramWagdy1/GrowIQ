@@ -11,8 +11,40 @@ import 'package:growiq/core/services/service_locator.dart';
 import 'package:growiq/core/database/cache/cache_helper.dart';
 import 'package:growiq/core/services/notification_service.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
+
+  @override
+  State<SettingsView> createState() => _SettingsViewState();
+}
+
+class _SettingsViewState extends State<SettingsView> {
+  late bool _notificationsEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    final cacheHelper = getIt<CacheHelper>();
+    _notificationsEnabled =
+        cacheHelper.getData(key: 'notifications_enabled') ?? true;
+  }
+
+  Future<void> _toggleNotifications(bool val) async {
+    // ✅ Update UI immediately — no freeze
+    setState(() => _notificationsEnabled = val);
+
+    final cacheHelper = getIt<CacheHelper>();
+    await cacheHelper.saveData(key: 'notifications_enabled', value: val);
+
+    // Run Firebase & FCM ops in background — don't await in UI thread
+    final notificationService = getIt<NotificationService>();
+    notificationService.uploadFcmToken().catchError(
+      (e) => debugPrint('[Settings] uploadFcmToken error: $e'),
+    );
+    notificationService.updateTopicSubscriptions().catchError(
+      (e) => debugPrint('[Settings] updateTopicSubscriptions error: $e'),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,22 +78,11 @@ class SettingsView extends StatelessWidget {
                       ProfileMenuItem(
                         text: AppLocalizations.of(context)!.notifications,
                         icon: Icons.notifications_outlined,
-                        trailing: StatefulBuilder(
-                          builder: (context, setState) {
-                            final cacheHelper = getIt<CacheHelper>();
-                            bool isEnabled = cacheHelper.getData(key: 'notifications_enabled') ?? true;
-                            return Switch(
-                              value: isEnabled,
-                              onChanged: (val) async {
-                                await cacheHelper.saveData(key: 'notifications_enabled', value: val);
-                                final notificationService = getIt<NotificationService>();
-                                await notificationService.uploadFcmToken();
-                                await notificationService.updateTopicSubscriptions();
-                                setState(() {});
-                              },
-                              activeThumbColor: Theme.of(context).colorScheme.primary,
-                            );
-                          },
+                        trailing: Switch(
+                          value: _notificationsEnabled,
+                          onChanged: _toggleNotifications,
+                          activeThumbColor:
+                              Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       // Language selector
@@ -88,13 +109,15 @@ class SettingsView extends StatelessWidget {
                               ),
                               children: [
                                 SimpleDialogOption(
-                                  onPressed: () => Navigator.pop(context, 'en'),
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'en'),
                                   child: Text(
                                     AppLocalizations.of(context)!.english,
                                   ),
                                 ),
                                 SimpleDialogOption(
-                                  onPressed: () => Navigator.pop(context, 'ar'),
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'ar'),
                                   child: Text(
                                     AppLocalizations.of(context)!.arabic,
                                   ),
@@ -103,7 +126,9 @@ class SettingsView extends StatelessWidget {
                             ),
                           );
                           if (selected != null) {
-                            context.read<LocaleCubit>().changeLocale(selected);
+                            if (context.mounted) {
+                              context.read<LocaleCubit>().changeLocale(selected);
+                            }
                           }
                         },
                       ),
@@ -118,3 +143,7 @@ class SettingsView extends StatelessWidget {
     );
   }
 }
+
+
+
+
