@@ -68,7 +68,7 @@ class NotificationLocalStorage {
       final oneMinuteAgo = DateTime.now().subtract(const Duration(minutes: 1));
       final isDuplicate = current.any(
         (n) =>
-            n.type == notification.type &&
+            n.id == notification.id &&
             n.deviceId == notification.deviceId &&
             n.timestamp.isAfter(oneMinuteAgo),
       );

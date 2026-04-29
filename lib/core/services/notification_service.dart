@@ -85,8 +85,9 @@ class NotificationService {
             .ref()
             .child('users')
             .child(user.uid)
-            .child('fcmToken')
-            .set(newToken);
+            .child('fcmTokens')
+            .child(newToken)
+            .set(true);
       }
     });
 
@@ -112,10 +113,19 @@ class NotificationService {
             .child('users')
             .child(user.uid)
             .update({
-              'fcmToken': token,
               'language': langCode,
               'notificationsEnabled': isEnabled,
             });
+            
+        // Save the token in a map to support multiple devices
+        await FirebaseDatabase.instance
+            .ref()
+            .child('users')
+            .child(user.uid)
+            .child('fcmTokens')
+            .child(token)
+            .set(true);
+            
         debugPrint("Token, Language and Preference uploaded to DB for user ${user.uid}");
       }
     }
