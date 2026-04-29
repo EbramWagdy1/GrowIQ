@@ -113,19 +113,10 @@ class NotificationService {
             .child('users')
             .child(user.uid)
             .update({
+              'fcmTokens/$token': true,
               'language': langCode,
               'notificationsEnabled': isEnabled,
             });
-            
-        // Save the token in a map to support multiple devices
-        await FirebaseDatabase.instance
-            .ref()
-            .child('users')
-            .child(user.uid)
-            .child('fcmTokens')
-            .child(token)
-            .set(true);
-            
         debugPrint("Token, Language and Preference uploaded to DB for user ${user.uid}");
       }
     }
@@ -305,10 +296,14 @@ class NotificationService {
 
   @pragma('vm:entry-point')
   static Future<void> showBackgroundNotification(RemoteMessage message) async {
-    // 🔹 PREVENT DUPLICATE NOTIFICATION
-    if (message.notification != null) {
-      debugPrint("[BG] Message has notification block — OS will display it. Persisting locally.");
+    // 🔹 PREVENT EMPTY/GHOST NOTIFICATIONS
+    if (message.notification == null || message.data['deviceId'] == null) {
+      debugPrint("[BG] Ghost notification ignored (missing notification payload or deviceId).");
+      return;
     }
+
+    // 🔹 PREVENT DUPLICATE NOTIFICATION
+    debugPrint("[BG] Message has notification block — OS will display it. Persisting locally.");
 
     try {
       await Firebase.initializeApp();
@@ -346,32 +341,6 @@ class NotificationService {
       await NotificationLocalStorage.add(notif);
       debugPrint('[BG] Notification persisted locally: $type');
 
-      // Only show OS notification if FCM didn't carry a notification block
-      if (message.notification == null) {
-        String channelId = _generalChannel.id;
-        if (type == 'Critical') channelId = _criticalChannel.id;
-
-        final localNotifications = FlutterLocalNotificationsPlugin();
-        await localNotifications.show(
-          message.hashCode,
-          title,
-          body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channelId,
-              channelId == _criticalChannel.id ? 'Critical Tasks' : 'General Updates',
-              importance: channelId == _criticalChannel.id ? Importance.max : Importance.defaultImportance,
-              priority: channelId == _criticalChannel.id ? Priority.max : Priority.defaultPriority,
-              icon: '@mipmap/ic_launcher',
-              largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
-              color: const Color(0xFF004D40),
-              styleInformation: BigTextStyleInformation(body, contentTitle: title),
-            ),
-            iOS: const DarwinNotificationDetails(sound: 'default'),
-          ),
-          payload: id,
-        );
-      }
     } catch (e) {
       debugPrint("[BG] Error in background notification handler: $e");
     }
