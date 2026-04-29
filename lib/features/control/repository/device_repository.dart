@@ -48,8 +48,8 @@ class DeviceRepository {
     await _service.updateMode(deviceId, modeName, value);
   }
 
-  Future<void> updateCropType(String deviceId, Map<String, Map<String, double>> thresholds) async {
-    await _service.updateCropType(deviceId, thresholds);
+  Future<void> updateCropType(String deviceId, Map<String, Map<String, double>> thresholds, {String? plantType}) async {
+    await _service.updateCropType(deviceId, thresholds, plantType: plantType);
   }
 
   Future<void> updateOnlineStatus(String deviceId, bool isOnline) async {

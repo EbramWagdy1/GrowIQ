@@ -57,9 +57,16 @@ class DeviceService {
 
   Future<void> updateCropType(
     String deviceId,
-    Map<String, Map<String, double>> thresholds,
-  ) async {
-    await _database.ref('farms/$deviceId/thresholds').set(thresholds);
+    Map<String, Map<String, double>> thresholds, {
+    String? plantType,
+  }) async {
+    final updates = <String, dynamic>{
+      'farms/$deviceId/thresholds': thresholds,
+    };
+    if (plantType != null && plantType.isNotEmpty) {
+      updates['farms/$deviceId/plantType'] = plantType;
+    }
+    await _database.ref().update(updates);
   }
 
   Future<void> updateDeviceOnlineStatus(String deviceId, bool isOnline) async {

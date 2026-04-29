@@ -287,6 +287,7 @@ class DeviceDialogs {
                               context.read<DeviceCubit>().setCropType(
                                 deviceId,
                                 thresholds,
+                                plantType: selectedCrop,
                               );
                               Navigator.pop(dialogContext);
 

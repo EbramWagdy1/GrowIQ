@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_single_quotes
 class Assets {
   Assets._();
-  
+
   /// Assets for imagesLogoApp
   /// assets/images/logo-app.png
   static const String imagesLogoApp = "assets/images/logo2.png";
@@ -15,7 +15,7 @@ class Assets {
   /// assets/lottie/Live chatbot.json
   static const String lottieLivechatbot = "assets/lottie/Live chatbot.json";
 
-static const String lottieWeather ="assets/lottie/Weather-snow sunny.json";
+  static const String lottieWeather = "assets/lottie/Weather-snow sunny.json";
 
   /// Assets for lottieLogo
   /// assets/lottie/logo.json
@@ -71,16 +71,12 @@ static const String lottieWeather ="assets/lottie/Weather-snow sunny.json";
   static const String controlicon = "assets/svgs/control.svg";
 
   static const String lottieDevice = "assets/lottie/IOT house.json";
-  static const String forgetpass = "assets/lottie/Forget password animation.json";
+  static const String forgetpass =
+      "assets/lottie/Forget password animation.json";
 
- static const String imagesEbram = "assets/images/Ebram.jpg";
- static const String imagesYousef = "assets/images/yousef.jpg";
- static const String imagessaber = "assets/images/saber.jpeg";
- static const String imagesismail = "assets/images/ismail.jpeg";
- static const String imagesibrahim = "assets/images/ibrahim.jpeg";
-
-
-
-
+  static const String imagesEbram = "assets/images/Ebram.jpeg";
+  static const String imagesYousef = "assets/images/yousef.jpg";
+  static const String imagessaber = "assets/images/saber.jpg";
+  static const String imagesismail = "assets/images/ismail.jpg";
+  static const String imagesibrahim = "assets/images/ibrahim.jpg";
 }
-

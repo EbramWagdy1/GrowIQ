@@ -15,6 +15,10 @@ class DeviceCubit extends Cubit<DeviceState> {
   StreamSubscription<User?>? _authSubscription;
   final Map<String, StreamSubscription<DeviceModel?>> _deviceSubscriptions = {};
 
+  // Offline-detection: one timer per device
+  final Map<String, Timer> _offlineTimers = {};
+  static const Duration _offlineThreshold = Duration(minutes: 1);
+
   // Current state data
   final Map<String, DeviceModel> _devicesMap = {};
   int _selectedDeviceIndex = 0;
@@ -91,11 +95,30 @@ class DeviceCubit extends Cubit<DeviceState> {
     ) {
       if (device != null) {
         _devicesMap[deviceId] = device;
+        // ✅ Reset offline timer on every real data update
+        _resetOfflineTimer(deviceId);
       } else {
         _devicesMap.remove(deviceId);
+        _cancelOfflineTimer(deviceId);
       }
       _emitUpdatedState();
     });
+  }
+
+  /// Resets the 1-minute inactivity timer for [deviceId].
+  void _resetOfflineTimer(String deviceId) {
+    _cancelOfflineTimer(deviceId);
+    _offlineTimers[deviceId] = Timer(_offlineThreshold, () async {
+      // Mark the device offline in Firebase after 1 minute of silence
+      try {
+        await _repository.updateOnlineStatus(deviceId, false);
+      } catch (_) {}
+    });
+  }
+
+  void _cancelOfflineTimer(String deviceId) {
+    _offlineTimers[deviceId]?.cancel();
+    _offlineTimers.remove(deviceId);
   }
 
   void _emitUpdatedState() {
@@ -159,10 +182,11 @@ class DeviceCubit extends Cubit<DeviceState> {
 
   Future<void> setCropType(
     String deviceId,
-    Map<String, Map<String, double>> thresholds,
-  ) async {
+    Map<String, Map<String, double>> thresholds, {
+    String? plantType,
+  }) async {
     try {
-      await _repository.updateCropType(deviceId, thresholds);
+      await _repository.updateCropType(deviceId, thresholds, plantType: plantType);
       _emitUpdatedState(); // Refresh UI after saving crop thresholds
     } catch (e) {
       emit(DeviceError("Failed to set crop type: ${e.toString()}"));
@@ -235,6 +259,12 @@ class DeviceCubit extends Cubit<DeviceState> {
       sub.cancel();
     }
     _deviceSubscriptions.clear();
+
+    // Cancel all offline timers
+    for (var t in _offlineTimers.values) {
+      t.cancel();
+    }
+    _offlineTimers.clear();
 
     _devicesMap.clear();
   }
