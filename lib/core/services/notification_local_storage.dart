@@ -61,6 +61,12 @@ class NotificationLocalStorage {
 
   /// Prepends a new notification and trims to [_maxCount].
   static Future<void> add(NotificationModel notification) async {
+    // 🔹 FAELSAFE: Ignore empty notifications (prevents ghost "إشعار" with no body)
+    if (notification.title.trim().isEmpty || notification.body.trim().isEmpty || notification.body.trim() == 'notification') {
+      debugPrint('[NotificationLocalStorage] Ignored empty or generic notification.');
+      return;
+    }
+
     try {
       final current = getAll();
 
