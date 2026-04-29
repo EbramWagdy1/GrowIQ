@@ -17,7 +17,7 @@ class DeviceCubit extends Cubit<DeviceState> {
 
   // Offline-detection: one timer per device
   final Map<String, Timer> _offlineTimers = {};
-  static const Duration _offlineThreshold = Duration(minutes: 1);
+  static const Duration _offlineThreshold = Duration(seconds: 15);
 
   // Current state data
   final Map<String, DeviceModel> _devicesMap = {};
@@ -109,7 +109,7 @@ class DeviceCubit extends Cubit<DeviceState> {
   void _resetOfflineTimer(String deviceId) {
     _cancelOfflineTimer(deviceId);
     _offlineTimers[deviceId] = Timer(_offlineThreshold, () async {
-      // Mark the device offline in Firebase after 1 minute of silence
+      // Mark the device offline in Firebase after 15 seconds of silence
       try {
         await _repository.updateOnlineStatus(deviceId, false);
       } catch (_) {}
