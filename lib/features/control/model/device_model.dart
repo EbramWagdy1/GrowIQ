@@ -8,6 +8,7 @@ class DeviceModel extends Equatable {
   final String name;
   final bool isOnline;
   final String ownerId;
+  final String plantType;
   final Map<String, dynamic> sensors;
   final Map<String, dynamic> actuators;
   final Map<String, dynamic> modes;
@@ -19,6 +20,7 @@ class DeviceModel extends Equatable {
     required this.name,
     required this.isOnline,
     required this.ownerId,
+    this.plantType = '',
     this.sensors = const {},
     this.actuators = const {},
     this.modes = const {},
@@ -58,6 +60,7 @@ class DeviceModel extends Equatable {
         : (isOnlineRaw is String ? isOnlineRaw.toLowerCase() == 'true' : true);
         
     final String ownerId = map['ownerId'] ?? '';
+    final String plantType = map['plantType'] ?? '';
 
     final Map<String, dynamic> sensors = {};
     map.forEach((key, value) {
@@ -65,6 +68,7 @@ class DeviceModel extends Equatable {
           key != 'isOnline' &&
           key != 'ownerId' &&
           key != 'deviceId' &&
+          key != 'plantType' &&
           key != 'sensors' &&
           key != 'actuators' &&
           key != 'modes' &&
@@ -83,6 +87,7 @@ class DeviceModel extends Equatable {
       name: name,
       isOnline: isOnline,
       ownerId: ownerId,
+      plantType: plantType,
       sensors: sensors,
       actuators: Map<String, dynamic>.from(map['actuators'] ?? {}),
       modes: Map<String, dynamic>.from(map['modes'] ?? {}),
@@ -95,6 +100,7 @@ class DeviceModel extends Equatable {
     String? name,
     bool? isOnline,
     String? ownerId,
+    String? plantType,
     Map<String, dynamic>? sensors,
     Map<String, dynamic>? actuators,
     Map<String, dynamic>? modes,
@@ -106,6 +112,7 @@ class DeviceModel extends Equatable {
       name: name ?? this.name,
       isOnline: isOnline ?? this.isOnline,
       ownerId: ownerId ?? this.ownerId,
+      plantType: plantType ?? this.plantType,
       sensors: sensors ?? this.sensors,
       actuators: actuators ?? this.actuators,
       modes: modes ?? this.modes,
@@ -120,6 +127,7 @@ class DeviceModel extends Equatable {
     name,
     isOnline,
     ownerId,
+    plantType,
     sensors,
     actuators,
     modes,
